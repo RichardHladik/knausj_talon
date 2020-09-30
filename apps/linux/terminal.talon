@@ -1,21 +1,29 @@
 os: linux
-tag: terminal
+tag: user.terminal
 -
-
+#tag(): user.file_manager
+#todo: generic tab commands
+#tag(): tabs
 action(edit.page_down):
   key(shift-pagedown)
-action(edit.page_up):
-  key(shift-pageup)
+#action(edit.page_up):
+# key(shift-pageup)
 action(edit.paste):
   key(ctrl-shift-v)
 action(edit.copy):
   key(ctrl-shift-c)
+action(edit.delete_line):
+  key(ctrl-u)
 
-scroll up:
-  key(shift-pageup)
+#scroll up:
+#  key(shift-pageup)
 scroll down:
   key(shift-pagedown)
-run last:
+run last [command]:
+  key(up)
+  key(enter)
+run last script:
+  insert("./")
   key(up)
   key(enter)
 rerun <user.text>:
@@ -44,5 +52,5 @@ action(app.tab_previous):
   key(ctrl-pageup)
 action(app.window_open):
   key(ctrl-shift-n)
-go tab <number>:
-  key("alt-{number}")
+#go tab <number>:
+#  key("alt-{number}")

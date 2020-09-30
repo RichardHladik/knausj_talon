@@ -7,7 +7,7 @@ ctx = Context()
 class Actions:
     def run_talon_script(ctx, script, m):
         with ctx:
-            print(ctx)
-            print(script)
-            print(m)
+            print(f"CONTEXT: {ctx}")
+            print(f"SCRIPT: {script}")
+            print(f"COMMAND: {m}")
             script.run(actions, namespace=m)

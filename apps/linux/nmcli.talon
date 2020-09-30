@@ -1,5 +1,5 @@
 os: linux
-tag: terminal
+tag: user.terminal
 -
 
 net man running: "nmcli -t -f RUNNING general\n"

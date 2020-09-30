@@ -1,4 +1,5 @@
-tag: vim
+tag: user.vim
+and code.language: markdown
 -
 
 generate git hub (table of contents|talk):

@@ -34,6 +34,7 @@ ctx.lists["self.task_modifiers"] = {
 mod.list("task_unmodifiable_verbs", desc="taskwarrior unmodifiable commands")
 mod.list("task_modifiable_verbs", desc="taskwarrior modifiable commands")
 mod.list("task_modifiers", desc="taskwarrior command modifiers")
+mod.list("task_filters", desc="taskwarrior command filters")
 
 
 @mod.capture

@@ -1,25 +1,10 @@
 question [mark]: "?"
-tilde: "~"
-(bang | exclamation point): "!"
-dollar [sign]: "$"
 (downscore | underscore): "_"
 double dash: "--"
-colon: ":"
-(paren | left paren): "("
-(rparen | are paren | right paren): ")"
-(bracket | brack | left bracket): "{"
-(rbrack | are bracket | right bracket): "}"
-(angle | left angle | less than): "<"
-(rangle | are angle | right angle | greater than): ">"
-(star | asterisk): "*"
-(pound | hash [sign] | octo | thorpe | number sign): "#"
-percent [sign]: "%"
-caret: "^"
-at sign: "@"
-(and sign | ampersand ): "&"
-pipe: "|"
-(dubquote | double quote): '"'
-triple quote: "'''"
+#(bracket | brack | left bracket): "{"
+#(rbrack | are bracket | right bracket): "}"
+triple quote: '"""'
+triple tick: "'''"
 (dot dot | dotdot): ".."
 #ellipses: "…"
 ellipses: "..."
@@ -30,17 +15,48 @@ dub arrow: "=>"
 new line: "\\n"
 carriage return: "\\r"
 line feed: "\\r\\n"
-empty (dubstring|dub string):
+empty (string|quotes):
     '""'
     key(left)
-empty escaped (dubstring|dub quotes):
+empty escaped (string|quotes):
     '\\"\\"'
     key(left)
     key(left)
-empty (string|quotes):
+empty ticks:
     "''"
     key(left)
-empty escaped string:
+empty escaped ticks:
     "\\'\\'"
     key(left)
     key(left)
+
+(inside parens | args):
+	insert("()")
+	key(left)
+inside (squares | list):
+	insert("[]")
+	key(left)
+inside (bracket | braces):
+	insert("{}")
+	key(left)
+inside percent:
+	insert("%%")
+	key(left)
+inside quotes:
+	insert('""')
+	key(left)
+angle this:
+    text = edit.selected_text()
+    user.paste("<{text}>")
+(bracket | brace) this:
+    text = edit.selected_text()
+    user.paste("{{{text}}}")
+(parens | args) this:
+    text = edit.selected_text()
+    user.paste("({text})")
+percent this:
+    text = edit.selected_text()
+    user.paste("%{text}%")
+quote this:
+    text = edit.selected_text()
+    user.paste('"{text}"')

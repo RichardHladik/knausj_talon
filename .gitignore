@@ -1,1 +1,6 @@
 .mypy_cache
+*.disabled
+code/common_names/private_*.csv
+misc/personal_info/personal_info.json
+misc/paths_private.py
+.*

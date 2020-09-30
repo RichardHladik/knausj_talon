@@ -1,4 +1,4 @@
 -
 settings():
-    key_wait = 1.0
-    insert_wait = 5
+    key_wait = 0.75
+#    insert_wait = 5

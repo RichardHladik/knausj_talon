@@ -1,4 +1,4 @@
-from talon import Context, Module
+from talon import Context, Module, actions, grammar
 
 # user-defined words that aren't matching in lexicon
 simple_vocabulary = [
@@ -80,12 +80,87 @@ simple_vocabulary = [
     "gitlab",
     "wisp",
     "vimvixen",
-    "tmux",
     "vps",
+    "admin",
+    "debug",
+    "debian",
+    "aenea",
+    "edit",
+    "auto",
+    "modules",
+    "buf",
+    "args",
+    "parse",
+    "var",
+    "arena",
+    "main",
+    "scroll",
+    "scrolling",
+    "fastbin",
+    "console",
+    "integer",
+    "pentest",
+    "Aaron",
+    "tmux",
+    "keying",
+    "tool",
+    "exe",
+    "unix",
+    "buffer",
+    "ncc",
+    "nccgroup",
+    "draft",
+    "donut",
+    "insert",
+    "payload",
+    "disk",
+    "diskless",
+    "loader",
+    "ascii",
+    "disk",
+    "markdown",
+    "BSD",
+    "bool",
+    "keying",
+    "env",
+    "tags",
+    "PE",
+    "raw",
+    "page",
+    "add",
+    "octet",
+    "dev",
+    "calc",
+    "close",
+    "gandi",
+    "memset",
+    "polybar",
+    "yay",
+    "buku",
+    "tech",
+    "hover",
+    "davmail",
+    "break",
+    "pico",
+    "add",
+    "giffed",
+    "gif",
+    "LUKS",
+    "able",
+    "metasploit",
+    "mod",
+    "most",
+    "mouse",
+    "timeout",
+    "array",
+    "arrays",
+    "ping",
+    "stellaris",
+    "config",
+    "make",
 ]
 
 mapping_vocabulary = {
-    "all i": "ollie",
     "and u s kernel": "ntoskrnl",
     "as break": "sbrk",
     "as p one": "sp1",
@@ -150,9 +225,11 @@ mapping_vocabulary = {
     "win two key twelve": "win2k12",
     "wind bag": "windbg",
     "ex eighty six": "x86",
+    "ax eighty six": "x86",
     "a city six": "x86",
     "ex sixty four": "x64",
-    "a sixty for": "x64",
+    "a sixty four": "x64",
+    "ax sixty four": "x64",
     "key pass": "keepass",
     "eye three": "i3",
     "an am cli": "nmcli",
@@ -164,25 +241,17 @@ mapping_vocabulary = {
     "hedra": "ghidra",
     "heedra": "ghidra",
     "double you get": "wget",
-    "pep eight": "pep8", 
     "wasn": "watson",
     "wardson": "watson",
-    "what's up": "whatsapp",
     "g vim": "gvim",
     "gee vim": "gvim",
     "lay thick": "latex",
     "lay tech": "latex",
     "out or tune": "outotune",
-    "fin zero": "f0",
-    "f zero": "f0",
-    "eff zero": "f0",
-    "envelop": "envelope",
-    "asignment": "assignment",
-    "out of tune": "Outotune",
     "midi": "MIDI",
     "lv2": "LV2",
     "vst2": "VST2",
-    "gui": "GUI",
+    "gooey": "GUI",
     "api": "API",
     "nanovg": "NanoVG",
     "lagrangian": "Lagrangian",
@@ -196,41 +265,177 @@ mapping_vocabulary = {
     "multi flow": "multiflow",
     "multiflo": "multiflow",
     "multi circulation": "multicirculation",
+    "pep eight": "pep8",
+    "debbie an": "debian",
+    "anne": "aenea",
+    "all t snips": "ultisnips",
+    "tcp dump": "tcpdump",
+    "I notify": "inotify",
+    "de bug": "debug",
+    "buf her": "buffer",
+    "head her": "header",
+    "help her": "helper",
+    "see seeing": "cc'ing",
+    "ex ee": "exe",
+    "xiii": "exe",
+    "windows ten": "windows 10",
+    "windows seven": "windows ",
+    "ncc group": "nccgroup",
+    "ex or": "xor",
+    "sea sharp": "c#",
+    "sea file": "c file",
+    "in cert": "insert",
+    "sand box": "sandbox",
+    "use her": "user",
+    "pentest her": "pentester",
+    "test her": "tester",
+    "asked I": "ascii",
+    "ask I": "ascii",
+    "get ignore": ".gitignore",
+    "data tapes": "datatypes",
+    "e numb": "enum",
+    "king": "keying",
+    "do main": "domain",
+    "eye pee": "IP",
+    "pee e": "PE",
+    "arm sixty four": "ARM64",
+    "arm thirty two": "ARM32",
+    "dot ex e": ".exe",
+    "desk top": "desktop",
+    "dot net": ".NET",
+    "etcetera": ", etc.",
+    "I all": "hi all",
+    "windbag": "windbg",
+    "bite": "byte",
+    "bites": "bytes",
+    "jiffed": "giffed",
+    "jiff": "gif",
+    "lux": "LUKS",
+    "vest where": "vmware",
+    "lamby": "lambai",
+    "four matters": "formatters",
+    "meta exploit": "metasploit",
+    "toby": "tobii",
+    "you id": "UUID",
+    "goo id": "GUID",
+    # weird common typo
+    "dolores": "stellaris",
+    "sinology": "synology",
+    "and or": "and/or",
 }
 
+# Add single words here if Talon recognizes them, but they need to have their
+# capitalization adjusted.
+capitalize = [
+    "I",
+    "I'm",
+    "I've",
+    "I'll",
+    "I'd",
+    "Monday",
+    "Mondays",
+    "Tuesday",
+    "Tuesdays",
+    "Wednesday",
+    "Wednesdays",
+    "Thursday",
+    "Thursdays",
+    "Friday",
+    "Fridays",
+    "Saturday",
+    "Saturdays",
+    "Sunday",
+    "Sundays",
+    "January",
+    "February",
+    # March omitted because it's a regular word too
+    "April",
+    # May omitted because it's a regular word too
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+]
+
+# Add single words here if Talon recognizes them, but they need to have their
+# spelling adjusted.
+word_map = {
+    # For example:
+    # "color": "colour",
+}
+word_map.update({x.lower(): x for x in capitalize})
+
+# Add words (or phrases you want treated as words) here if Talon doesn't
+# recognize them at all.
+simple_vocabulary = ["nmap", "admin", "Cisco", "Citrix", "VPN", "DNS", "minecraft"]
+
+# Add vocabulary words (or phrases you want treated as words) here that aren't
+# recognized by Talon and are written differently than they're pronounced.
+mapping_vocabulary = {
+    # For example:
+    # "enn map": "nmap",
+    # "under documented": "under-documented",
+}
 mapping_vocabulary.update(dict(zip(simple_vocabulary, simple_vocabulary)))
+
 
 mod = Module()
 
 
-def remove_dragon_junk(word):
-    return str(word).lstrip("\\").split("\\")[0]
+@mod.capture(rule="{user.vocabulary}")
+def vocabulary(m) -> str:
+    return m.vocabulary
 
 
-@mod.capture(rule="({user.vocabulary} | <word>)")
+@mod.capture(rule="(<user.vocabulary> | <word>)")
 def word(m) -> str:
     try:
         return m.vocabulary
     except AttributeError:
-        return remove_dragon_junk(m.word)
+        # TODO: if the word is both a regular word AND user.vocabulary, then in
+        # principle it may parse as <word> instead; we ought to pass it through
+        # mapping_vocabulary to be sure. But we should be doing that in
+        # user.text, below, too.
+        words = actions.dictate.replace_words(actions.dictate.parse_words(m.word))
+        assert len(words) == 1
+        return words[0]
 
 
-@mod.capture(rule="(<user.word> | <phrase>)+")
+punctuation = set(".,-!?;:")
+
+
+@mod.capture(rule="(<user.vocabulary> | <phrase>)+")
 def text(m) -> str:
-    # todo: use actions.dicate.parse_words for better dragon support once supported
-    words = str(m).split(" ")
-    i = 0
-    while i < len(words):
-        words[i] = remove_dragon_junk(words[i])
-        i += 1
+    words = []
+    for item in m:
+        if isinstance(item, grammar.vm.Phrase):
+            words.extend(
+                actions.dictate.replace_words(actions.dictate.parse_words(item))
+            )
+        else:
+            words.extend(item.split(" "))
 
-    return " ".join(words)
+    result = ""
+    for i, word in enumerate(words):
+        if i > 0 and word not in punctuation and words[i - 1][-1] not in ("/-("):
+            result += " "
+        result += word
+    return result
 
 
 mod.list("vocabulary", desc="user vocabulary")
 
 ctx = Context()
 
-# setup the word map too
-ctx.settings["dictate.word_map"] = mapping_vocabulary
+# dictate.word_map is used by actions.dictate.replace_words to rewrite words
+# Talon recognized. Entries in word_map don't change the priority with which
+# Talon recognizes some words over others.
+ctx.settings["dictate.word_map"] = word_map
+
+# user.vocabulary is used to explicitly add words/phrases that Talon doesn't
+# recognize. Words in user.vocabulary (or other lists and captures) are
+# "command-like" and their recognition is prioritized over ordinary words.
 ctx.lists["user.vocabulary"] = mapping_vocabulary

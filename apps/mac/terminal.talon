@@ -1,9 +1,7 @@
-os: mac
-app: Terminal
-app: iTerm2
-app: com.apple.Terminal
+app: apple_terminal
 -
-tag(): terminal
+tag(): user.terminal
+tag(): user.file_manager
 action(user.file_manager_open_parent):
     insert("cd ..")
     key(enter)
@@ -33,4 +31,3 @@ suspend:
 resume:
   insert("fg")
   key(enter)
-

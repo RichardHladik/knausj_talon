@@ -5,8 +5,9 @@ from talon import Context, Module, actions
 
 # My experience:
 #   fine - conflicts with find
+#   jury  - suddenly always matching with three or tree
 #   pit  - conflicts with page
-#   yank - conflicts with vim
+#   yank - conflicts with vim command
 default_alphabet = "air bat cap drum each fin gust harp wiggle jury crunch look made near oak pit quench red sun trap urge vest whale plex yes zip".split(
     " "
 )
@@ -14,8 +15,8 @@ letters_string = "abcdefghijklmnopqrstuvwxyz"
 
 default_digits = "zero one two three four five six seven eight nine".split(" ")
 numbers = [str(i) for i in range(10)]
-default_f_digits = "one two three four five six seven eight nine ten eleven twelve".split(
-    " "
+default_f_digits = (
+    "one two three four five six seven eight nine ten eleven twelve".split(" ")
 )
 
 mod = Module()
@@ -86,116 +87,87 @@ def key(m) -> str:
 ctx = Context()
 ctx.lists["self.modifier"] = {
     "control": "ctrl",  #'troll':   'ctrl',
-    "shift": "shift",  #'sky':     'shift',
-    "alt": "alt",
     "option": "alt",
+    "shift": "shift",  #'sky':     'shift',
     "super": "super",
 }
-
-ctx.lists["self.letter"] = dict(zip(default_alphabet, letters_string))
+alphabet = dict(zip(default_alphabet, letters_string))
+ctx.lists["self.letter"] = alphabet
 ctx.lists["self.symbol"] = {
-    "back tick": "`",
-    "`": "`",
+    "grave": "`",
     "comma": ",",
-    ",": ",",
     "dot": ".",
-    "period": ".",
     "point": ".",
     "space": " ",
+    "void": " ",
     "semi": ";",
-    "semicolon": ";",
-    "apostrophe": "'",
-    "quote": "'",
     "tick": "'",
-    "L square": "[",
-    "left square": "[",
+    "lock": "[",
     "square": "[",
-    "R square": "]",
-    "right square": "]",
-    "forward slash": "/",
+    "rock": "]",
     "slash": "/",
-    "backslash": "\\",
+    "bish": "\\",
+    # "backslash": "\\",
     "minus": "-",
     "dash": "-",
+    "negative": "-",
     "equals": "=",
     "plus": "+",
-    "question mark": "?",
+    "question": "?",
     "tilde": "~",
     "bang": "!",
-    "exclamation point": "!",
     "dollar": "$",
-    "dollar sign": "$",
-    "down score": "_",
     "under score": "_",
+    "score": "_",
     "colon": ":",
+    "coal": ":",
+    "lub": "(",
     "paren": "(",
-    "L paren": "(",
-    "left paren": "(",
-    "R paren": ")",
-    "right paren": ")",
-    # }
-    "curly brace": "{",
-    "left brace": "{",
-    "L brace": "{",
-    "R brace": "}",
-    "right brace": "}",
-    "right curly brace": "}",
+    "rub": ")",
+    "lace": "{",
+    "race": "}",
     "angle": "<",
-    "left angle": "<",
-    "less than": "<",
+    "langle": "<",
     "rangle": ">",
-    "R angle": ">",
-    "right angle": ">",
-    "greater than": ">",
     "star": "*",
-    "asterisk": "*",
-    "pound": "#",
     "hash": "#",
-    "hash sign": "#",
-    "number sign": "#",
     "percent": "%",
-    "percent sign": "%",
+    "cent": "%",
     "caret": "^",
     "at sign": "@",
-    "and sign": "&",
-    "ampersand": "&",
     "amper": "&",
     "pipe": "|",
-    "dubquote": '"',
-    "double quote": '"',
+    "quote": '"',
 }
+
 
 ctx.lists["self.number"] = dict(zip(default_digits, numbers))
 ctx.lists["self.arrow"] = {
+    "down": "down",
     "left": "left",
     "right": "right",
     "up": "up",
-    "down": "down",
 }
 
 
 simple_keys = [
-    #    'tab', 'escape', 'enter', 'space',
-    "escape",
-    "space",
-    "home",
-    "pageup",
-    "pagedown",
     "end",
+    "enter",
+    "escape",
+    "home",
     "insert",
+    "pagedown",
+    "pageup",
+    "space",
+    "tab",
 ]
 
 alternate_keys = {
-    #'delete': 'delete',
-    "nuke": "delete",
-    "junk": "backspace",
     "backspace": "backspace",
     "forward delete": "delete",
     "toast": "tab",
-    #'up': 'up',
-    #    'down': 'down',
-    #    'right': 'right',
-    #    'left': 'left',
+    "junk": "backspace",
+    "nuke": "delete",
 }
 keys = {k: k for k in simple_keys}
 keys.update(alternate_keys)
@@ -269,6 +241,6 @@ class Actions:
         """Inserts uppercase letters from list"""
         actions.insert("".join(m).upper())
 
-    def get_alphabet():
+    def get_alphabet() -> dict:
         """Provides the alphabet dictionary"""
-        return ctx.lists["user.letter"]
+        return alphabet

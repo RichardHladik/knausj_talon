@@ -1,17 +1,11 @@
-app: KeePassX2
-app: KeePassXC
-app: Keepassx2
-app: keepassx2
-app: keepassxc
-app: Keepassxc
+app: keepass
 -
-
 # Database
 open database: key(ctrl-o)
 save database: key(ctrl-s)
 close database: key(ctrl-w)
 lock database: key(ctrl-l)
-quit: key(ctrl-q)
+quit program: key(ctrl-q)
 
 # Entries
 [add] new entry: key(ctrl-n)

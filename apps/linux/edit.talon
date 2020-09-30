@@ -1,5 +1,7 @@
 os: linux
 -
+
+# XXX - citizen work for terminals
 action(edit.copy):
 	key(ctrl-c)
 
@@ -9,9 +11,10 @@ action(edit.cut):
 action(edit.delete):
 	key(backspace)
 
-action(edit.delete_line):
-	edit.select_line()
-	edit.delete()
+# XXX - is not generic (ex: ctrl-u on command line)
+#action(edit.delete_line):
+#	edit.select_line()
+#	edit.delete()
 
 #action(edit.delete_paragraph):
 
