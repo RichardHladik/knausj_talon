@@ -1,5 +1,10 @@
+os: linux
 tag: vim
 -
+
+action(edit.delete_word):
+	user.vim_set_insert_mode()
+	key(ctrl-w)
 
 open talon dir:
     user.vim_command_mode_exterm(":lcd ~/.talon/user/fidget/\n")

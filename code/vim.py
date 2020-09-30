@@ -235,9 +235,9 @@ ctx.lists["self.vim_motions"] = {
     "back end": "ge",
     "back big end": "gE",
     # XXX - see if there's a way to replaces with normal arrow keys
-    "left": "h",
-    "down": "j",
-    "up": "k",
+    #"left": "h",
+    #"down": "j",
+    #"up": "k",
     "next": "n",
     "next reversed": "N",
     "previous": "N",

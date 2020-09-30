@@ -5,7 +5,8 @@ from talon import Context, Module, app, imgui, ui
 from talon.voice import Capture
 
 app_cache = {}
-overrides = {"grip": "DataGrip", "term": "iTerm2"}
+overrides = {"grip": "DataGrip", "term": "st-256color", "app": "whatsapp"}
+os.unsetenv("I3SOCK")
 
 mod = Module()
 mod.list("running", desc="all running applications")
@@ -58,6 +59,18 @@ class Actions:
         #    if app.name == name and not app.background:
         #        app.focus()
         #        break
+#        print(name)
+#        actions.key("alt-n")
+#        actions.sleep("100ms")
+#        actions.insert(name)
+#        actions.key("enter")
+#        return
+#        for app in ui.apps():
+#            #print("app.name:" + app.name)
+#            #print("app.bundler: " + app.bundle)
+#            if app.name == name and not app.background:
+#                app.focus()
+#                break
 
     def switcher_launch(path: str):
         """Launch a new application by path"""
@@ -95,6 +108,7 @@ def update_lists():
         running[name.lower()] = cur_app.name
     for override in overrides:
         running[override] = overrides[override]
+    running.pop("st")
 
     if app.platform == "mac":
         for base in "/Applications", "/Applications/Utilities":
@@ -121,7 +135,6 @@ def update_lists():
 def ui_event(event, arg):
     if event in ("app_activate", "app_launch", "app_close", "win_open", "win_close"):
         update_lists()
-
 
 ui.register("", ui_event)
 update_lists()

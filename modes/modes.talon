@@ -22,16 +22,26 @@ talon wake:
     user.system_command('notify-send.sh -t 3000 -f -u low "Talon Awake"')
 dragon mode: speech.disable()
 talon mode: speech.enable()
-^(dictation mode|dictate)$:
+dictation mode|anglický (mód|mod):
     mode.disable("sleep")
     mode.disable("command")
+	mode.disable("user.czech")
     mode.enable("dictation")
     user.system_command('notify-send.sh -t 3000 -f -u low "Dictation Mode"')
-^command mode$:
+command mode|příkazový (mód|mod):
     mode.disable("sleep")
     mode.disable("dictation")
+	mode.disable("user.czech")
     mode.enable("command")
     user.system_command('notify-send.sh -t 3000 -f -u low "Command Mode"')
+(Czech|check) mode:
+    mode.disable("sleep")
+    mode.disable("dictation")
+    mode.disable("command")
+	mode.enable("user.czech")
+    user.system_command('notify-send.sh -t 3000 -f -u low "Czech Mode"')
+
+
 [enable] debug mode:
     mode.enable("user.gdb")
     user.system_command('notify-send.sh -t 3000 -f -u low "Debug Mode Enabled"')

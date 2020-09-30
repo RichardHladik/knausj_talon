@@ -19,8 +19,6 @@
 #     `yank next X lines` (relative forward copy)
 
 os:linux
-app:gvim
-app:/term/
 win.title: /VIM/
 -
 
@@ -136,7 +134,7 @@ action(edit.indent_less):
 action(edit.delete_line):
     user.vim_normal_mode("dd")
 action(edit.delete):
-    user.vim_normal_mode_key(x)
+    user.vim_normal_mode_key("x")
 
 # note these are for mouse highlighted copy/paste. shouldn't be used for actual
 # vim commands
@@ -744,7 +742,7 @@ vim help: user.vim_command_mode_exterm(":help ")
 normal mode: user.vim_set_normal_mode_np()
 insert mode: user.vim_set_insert_mode()
 # command mode: user.vim_set_command_mode()
-command mode: user.vim_any_motion_mode_exterm_key(":")
+#command mode: user.vim_any_motion_mode_exterm_key(":")
 # replace mode: user.vim_set_replace_mode()
 (replace mode|overwrite): user.vim_any_motion_mode_exterm_key("R")
 visual mode: user.vim_set_visual_mode()
@@ -861,3 +859,6 @@ close all folds: user.vim_normal_mode("zM")
 # these into nerdtree.talon for now
 nerd tree: user.vim_normal_mode_exterm(":NERDTree\n")
 nerd find [current] file: user.vim_normal_mode_exterm(":NERDTreeFind\n")
+
+change (directory|dir|dur):
+	insert(":chdir ")
