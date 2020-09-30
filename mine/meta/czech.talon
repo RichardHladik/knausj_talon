@@ -1,7 +1,7 @@
 mode: user.czech
 -
 <user.text>:
-    user.system_command('notify-send.sh -t 3000 -f -u low "Czech Mode"')
+	app.notify("Czech Mode")
     insert(user.text)
     insert(" ")
 
