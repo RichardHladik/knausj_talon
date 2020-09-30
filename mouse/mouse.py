@@ -7,7 +7,6 @@ import subprocess
 
 from talon import (Context, Module, actions, app, clip, cron, ctrl, imgui,
                    noise, settings, ui)
-from talon.engine import engine
 from talon.track.geom import Point2d
 from talon_plugins import eye_mouse, eye_zoom_mouse, speech
 from talon_plugins.eye_mouse import config, mouse, toggle_control
