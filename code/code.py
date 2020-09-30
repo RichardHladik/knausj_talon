@@ -32,6 +32,7 @@ extension_lang_map = {
     "gdb": "gdb",
     "go": "go",
     "h": "cplusplus",
+    "hpp": "cplusplus",
     "md": "markdown",
     "pl": "perl",
     "py": "python",
@@ -41,6 +42,7 @@ extension_lang_map = {
     "snippets": "snippets",
     "talon": "talon",
     "vim": "vim",
+    "tex": "tex",
 }
 
 # flag indicates whether or not the title tracking is enabled

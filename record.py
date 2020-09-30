@@ -6,7 +6,7 @@ import os
 import struct
 import wave
 
-ALWAYS_RECORD = True
+ALWAYS_RECORD = False
 OUTPUT_DIR = TALON_HOME/'recordings'
 
 os.makedirs(OUTPUT_DIR, exist_ok=True)

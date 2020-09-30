@@ -7,7 +7,7 @@ from talon import Context, Module, actions
 #   fine - conflicts with find
 #   pit  - conflicts with page
 #   yank - conflicts with vim
-default_alphabet = "air bat cap drum each fin gust harp sit jury crunch look made near odd peck quench red sun trap urge vest whale plex yell zip".split(
+default_alphabet = "air bat cap drum each fin gust harp wiggle jury crunch look made near oak pit quench red sun trap urge vest whale plex yes zip".split(
     " "
 )
 letters_string = "abcdefghijklmnopqrstuvwxyz"
@@ -85,7 +85,6 @@ def key(m) -> str:
 
 ctx = Context()
 ctx.lists["self.modifier"] = {
-    "command": "cmd",
     "control": "ctrl",  #'troll':   'ctrl',
     "shift": "shift",  #'sky':     'shift',
     "alt": "alt",
@@ -177,7 +176,6 @@ ctx.lists["self.arrow"] = {
 
 simple_keys = [
     #    'tab', 'escape', 'enter', 'space',
-    "tab",
     "escape",
     "space",
     "home",
@@ -193,6 +191,7 @@ alternate_keys = {
     "junk": "backspace",
     "backspace": "backspace",
     "forward delete": "delete",
+    "toast": "tab",
     #'up': 'up',
     #    'down': 'down',
     #    'right': 'right',

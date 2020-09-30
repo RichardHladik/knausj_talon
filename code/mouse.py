@@ -74,11 +74,11 @@ mod.setting(
 ctx = Context()
 ctx.lists["self.mouse_button"] = {
     # right click
-    "righty": "1",
+    #"righty": "1",
     "rickle": "1",
     # left click
-    "chiff": "0",
-    "beep": "0",
+    #"chiff": "0",
+    #"beep": "0",
 }
 
 continuous_scoll_mode = ""

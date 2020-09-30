@@ -19,7 +19,7 @@ def on_phrase(j):
         history = history[-hist_len:]
 
         if gui.showing:
-            gui.freeze()
+            gui.show()
    
 #todo: dynamic rect?
 @imgui.open(y=0,software=False)
@@ -38,7 +38,7 @@ mod = Module()
 class Actions:           
     def history_enable():
         """Enables the history"""
-        gui.freeze()
+        gui.show()
 
     def history_disable():
         """Disables the history"""
@@ -48,3 +48,5 @@ class Actions:
         """Clear the history"""
         global history
         history = []
+
+gui.show()

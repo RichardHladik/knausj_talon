@@ -4,8 +4,7 @@ os: linux
 # TODO: take vim_arrow vs arrow from a settings file
 -
 
-(works|screen) <number>: key("super-{number}")
-(works|screen) ten: key(super-0)
+(works|screen) <number>: key("super-f{number}")
 (works|screen) (last|back|flip): key(super-u)
 (works|screen) (right|next): key(super-o)
 (works|screen) (prev|previous|left): key(super-y)
@@ -65,7 +64,7 @@ vertical (shell|terminal):
     key(super-v)
     key(super-enter)
 
-move (win|window) [to] workspace <number>: key("super-shift-{number}")
+move (win|window) [to] (workspace|screen) <number>: key("super-shift-{number}")
 move (win|window) [to] last workspace: key(super-shift-b)
 #move (win|window) <user.vim_arrow>: key("super-shift-{vim_arrow}")
 move (win|window) left: key("super-shift-h")
@@ -86,3 +85,7 @@ new scratch shell:
 next scratch:
     key(super--)
     key(super--)
+win switch:
+	key(super-d)
+	sleep(100ms)
+	key(super-d)

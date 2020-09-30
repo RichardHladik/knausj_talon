@@ -3,13 +3,19 @@
 os: linux
 tag: terminal
 -
+action(edit.delete_word):
+	key(ctrl-w)
+action(edit.delete_line):
+	key(end)
+	key(ctrl-u)
+
 (list|lisa): "ls\n"
 (list|lisa) long: "ls -al\n"
 (list|lisa) <user.text>: "ls {text}"
 (list|lisa) (deer|dir): "ls "
+(list|lisa) by date: "ls -lSrt\n"
 
 # directory and files
-(up (dear|dir)|travis): "../"
 (cd|deer|dir) <user.text>: "cd {text}"
 (cd|deer|dir) up: "cd ..\n"
 parent (deer|dir): "cd ..\n"
@@ -18,9 +24,8 @@ parent (deer|dir): "cd ..\n"
 make (dur|dear|dir|directory): "mkdir "
 make (dur|dear|dir|directory) <user.text>: "mkdir {text}"
 remove (dur|dear|dir|directory): "rmdir "
-remove (dur|dear|dir|directory) <user.ext>: "rmdir {text}"
+remove (dur|dear|dir|directory) <user.text>: "rmdir {text}"
 remove file: "rm "
-tree: "tree\n"
 temp (dur|dear|dir|directory): "cd /tmp\n"
 pop (dur|dear|dir|directory): "popd\n"
 
@@ -80,17 +85,13 @@ process top: "htop\n"
 locate: "locate "
 (where am I|print working directory): "pwd\n"
 
-edit here: insert("edit .\n")
+edit here: insert("vim\n")
 
 edit <user.text>$:
-    insert("edit {text}")
+    insert("vim {text}")
 
 edit:
-    insert("edit ")
-
-# XXX - ~/.edit/sessions/<tab>
-edit session:
-    insert("edit -S ")
+    insert("vim ")
 
 lazy edit:
     insert("edit ")

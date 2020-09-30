@@ -1,14 +1,10 @@
 dragon words: "<dgnwords>"
 dragon dictation: "<phrase>"
-(shock|slap): key(enter)
+slap: key(enter)
 #slap:
 #	edit.line_end()
 #key(enter)
 cd: "cd "
-grep: "grep "
-elle less: "ls "
-run L S: "ls\n"
-run (S S H | S H): "ssh"
 dot pie: ".py"
 dot talon: ".talon"
 dot mark down: ".md"
@@ -29,7 +25,6 @@ M D five: "md5"
 (block|brackets):
 	insert("{}")
 	key(left enter enter up tab)
-empty array: "[]"
 #comment see: "// "
 word queue: "queue"
 word eye: "eye"
@@ -70,21 +65,21 @@ zoom out: edit.zoom_out()
 zoom reset: edit.zoom_out()
 (page | scroll) up: key(pgup)
 (page | scroll) down: key(pgdown)
-copy that: edit.copy()
-cut that: edit.cut()
-paste that: edit.paste()
-paste match: edit.paste_match_style()
+#copy that: edit.copy()
+#cut that: edit.cut()
+#paste that: edit.paste()
+#paste match: edit.paste_match_style()
 #file save: edit.save()
 #menu help: key(F1)
 #spotlight: key(super)
 #(undo that | skunks): edit.undo()
 #redo that: edit.redo()
-volume up: key(volup)
-volume down: key(voldown)
-mute: key(mute)
-play next: key(next)
-play previous: key(prev)
-(play | pause): key(play_pause)
+#volume up: key(volup)
+#volume down: key(voldown)
+#mute: key(mute)
+#play next: key(next)
+#play previous: key(prev)
+#(play | pause): key(play_pause)
 #wipe: key(backspace)
 #(pad | padding):
 #	insert("  ")
@@ -94,6 +89,7 @@ play previous: key(prev)
 
 local host: "127.0.0.1"
 hex (num|number) <number>: "0x{number}"
+number <number>: "{number}"
 hyper:
     edit.copy()
     edit.paste()

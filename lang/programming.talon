@@ -28,7 +28,7 @@ state include system: user.code_include_system()
 state include local: user.code_include_local()
 state type deaf: user.code_type_definition()
 state type deaf struct: user.code_typedef_struct()
-state for in: user.code_for_each()
+state for in: user.code_state_for_each()
 state (no | nil): user.code_null()
 ^funky <user.text>$:
     #todo: once .talon action definitions can take parameters, combine these functions

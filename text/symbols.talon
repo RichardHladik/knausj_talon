@@ -30,7 +30,7 @@ dub arrow: "=>"
 new line: "\\n"
 carriage return: "\\r"
 line feed: "\\r\\n"
-empty dubstring:
+empty (dubstring|dub string):
     '""'
     key(left)
 empty escaped (dubstring|dub quotes):
