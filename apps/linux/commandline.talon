@@ -135,7 +135,7 @@ edit:
 
 lazy edit:
     insert("edit ")
-    insert("$(find . -not -path '*/\.git/*' -name \"**\")")
+    insert('$(find . -not -path \'*/\.git/*\' -name "**")')
     key("left")
     key("left")
     key("left")
