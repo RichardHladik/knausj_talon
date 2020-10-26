@@ -1,13 +1,32 @@
 os: linux
 tag: user.terminal
 -
-#tag(): user.file_manager
-#todo: generic tab commands
-#tag(): tabs
+
+###
+# Packages
+#
+# These tags correspond to talon grammars you want to enable while you're
+# running some terminal emulator on your system. See the associated talon
+# files for information and links to what tools they are associated with.
+###
+
+tag(): user.buku
+tag(): user.yay
+tag(): user.apt
+tag(): user.ghidra_server
+tag(): user.nmcli
+tag(): user.taskwarrior
+tag(): user.timewarrior
+tag(): user.make
+tag(): user.kubectl
+tag(): user.tmux
+tag(): user.git
+tag(): user.docker
+
 action(edit.page_down):
   key(shift-pagedown)
-#action(edit.page_up):
-# key(shift-pageup)
+action(edit.page_up):
+ key(shift-pageup)
 action(edit.paste):
   key(ctrl-shift-v)
 action(edit.copy):
@@ -15,10 +34,6 @@ action(edit.copy):
 action(edit.delete_line):
   key(ctrl-u)
 
-#scroll up:
-#  key(shift-pageup)
-scroll down:
-  key(shift-pagedown)
 run last [command]:
   key(up)
   key(enter)
@@ -35,6 +50,10 @@ kill all:
   key(ctrl-c)
 
 # XXX - these are specific to certain terminals only and should move into their
+#tag(): user.file_manager
+#todo: generic tab commands
+#tag(): tabs
+
 # own <term name>.talon file
 action(edit.find):
   key(ctrl-shift-f)

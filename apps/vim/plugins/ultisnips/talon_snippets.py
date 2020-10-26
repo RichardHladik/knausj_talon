@@ -1,10 +1,8 @@
-import os
-
-from talon import Context, Module, actions, app, ui
+from talon import Context
 
 ctx = Context()
 ctx.matches = r"""
-app: vim
+tag: user.vim_ultisnips
 mode: user.talon
 mode: command
 and code.language: talon

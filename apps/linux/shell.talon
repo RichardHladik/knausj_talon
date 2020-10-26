@@ -2,8 +2,8 @@ os: linux
 tag: user.terminal
 -
 (rerun|run) last [command]: "!!\n\n"
-interrupt: key("ctrl-c")
-damn it: key("ctrl-d")
+cancel [that]: key("ctrl-c")
+damn (it|that): key("ctrl-d")
 
 # fzf keybindings
 search history: key(ctrl-r)

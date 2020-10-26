@@ -43,7 +43,6 @@ volume up: key(volup)
 volume down: key(voldown)
 mute: key(mute)
 
-(play | pause): key(play_pause)
 
 local host: "127.0.0.1"
 (hex|hexadecimal) [(num|number)] <number>: "0x{number}"
@@ -63,7 +62,6 @@ insecure web link: "http://"
 file link: "file://"
 
 add to do: "# XXX - "
-porno: "XXX "
 
 
 ###

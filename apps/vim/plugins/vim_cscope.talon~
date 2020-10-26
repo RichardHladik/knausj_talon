@@ -1,4 +1,4 @@
-tag: user.vim
+tag: user.vim_cscope
 -
 
 see scope: ":cs "

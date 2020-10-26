@@ -2,8 +2,7 @@ from talon import Context, Module, actions, app, ui
 
 ctx = Context()
 ctx.matches = r"""
-tag: user.vim
-tag: user.snippets
+tag: user.vim_ultisnips
 mode: user.c
 mode: command
 and code.language: c

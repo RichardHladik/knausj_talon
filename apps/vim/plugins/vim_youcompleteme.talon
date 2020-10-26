@@ -1,5 +1,4 @@
-os: linux
-tag: user.vim
+tag: user.vim_youcompleteme
 -
 
 # XXX - these are annoying to say

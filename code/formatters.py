@@ -1,11 +1,13 @@
 import os
 from typing import List, Union
+import re
 
 from talon import Context, Module, actions, imgui, ui
 from talon.grammar import Phrase
 
 ctx = Context()
 key = actions.key
+edit = actions.edit
 
 words_to_keep_lowercase = (
     "a,an,the,at,by,for,in,is,of,on,to,up,and,as,but,or,nor".split(",")
@@ -202,11 +204,31 @@ def format_text(m) -> str:
     "Formats the text and returns a string"
 
 
+class ImmuneString(object):
+    """Wrapper that makes a string immune from formatting."""
+
+    def __init__(self, string):
+        self.string = string
+
+
+@mod.capture
+def formatter_immune(m) -> ImmuneString:
+    """Text that can be interspersed into a formatter, e.g. characters.
+
+    It will be inserted directly, without being formatted.
+
+    """
+
+
 @mod.action_class
 class Actions:
     def formatted_text(phrase: Union[str, Phrase], formatters: str) -> str:
         """Formats a phrase according to formatters. formatters is a comma-separated string of formatters (e.g. 'CAPITALIZE_ALL_WORDS,DOUBLE_QUOTED_STRING')"""
         return format_phrase(phrase, formatters)
+
+    def insert_formatted(phrase: Union[str, Phrase], formatters: str):
+        """Inserts a phrase formatted according to formatters. Formatters is a comma separated list of formatters (e.g. 'CAPITALIZE_ALL_WORDS,DOUBLE_QUOTED_STRING')"""
+        actions.insert(format_phrase(phrase, formatters))
 
     def formatters_help_toggle():
         """Lists all formatters"""
@@ -239,15 +261,58 @@ class Actions:
         global last_phrase
         return format_phrase(last_phrase, formatters)
 
+    def formatters_reformat_selection(formatters: str) -> str:
+        """Reformats the current selection."""
+        selected = edit.selected_text()
+        unformatted = re.sub(r"[^a-zA-Z0-9]+", " ", selected).lower()
+        # TODO: Separate out camelcase & studleycase vars
+
+        # Delete separately for compatibility with programs that don't overwrite
+        # selected text (e.g. Emacs)
+        edit.delete()
+        text = actions.self.formatted_text(unformatted, formatters)
+        actions.insert(text)
+        return text
+
+    def insert_many(strings: List[str]) -> None:
+        """Insert a list of strings, sequentially."""
+        for string in strings:
+            actions.insert(string)
+
 
 @ctx.capture(rule="{self.formatters}+")
 def formatters(m):
     return ",".join(m.formatters_list)
 
 
-@ctx.capture(rule="<self.formatters> <user.text>")
+@ctx.capture(
+    # Add anything else into this that you want to be able to speak during a
+    # formatter.
+    rule="(<user.symbol_key> | <user.letter> | numb <number>)"
+)
+def formatter_immune(m) -> ImmuneString:
+    if hasattr(m, "number"):
+        value = m.number
+    else:
+        value = m[0]
+    return ImmuneString(str(value))
+
+
+@ctx.capture(
+    # Note that if the user speaks something like "snake dot", it will
+    # insert "dot" - otherwise, they wouldn't be able to insert punctuation
+    # words directly.
+    rule="<self.formatters> <user.text> (<user.text> | <user.formatter_immune>)*"
+)
 def format_text(m):
-    return format_phrase(m.text, m.formatters)
+    out = ""
+    formatters = m[0]
+    for chunk in m[1:]:
+        if isinstance(chunk, ImmuneString):
+            out += chunk.string
+        else:
+            out += format_phrase(chunk, formatters)
+    return out
 
 
 ctx.lists["self.formatters"] = formatters_words.keys()

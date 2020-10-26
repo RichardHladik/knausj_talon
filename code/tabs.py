@@ -1,4 +1,4 @@
-from talon import Context, actions, ui, Module, app
+from talon import Module
 
 mod = Module()
 
@@ -10,3 +10,9 @@ class tab_actions:
 
     def tab_final():
         """Jumps to the final tab"""
+
+    def tab_first():
+        """Jumps to the first tab"""
+
+    def tab_search():
+        """Search through tabs"""

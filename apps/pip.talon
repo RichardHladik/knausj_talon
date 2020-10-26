@@ -2,6 +2,7 @@ tag: user.terminal
 -
 
 pip install: "pip install "
+pip install requirements: "pip install -r requirements.txt"
 pip remove: "pip remove "
 pip freeze requirements: "pip freeze > requirements.txt"
 pip download: "pip download "

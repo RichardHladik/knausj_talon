@@ -4,7 +4,7 @@ mod = Module()
 ctx = Context()
 
 ctx.matches = r"""
-tag: user.ultisnips
+tag: user.vim_ultisnips
 """
 
 mod.tag("ultisnips", desc="a tag to load ultisnips")

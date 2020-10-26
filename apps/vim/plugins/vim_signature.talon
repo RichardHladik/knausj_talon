@@ -1,5 +1,5 @@
 # You must install: https://github.com/kshenoy/vim-signature
-app: vim
+tag: user.vim_signature
 -
 
 signature toggle: user.vim_normal_mode_exterm(":SignatureToggle\n")

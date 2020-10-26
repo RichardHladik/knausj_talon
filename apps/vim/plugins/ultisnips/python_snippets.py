@@ -1,10 +1,8 @@
-import os
-
-from talon import Context, Module, actions, app, ui
+from talon import Context
 
 ctx = Context()
 ctx.matches = r"""
-app: vim
+tag: user.vim_ultisnips
 mode: user.python
 mode: command
 and code.language: python
@@ -36,6 +34,7 @@ private_snippets = {
     "dick string": "dstr",
     "new arg parser": "argparse",
     "add argument": "narg",
+    "dock param": "dockparam",
 }
 
 ctx.lists["user.snippets"] = {**ultisnips_snippets, **private_snippets}

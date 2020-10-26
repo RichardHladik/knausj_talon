@@ -22,5 +22,12 @@ settings():
     user.mouse_wheel_down_amount = 120
 	key_wait = 1
 	
+    # where to save screen shots
+    user.screenshot_folder = "/home/aa/images/screenshots/"
+    # what command to use for selection based screenshots
+    user.screenshot_selection_command = "scrot -s"
+
 # uncomment tag to enable mouse grid
 # tag(): user.mouse_grid_enabled
+
+tag(): user.i3wm

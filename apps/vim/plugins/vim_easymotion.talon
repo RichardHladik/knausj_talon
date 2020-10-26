@@ -1,2 +1,2 @@
-app: vim
+tag: user.vim_easymotion
 -

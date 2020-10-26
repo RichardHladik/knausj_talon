@@ -73,3 +73,7 @@ action(browser.submit_form):
 
 action(browser.toggle_dev_tools):
 	key(ctrl-shift-i)
+
+action(user.tab_search):
+	browser.focus_address()
+    key(%)

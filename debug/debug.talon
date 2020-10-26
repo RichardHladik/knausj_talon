@@ -4,3 +4,4 @@ debug app:
     print(app.executable())
     print(win.title())
     print("-------DEBUG APP-------")
+^incorrect$: skip()

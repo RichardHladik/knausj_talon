@@ -2,7 +2,18 @@
 from talon import Context, Module, actions
 
 mod = Module()
-mod.list("paths", desc="Common paths")
+mod.list("paths_public", desc="Common paths")
+mod.list("paths_private", desc="Common private paths")
+
+
+@mod.capture
+def paths_public(m) -> str:
+    "One path"
+
+
+@mod.capture
+def paths_private(m) -> str:
+    "One private path"
 
 
 @mod.capture
@@ -11,16 +22,15 @@ def paths(m) -> str:
 
 
 ctx = Context()
-if "user.paths" not in ctx.lists:
-    ctx.lists["user.paths"] = {}
-orig_paths = ctx.lists["user.paths"]
-new_paths = {
+ctx.lists["user.paths_public"] = {
     "sessions": "~/.vim/sessions/",
     "temp": "/tmp",
     "config": "/etc",
     "user": "/usr",
     "log": "/var/log",
 }
+
+ctx.lists["user.paths_private"] = {}
 
 # XXX - add support for selecting
 windows_paths = {
@@ -32,9 +42,18 @@ windows_paths = {
     "drivers": "%SYSTEMROOT%\\System32\\Drivers",
     "programs": "%PROGRAMFILES%",
 }
-ctx.lists["user.paths"] = {**orig_paths, **new_paths}
 
 
-@ctx.capture(rule="{user.paths}")
+@ctx.capture(rule="{user.paths_public}")
+def paths_public(m):
+    return m.paths_public
+
+
+@ctx.capture(rule="{user.paths_private}")
+def paths_private(m):
+    return m.paths_private
+
+
+@ctx.capture(rule="<user.paths_public>|<user.paths_private>")
 def paths(m):
-    return m.paths
+    return m

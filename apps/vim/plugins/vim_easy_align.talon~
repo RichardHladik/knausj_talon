@@ -1,4 +1,4 @@
-tag: user.vim
+tag: user.vim_easy_align
 -
 # NOTE: expects the mapping suggested by the plug in documentation
 

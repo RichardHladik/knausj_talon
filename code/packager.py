@@ -7,7 +7,15 @@ os: linux
 tag: user.terminal
 """
 
-mod.tag("packager_yay", desc="arch packager")
+mod.tag("package_manager", desc="linux package manager")
+mod.tag("packager_yay", desc="Arch Linux YAY packager")
+mod.tag("packager_pacman", desc="Arch Linux YAY packager")
+mod.tag("packager_pamac", desc="Manjaro Linux packager")
+mod.tag("packager_apt", desc="Debian/Ubuntu Linux packager")
+mod.tag("packager_snap", desc="Snap packager")
+mod.tag("packager_zypper", desc="SuSE packager")
+mod.tag("packager_dnf", desc="Fedora DNF packager")
+mod.tag("packager_yum", desc="Fedora YUM packager")
 
 
 @mod.action_class

@@ -9,7 +9,7 @@ dev talon:
     insert("ls\n")
 
 edit talon wiki:
-    insert("cd ~/src/talon_wiki\n")
+    insert("cd ~/source/talon_wiki\n")
     insert("ls\n")
 
 talon shell:
@@ -23,7 +23,7 @@ talon (python|classes):
 talon plugins:
     insert("cd ~/source/talon/releases/latest/resources/talon_plugins\n")
     insert("ls\n")
-talon source: "cd  ~/src/talon\n"
+talon source: "cd  ~/source/talon\n"
 
 
 edit (vim|them) config: "vim ~/.vimrc\n"
@@ -55,7 +55,7 @@ go to work:
     insert(" cd $ACTIVE_PROJECT\n")
 edit [to] (current|active) [work] project: "vim ~/projects/current\n"
 edit [to] alternate [work] project: "vim ~/projects/alternate\n"
-edge (dur|dir): "cd ~/src/edg\n"
+edge (dur|dir): "cd ~/work/source/edg\n"
 run debug: "./debug.sh\n"
 run project:
     insert("run_active_project\n")

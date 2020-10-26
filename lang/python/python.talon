@@ -37,6 +37,8 @@ action(user.code_operator_greater_than): " > "
 action(user.code_operator_greater_than_or_equal_to): " >= "
 action(user.code_operator_less_than): " < "
 action(user.code_operator_less_than_or_equal_to): " <= "
+action(user.code_operator_in): " in "
+action(user.code_operator_not_in): " not in "
 action(user.code_operator_and): " and "
 action(user.code_operator_or): " or "
 action(user.code_operator_bitwise_and): " & "
@@ -91,15 +93,14 @@ action(user.code_state_return):
 	insert("return ")
 action(user.code_true): "True"
 action(user.code_false): "False"
-
-
+action(user.code_document_string): user.insert_cursor("\"\"\"[|]\"\"\"")
 
 
 ####
 # Operators
 ####
 empty dict: "{}"
-empty list: "{}"
+empty list: "()"
 word (dickt | dictionary): "dict"
 state (def | deaf | deft): "def "
 class <user.text>:
@@ -114,12 +115,13 @@ for in:
     edit.word_left()
     key(space)
     edit.left()
-dock string:
-    insert("\"\"\"")
-    insert("\"\"\"")
-    edit.left()
-    edit.left()
-    edit.left()
+half dock string:
+    key(":3)
+big dock string:
+    key(":3)
+    key(enter:2)
+    key(":3)
+    edit.up()
 
 ####
 # Keywords
@@ -131,56 +133,33 @@ false: "False"
 pass: "pass"
 self: "self"
 
-####
-# Miscellaneous
-# XXX - make these snippets probably
-####
-define private (method|function) <user.text>:
-    insert("def _")
-    insert(user.formatted_text(text, "snake"))
-    insert("(self):")
-    key(left)
-    key(left)
-
-define public (method|function) <user.text>:
-    insert("def ")
-    insert(user.formatted_text(text, "snake"))
-    insert("(self):")
-    key(left)
-    key(left)
-
-define (method|function) <user.text>$:
-    insert("def ")
-    insert(user.formatted_text(text, "snake"))
-    insert("():")
-    key(left)
-    key(left)
-
-call method <user.text>:
-    key(.)
-    insert(user.formatted_text(text, "snake"))
-    insert("()")
-    key(left)
+# for annotating function parameters
+make type {user.python_type_list}:
+    insert(": {python_type_list}")
+returns [type] {user.python_type_list}:
+    insert(" -> {python_type_list}")
+# for generic reference of types
+type {user.python_type_list}:
+    insert("{python_type_list}")
+dock {user.python_docstring_fields}:
+    insert("{python_docstring_fields}")
+    edit.left()
+dock type {user.python_type_list}:
+    user.insert_cursor(":type [|]: {python_type_list}")
+dock returns type {user.python_type_list}:
+    user.insert_cursor(":rtype [|]: {python_type_list}")
+import <user.code_libraries>: "import {code_libraries}"
 
 call [function] <user.text>:
     insert(user.formatted_text(text, "snake"))
     insert("()")
     key(left)
 
-# XXX - move to a talon programming helper
-capture <user.text>:
-    insert("@mod.capture\ndef ")
-    insert(user.formatted_text(text, "snake"))
-    insert("(m) -> str:\n")
-    insert('    "Returns a string"\n\n')
-    insert("@ctx.capture(rule='{self.")
-    insert(user.formatted_text(text, "snake"))
-    insert("}')\ndef ")
-    insert(user.formatted_text(text, "snake"))
-    insert("(m) -> str:\n")
-    insert('    "Returns a string"\n')
+index <user.word>: '["{word}"]'
+
 pie test: "pytest"
 state past: "pass"
+
 
 ^funky <user.text>$: user.code_private_function(text)
 #^pro funky <user.text>$: user.code_protected_function(text)
@@ -189,3 +168,9 @@ state past: "pass"
 #^pro static funky <user.text>$: user.code_protected_static_function(text)
 #^pub static funky <user.text>$: user.code_public_static_function(text)
 raise {user.python_exception}: user.insert_cursor("raise {python_exception}([|])")
+(deck|decorator) {user.python_decorator}: user.insert_cursor("@{python_decorator}")
+
+toggle imports: user.code_toggle_libraries()
+import <user.code_libraries>:
+    user.code_insert_library(code_libraries, "")
+    key(end enter)

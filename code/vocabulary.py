@@ -158,6 +158,8 @@ simple_vocabulary = [
     "stellaris",
     "config",
     "make",
+    "stub",
+    "stubs",
 ]
 
 mapping_vocabulary = {

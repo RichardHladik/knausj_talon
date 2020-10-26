@@ -2,8 +2,6 @@
 # TODO:
 # - define all the lists separately and then update ctx.lists only once
 # - document that visual selection mode implies terminal escape
-# - eventually use nvim RPC to confirm mode changes vs relying on a time
-#   delay that is buggy depending on your cpu consumption
 # - add setting for disabling local terminal escape when running inside
 #   remote vim sessions via ssh, etc
 # - import and test scenario where the mode isn't listed at all
@@ -26,6 +24,37 @@ ctx = Context()
 ctx.matches = r"""
 app: vim
 """
+
+# talon vim plugins. see apps/vim/plugins/
+# to enable plugins you'll want to set these inside vim.talon
+tag_list = [
+    "vim_ale",
+    "vim_change_inside_surroundings",
+    "vim_cscope",
+    "vim_easy_align",
+    "vim_easymotion",
+    "vim_floaterm",
+    "vim_fugitive",
+    "vim_fugitive_summary",
+    "vim_fzf",
+    "vim_markdown_toc",
+    "vim_nerdtree",
+    "vim_obsession",
+    "vim_plug",
+    "vim_signature",
+    "vim_surround",
+    "vim_taboo",
+    "vim_tabular",
+    "vim_unicode",
+    "vim_ultisnips",
+    "vim_wiki",
+    "vim_you_are_here",
+    "vim_youcompleteme",
+    "vim_zoom",
+]
+
+for entry in tag_list:
+    mod.tag(entry, f"tag to load {entry} and/or related plugins ")
 
 
 # Based on you using a custom title string like this:
@@ -354,6 +383,7 @@ vim_motions_with_character = {
     # "find previous": "F",
     "till": "t",
     "tier": "T",
+    "last": "T",
     # "till reversed": "T",
     # "till previous": "T",
 }
@@ -593,7 +623,6 @@ mod.list("vim_jump_targets", desc="VIM jump targets")
 mod.list("vim_normal_counted_motion_command", desc="Counted normal VIM commands")
 mod.list("vim_counted_motion_command_with_ordinals", desc="Counted normal VIM commands")
 mod.list("vim_select_motion", desc="VIM visual mode selection motions")
-mod.list("vim_any", desc="All vim commands")
 
 # Plugin-specific lists
 mod.list("vim_surround_targets", desc="VIM surround plugin targets")
@@ -709,11 +738,6 @@ def vim_motions_all_adjust(m) -> str:
 
 
 @mod.capture
-def vim_any(m) -> str:
-    "Any one key"
-
-
-@mod.capture
 def vim_text_objects(m) -> str:
     "Returns a string"
 
@@ -773,7 +797,7 @@ def vim_motions_with_upper_character(m) -> str:
 
 
 @ctx.capture(
-    rule="{self.vim_motions_with_character} (<user.letter>|<digits>|<user.symbol>)"
+    rule="{self.vim_motions_with_character} (<user.letter>|<digits>|<user.symbol_key>)"
 )
 def vim_motions_with_character(m) -> str:
     return m.vim_motions_with_character + "".join(str(x) for x in list(m)[1:])

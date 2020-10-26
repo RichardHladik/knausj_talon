@@ -4,7 +4,7 @@ from talon import Context, Module, actions, app, ui
 
 ctx = Context()
 ctx.matches = r"""
-app: vim
+tag: user.vim_ultisnips
 mode: user.gdb
 mode: command
 and code.language: gdb

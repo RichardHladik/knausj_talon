@@ -1,5 +1,5 @@
 # see markdown_snippets.py for more complete list
-app: vim
+tag: user.vim_ultisnips
 mode: user.markdown
 mode: command
 and code.language: markdown

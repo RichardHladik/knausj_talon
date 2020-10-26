@@ -1,4 +1,4 @@
-from talon import Context, actions, ui, Module
+from talon import Context, Module, actions, ui
 
 mod = Module()
 ctx = Context()
@@ -123,4 +123,3 @@ class user_actions:
         actions.key("alt-a")
 
     # find_and_replace.py support end
-

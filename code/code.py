@@ -1,8 +1,4 @@
-import os
-import re
-
-from talon import (Context, Module, actions, app, fs, imgui, registry,
-                   settings, ui)
+from talon import Context, Module, actions, app, imgui, registry, settings
 
 ctx = Context()
 mod = Module()
@@ -61,6 +57,8 @@ extension_lang_map = {
     "vba": "vba",
     "vim": "vimscript",
     "vimrc": "vimscript",
+    "yaml": "yaml",
+    "yml": "yaml",
 }
 
 # flag indicates whether or not the title tracking is enabled
@@ -200,7 +198,10 @@ class Actions:
         """code_operator_less_than_or_equal_to"""
 
     def code_operator_in():
-        """code_operator_less_than_or_equal_to"""
+        """code_operator_in"""
+
+    def code_operator_not_in():
+        """code_operator_not_in"""
 
     def code_operator_and():
         """codee_operator_and"""
@@ -452,6 +453,9 @@ class Actions:
 
     def code_insert_library(text: str, selection: str):
         """Inserts a library and positions the cursor appropriately"""
+
+    def code_document_string():
+        """Inserts a document string and positions the cursor appropriately"""
 
 
 def update_library_list_and_freeze():

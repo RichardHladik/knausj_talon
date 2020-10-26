@@ -4,6 +4,7 @@
 #   * vim.talon - commands that do not work in terminal mode
 #   * vim_mixed.talon - commands that do not work in terminal mode
 #   * vim_terminal.talon - commands that only work in terminal mode
+#   *
 #
 # NOTE:
 # Where applicable I try to explicitly select appropriate API for terminal
@@ -24,6 +25,34 @@ win.title: /VIM/
 
 tag(): user.vim
 tag(): user.tabs
+
+# Talon VIM plugin tags. Uncomment tags for plugins you having installed and
+# want to use.
+tag(): user.vim_ale
+tag(): user.vim_change_inside_surroundings
+tag(): user.vim_cscope
+tag(): user.vim_easy_align
+tag(): user.vim_easymotion
+tag(): user.vim_floaterm
+tag(): user.vim_fugitive
+tag(): user.vim_fugitive_summary
+tag(): user.vim_fzf
+tag(): user.vim_markdown_toc
+tag(): user.vim_nerdtree
+tag(): user.vim_obsession
+tag(): user.vim_plug
+tag(): user.vim_signature
+tag(): user.vim_surround
+tag(): user.vim_taboo
+tag(): user.vim_tabular
+tag(): user.vim_unicode
+tag(): user.vim_ultisnips
+tag(): user.vim_wiki
+tag(): user.vim_you_are_here
+tag(): user.vim_youcompleteme
+tag(): user.vim_zoom
+
+
 settings():
     # Whether or not to always revert back to the previous mode. Example, if
     # you are in insert mode and say 'delete word' it will delete one word and
@@ -249,7 +278,7 @@ line <number>:
 
 # XXX - add support for [{, [(, etc
 matching: user.vim_any_motion_mode_key("%")
-matching <user.symbol>: user.vim_any_motion_mode("f{symbol}%")
+matching <user.symbol_key>: user.vim_any_motion_mode("f{symbol_key}%")
 
 # jump list
 show jump list: user.vim_command_mode_exterm(":jumps\n")
@@ -294,11 +323,11 @@ swap lines:
 swap paragraph:
     user.vim_normal_mode("d}}")
     user.vim_normal_mode("p")
-replace <user.any>:
-    user.vim_any_motion_mode("r{any}")
+replace <user.unmodified_key>:
+    user.vim_any_motion_mode("r{unmodified_key}")
 replace (ship|upper|upper case) <user.letters>:
     user.vim_any_motion_mode_key("r")
-    user.keys_uppercase_letters(letters)
+    user.insert_formatted(letters, "ALL_CAPS")
 
 # indenting
 # XXX - are temporarily disabled for speed testing
@@ -381,8 +410,8 @@ append file:
 
 push:
     user.vim_normal_mode_np("$a")
-push <user.any>:
-    user.vim_normal_mode_np("$a{any}")
+push <user.unmodified_key>:
+    user.vim_normal_mode_np("$a{unmodified_key}")
 
 # paste to the end of a line
 # XXX
@@ -395,13 +424,13 @@ insert <user.text>:
     user.vim_insert_mode("{text}")
 
 # helpful for fixing typos or bad lexicons that miss a character
-(inject|cram) <user.any> [before]:
-    user.vim_insert_mode_key("{any}")
+(inject|cram) <user.unmodified_key> [before]:
+    user.vim_insert_mode_key("{unmodified_key}")
     # since there is no ctrl-o equiv coming from normal
     key(escape)
 
-(inject|cram) <user.any> after:
-    user.vim_normal_mode_key("a {any}")
+(inject|cram) <user.unmodified_key> after:
+    user.vim_normal_mode_key("a {unmodified_key}")
     # since we can't perserve mode with ctrl-o
     key(escape)
 
@@ -721,16 +750,24 @@ buffer end diff:
 
 ###
 # Tab
+#
+# This is a combination of Talon generic commands from `misc/tab.talon` and my
+# own extras.
 ###
+
+# `misc/tab.talon` versions
+action(app.tab_open): user.vim_command_mode_exterm(":tabnew\n")
+action(app.tab_close): user.vim_command_mode_exterm(":tabclose\n")
+action(app.tab_next): user.vim_command_mode_exterm(":tabnext\n")
+[go] tab <number_small>: user.vim_normal_mode_exterm("{number_small}gt")
+
+
 (list|show) tabs: user.vim_command_mode(":tabs\n")
-(close this tab|tab close): user.vim_command_mode_exterm(":tabclose\n")
 [go] tab (next|right): user.vim_command_mode_exterm(":tabnext\n")
 [go] tab (left|prev|previous): user.vim_command_mode_exterm(":tabprevious\n")
 [go] tab first: user.vim_command_mode_exterm(":tabfirst\n")
 [go] tab last: user.vim_command_mode_exterm(":tablast\n")
 ([go] tab flip|tipper): user.vim_normal_mode_exterm("g\t")
-[go] tab <number_small>: user.vim_normal_mode_exterm("{number_small}gt")
-tab new: user.vim_command_mode_exterm(":tabnew\n")
 tab edit: user.vim_command_mode_exterm(":tabedit ")
 tab move right: user.vim_command_mode_exterm(":tabm +\n")
 tab move left: user.vim_command_mode_exterm(":tabm -\n")
@@ -838,20 +875,20 @@ modify [register|macro] <user.letter>:
     insert("{letter}")
     key(')
 
-[copy] register <user.any> [in] to [register] <user.any>:
+[copy] register <user.unmodified_key> [in] to [register] <user.unmodified_key>:
     user.vim_command_mode(":let@{any_2}=@{any_1}\n")
-paste from register <user.any>: user.vim_any_motion_mode('"{any}p')
-yank (into|to) register <user.any>:
-    user.vim_any_motion_mode('"{any}y')
-#clear (into|to) register <user.any>:
-#    user.vim_any_motion_mode('"{any}d')
+(paste from register|put) <user.unmodified_key>: user.vim_any_motion_mode('"{unmodified_key}p')
+yank (into|to) register <user.unmodified_key>:
+    user.vim_any_motion_mode('"{unmodified_key}y')
+#clear (into|to) register <user.unmodified_key>:
+#    user.vim_any_motion_mode('"{unmodified_key}d')
 
 # XXX - this should allow counted yanking, into register should become an
 # optional part of vim.py matching
-yank <user.vim_text_objects> [(into|to)] register <user.any>:
-    user.vim_any_motion_mode('"{any}y{vim_text_objects}')
-#clear <user.vim_text_objects> [(into|to)] register <user.any>:
-#    user.vim_any_motion_mode('"{any}d{vim_text_objects}')
+yank <user.vim_text_objects> [(into|to)] register <user.unmodified_key>:
+    user.vim_any_motion_mode('"{unmodified_key}y{vim_text_objects}')
+#clear <user.vim_text_objects> [(into|to)] register <user.unmodified_key>:
+#    user.vim_any_motion_mode('"{unmodified_key}d{vim_text_objects}')
 
 
 
@@ -918,17 +955,17 @@ search (reversed|reverse) sensitive:
 
 # XXX - is it possible to integrate these with vim_motions_with_character?
 # ordinals work different for `t` for some reason, so we don't need to -1
-till <user.ordinals> <user.any>:
-    user.vim_any_motion_mode("t{any}{ordinals};")
+till <user.ordinals> <user.unmodified_key>:
+    user.vim_any_motion_mode("t{unmodified_key}{ordinals};")
 
-till (reversed|previous) <user.ordinals> <user.any>:
-    user.vim_any_motion_mode("T{any}{ordinals};")
+till (reversed|previous) <user.ordinals> <user.unmodified_key>:
+    user.vim_any_motion_mode("T{unmodified_key}{ordinals};")
 
-find <user.ordinals> <user.any>:
-    user.vim_any_motion_mode("f{any}{ordinals-1};")
+find <user.ordinals> <user.unmodified_key>:
+    user.vim_any_motion_mode("f{unmodified_key}{ordinals-1};")
 
-find (reversed|previous) <user.ordinals> <user.any>:
-    user.vim_any_motion_mode("F{any}{ordinals-1};")
+find (reversed|previous) <user.ordinals> <user.unmodified_key>:
+    user.vim_any_motion_mode("F{unmodified_key}{ordinals-1};")
 
 ###
 # Visual Text Selection
@@ -992,25 +1029,31 @@ block (select|highlight) (until|till) line <number>:
     user.vim_set_visual_block_mode()
     insert("''")
 
+# Greedily highlight whatever is under the cursor. Doesn't work if on the first
+# character of the entry, in which case you should say a normal motion like
+# "select big end", etc
+select this:
+    user.vim_normal_mode_np("B")
+    user.vim_visual_mode("E")
 
 ###
 # Visual Text Editing
 ###
-prefix <user.vim_select_motion> with <user.any>:
+prefix <user.vim_select_motion> with <user.unmodified_key>:
     user.vim_visual_mode("{vim_select_motion}")
     insert(":")
     # leave time for vim to populate '<,'>
     sleep(50ms)
-    insert("s/^/{any}/g\n")
+    insert("s/^/{unmodified_key}/g\n")
 
 # Assumes visual mode
 # XXX - possibly worth moving to a file that actually triggers on a visual mode
 # title
-prefix with <user.any>:
+prefix with <user.unmodified_key>:
     insert(":")
     # leave time for vim to populate '<,'>
     sleep(50ms)
-    insert("s/^/{any}/g\n")
+    insert("s/^/{unmodified_key}/g\n")
 
 
 ###
@@ -1093,6 +1136,8 @@ recall last function:
 
 ###
 # Argument list
+#
+# TODO missing write and movement ex: :wnext
 ###
 (arg|argument) do:
     user.vim_command_mode(":argdo | update")
@@ -1103,6 +1148,14 @@ recall last function:
     user.vim_command_mode(":arg\n")
 (arg|argument) add:
     user.vim_command_mode(":argadd ")
+(arg|argument) next:
+    user.vim_command_mode(":next\n")
+(arg|argument) previous:
+    user.vim_command_mode(":prev\n")
+(arg|argument) first:
+    user.vim_command_mode(":first\n")
+(arg|argument) last:
+    user.vim_command_mode(":last\n")
 
 ###
 # Command mode
@@ -1127,6 +1180,17 @@ force last:
     user.vim_command_mode_exterm(":")
     key(up !)
 
+###
+# Command execution
+###
+
+# Run the current script view the command line
+invoke this:
+    user.vim_command_mode(":!%\n")
+run as python:
+    user.vim_normal_mode_np(":w\n")
+    insert(":exec '!python' shellescape(@%, 1)\n")
+
 remove trailing white space: user.vim_normal_mode(":%s/\s\+$//e\n")
 (remove all|normalize) tabs: user.vim_normal_mode(":%s/\t/    /eg\n")
 # assumes visual mode
@@ -1143,7 +1207,7 @@ swap again:
 
 # remove first byte from a line
 pinch: user.vim_normal_mode("0x")
-prefix <user.any>: user.vim_normal_mode("I{any}")
+prefix <user.unmodified_key>: user.vim_normal_mode("I{unmodified_key}")
 squish: user.vim_command_mode(":s/  / /g\n")
 # XXX - this could be a generic talon thing
 magnet: user.vim_normal_mode("f x")
@@ -1152,8 +1216,8 @@ magnet back: user.vim_normal_mode("F x")
 
 # useful for turning a git status list already yanked into a register into a
 # space delimited list you can peace unto the command line
-remove newlines from register <user.any>:
-    user.vim_command_mode(":let @{any}=substitute(strtrans(@{any}),'\^@',' ','g')\n")
+remove newlines from register <user.unmodified_key>:
+    user.vim_command_mode(":let @{unmodified_key}=substitute(strtrans(@{unmodified_key}),'\^@',' ','g')\n")
 
 ###
 # Custom

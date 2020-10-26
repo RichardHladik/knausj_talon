@@ -1,4 +1,4 @@
-tag: user.vim
+tag: user.vim_plug
 -
 
 plugins install:

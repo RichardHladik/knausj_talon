@@ -67,26 +67,17 @@ formatted <user.format_text>:
     auto_insert(format_text)
     user.auto_format_resume()
 ^format selection <user.formatters>$:
-    edit.copy()
-    sleep(100ms)
-    text = clip.text()
-    result = user.formatted_text(text, formatters)
-    user.auto_format_pause()
-    auto_insert(result)
-    user.auto_format_resume()
+    user.formatters_reformat_selection(formatters)
 #corrections
 scratch that: user.clear_last_utterance()
 scratch selection: edit.delete()
 select that: user.select_last_utterance()
+spell that <user.letters>: auto_insert(letters)
 spell that <user.formatters> <user.letters>:
-    result = dictate.join_words(user.letters, "")
-    result = user.formatted_text(result, formatters)
+    result = user.formatted_text(letters, formatters)
     user.auto_format_pause()
     auto_insert(result)
     user.auto_format_resume()
-spell that <user.letters>:
-    result = dictate.join_words(user.letters, "")
-    auto_insert(result)
 #escape, type things that would otherwise be commands
 ^escape <user.text>$:
     auto_insert(user.text)

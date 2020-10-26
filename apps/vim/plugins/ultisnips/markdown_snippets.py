@@ -2,7 +2,7 @@ from talon import Context
 
 ctx = Context()
 ctx.matches = r"""
-app: vim
+tag: user.vim_ultisnips
 mode: user.markdown
 mode: command
 and code.language: markdown
@@ -19,6 +19,7 @@ ctx.lists["user.snippets"] = {
     "italics": "*",
     "bold": "**",
     "bold italics": "***",
+    "strike through": "~~",
     "comment": "/*",
     # Common stuff #
     "link": "link",

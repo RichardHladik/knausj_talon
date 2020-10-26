@@ -45,7 +45,7 @@ class user_actions:
         actions.user.code_insert_function(result, None)
 
     def code_protected_function(text: str):
-        result = "private static void {}".format(
+        result = "private void {}".format(
             actions.user.formatted_text(
                 text, settings.get("user.code_protected_function_formatter")
             )

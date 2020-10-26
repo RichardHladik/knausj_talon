@@ -1,4 +1,3 @@
-os: linux
-tag: user.vim
+tag: user.vim_ultisnips
 code.language: snippets
 -

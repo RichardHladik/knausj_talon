@@ -1,4 +1,4 @@
-tag: user.vim
+tag: user.vim_change_inside_surroundings
 -
 
 # XXX - i'm using 'this' right now to avoid conflicting with the support in vim.py

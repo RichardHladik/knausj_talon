@@ -20,3 +20,8 @@ find: key(ctrl-f)
 find <user.text>:
     key(ctrl-f)
     insert("{text}")
+
+# Add Entry
+generate: key(ctrl-g)
+regenerate: key(ctrl-r)
+reveal: key(ctrl-h)
