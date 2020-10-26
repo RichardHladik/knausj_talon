@@ -4,18 +4,17 @@ settings():
     user.warn_dictation_mode = 1
 
 #everything here should call auto_insert to preserve the state to correctly auto-capitalize/auto-space.
-<user.text>: auto_insert(text)
-enter: auto_insert("new-line")
-period: auto_insert(".")
-(comma | kama):
-    auto_insert(",")
-question mark: auto_insert("?")
-(bang | exclamation [mark]): auto_insert("!")
-dash: auto_insert("-")
-colon: auto_insert(":")
-space: user.dictate(" ")
-(semi colon | semicolon): auto_insert(";")
-cap <user.text>:
+<user.text>:
+	insert(text)
+	insert(" ")
+period: key(backspace . space)
+(comma | kama): key(backspace , space)
+question mark: key(backspace ? space)
+(bang | exclamation [mark]): key(backspace ! space)
+dash: key(backspace - space)
+colon: key(backspace : space)
+(semi colon | semicolon): key(backspace ; space)
+(cap|cab) <user.text>:
     result = user.formatted_text(user.text, "CAPITALIZE_FIRST_WORD")
     auto_insert(result)
 #navigation

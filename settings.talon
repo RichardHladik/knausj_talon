@@ -1,7 +1,7 @@
 -
 settings():
     #adjust the scale of the imgui to my liking
-    imgui.scale = 1.3
+    imgui.scale = 1
     # enable if you'd like the picker gui to automatically appear when explorer has focus
     user.file_manager_auto_show_pickers = 0
     #set the max number of command lines per page in help
@@ -20,6 +20,7 @@ settings():
     user.mouse_wake_hides_cursor = 0
     #the amount to scroll up/down (equivalent to mouse wheel on Windows by default)
     user.mouse_wheel_down_amount = 120
+	key_wait = 1
 	
 # uncomment tag to enable mouse grid
 # tag(): user.mouse_grid_enabled

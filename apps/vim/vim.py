@@ -319,8 +319,8 @@ vim_motions = {
     # "top of document": "gg",
     # "top of file": "gg",
     # "end of document": "G",
-    # "end of file": "G",
-    "gut": "G",
+    "end of file": "G",
+    #"gut": "G",
 }
 
 vim_motions_custom = {

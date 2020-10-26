@@ -1,9 +1,9 @@
-mode: user.czech
+mode: user.german
 -
 <user.text>:
 	app.notify("German Mode")
-    insert(user.text)
-    insert(" ")
+    auto_insert(user.text)
+    auto_insert(" ")
 
 enter: key(enter)
 (Punkt|.): key(backspace . space)

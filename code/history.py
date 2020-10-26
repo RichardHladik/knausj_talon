@@ -25,7 +25,7 @@ def on_phrase(j):
         history = history[-hist_len:]
 
         if gui.showing:
-            gui.freeze()
+            gui.show()
 
 
 # todo: dynamic rect?

@@ -1,6 +1,7 @@
 mode: dictation
 mode: user.czech
-tag: vim
+mode: user.german
+tag: user.vim
 -
 <user.text>:
     user.system_command('notify-send.sh -t 3000 -f -u low "Dictation VIM"')

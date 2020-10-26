@@ -21,25 +21,34 @@ talon wake:
     app.notify("Talon Awake")
 #dragon mode: speech.disable()
 #talon mode: speech.enable()
-^dictation mode$|anglický (mód|mod)$:
+dictation mode|(anglický|anglicky) (mód|mod)|englischer Modus:
     mode.disable("sleep")
     mode.disable("command")
 	mode.disable("user.czech")
+	mode.disable("user.german")
     mode.enable("dictation")
     app.notify("Dictation Mode")
-command mode|příkazový (mód|mod):
+command mode|příkazový (mód|mod)|Befehlsmodus:
     mode.disable("sleep")
     mode.disable("dictation")
 	mode.disable("user.czech")
+	mode.disable("user.german")
     mode.enable("command")
     app.notify("Command Mode")
-(Czech|check) mode:
+(Czech|check) mode|(tschechischer|tschechische) Modus:
     mode.disable("sleep")
     mode.disable("dictation")
     mode.disable("command")
+	mode.disable("user.german")
 	mode.enable("user.czech")
     app.notify("Czech Mode")
-
+German mode|(německý|německy) (mód|mod):
+    mode.disable("sleep")
+    mode.disable("dictation")
+    mode.disable("command")
+	mode.enable("user.german")
+	mode.disable("user.czech")
+    app.notify("German Mode")
 
 ^presentation mode$:
     user.switcher_hide_running()

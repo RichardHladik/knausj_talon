@@ -2,8 +2,8 @@ mode: user.czech
 -
 <user.text>:
 	app.notify("Czech Mode")
-    insert(user.text)
-    insert(" ")
+    auto_insert(user.text)
+    auto_insert(" ")
 
 enter: key(enter)
 (tečka|.): key(backspace . space)
@@ -13,7 +13,7 @@ enter: key(enter)
 závorka: "("
 konec závorky:
 	key(backspace)
-	insert(")")
+	auto_insert(")")
 (tři tečky|...):
 	key(backspace)
 	"… "
