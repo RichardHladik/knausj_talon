@@ -83,3 +83,6 @@ copy file:
 
 recursive copy file:
     insert("cp -R ")
+
+state redirect out: "1>&2"
+state redirect error: "2>&1"

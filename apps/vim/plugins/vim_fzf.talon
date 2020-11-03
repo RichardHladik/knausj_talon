@@ -9,7 +9,9 @@ rizzle <user.text>:
 
 fuzz buffer commits: user.vim_normal_mode_exterm(":BCommit\n")
 
+# Lines across current buffer
 fuzz (buffer lines|here): user.vim_normal_mode_exterm(":BLines\n")
+lizzie: user.vim_normal_mode_exterm(":BLines\n")
 
 fuzz buffer tags: user.vim_normal_mode_exterm(":BTags\n")
 
@@ -36,6 +38,8 @@ fuzz git files: user.vim_normal_mode_exterm(":GFiles\n")
 fuzz git status: user.vim_normal_mode_exterm(":GFiles?\n")
 fuzz help tags: user.vim_normal_mode_exterm(":Helptags\n")
 fuzz history: user.vim_normal_mode_exterm(":History\n")
+
+# Lines across all open buffers
 fuzz lines: user.vim_normal_mode_exterm(":Lines\n")
 fuzz locate: user.vim_normal_mode_exterm(":Locate ")
 fuzz maps: user.vim_normal_mode_exterm(":Maps\n")

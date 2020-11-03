@@ -15,6 +15,7 @@ lisa: "ls "
 lizzie: "ls\n"
 lily: "ls -al "
 lizard: "ls -al\n"
+latest: "ls -Art | tail -n1\n"
 
 # directory and files
 katie: "cd "
@@ -98,8 +99,8 @@ now grep:
     insert("| grep -i ")
 
 # networking
-show (I P|eye pee): "ip addr\n"
-show route: "ip route\n"
+net [work] (I P|eye pee): "ip addr\n"
+net [work] (route|routes): "ip route\n"
 net stat: "netstat -ant\n"
 net cat: "nc -vv "
 net cat listener: "nc -v -l -p "
@@ -135,14 +136,14 @@ edit:
 
 lazy edit:
     insert("edit ")
-    insert('$(find . -not -path \'*/\.git/*\' -name "**")')
+    insert("$(find . -not -path '*/\\.git/*' -name \"**\")")
     key("left")
     key("left")
     key("left")
 
 lazy edit <user.text>:
     insert("edit ")
-    insert("$(find . -not -path '*/\.git/*' -name \"*{text}*\")\n")
+    insert("$(find . -not -path '*/\\.git/*' -name \"*{text}*\")\n")
 
 find <user.text> inside (python|pie) files:
     insert('$(find . -name \"*.py\") | xargs rg -i "{text}"\n')
@@ -177,7 +178,7 @@ reverb:
 # bash convenience stuff
 history: "history\n"
 for file loop:
-    insert("for FILE in $(ls \"*\"); do \$FILE; done")
+    insert("for FILE in $(ls \"*\"); do $FILE; done")
 
 network manager log: "sudo journalctl -u NetworkManager.service\n"
 

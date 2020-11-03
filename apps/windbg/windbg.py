@@ -1,4 +1,4 @@
-from talon import Context, Module, actions, ui
+from talon import Context, Module, actions
 
 mod = Module()
 mod.list("windows_dlls", desc="A list of shortcut names for windows DLLs")
@@ -16,14 +16,9 @@ ctx.lists["self.windows_dlls"] = {
 }
 
 
-@mod.capture
+@mod.capture(rule="{self.windows_dlls}")
 def windows_dlls(m) -> str:
     "Return an register"
-    return m.windows_dlls
-
-
-@ctx.capture(rule="{self.windows_dlls}")
-def windows_dlls(m):
     return m.windows_dlls
 
 

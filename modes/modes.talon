@@ -15,10 +15,12 @@ sleep all:
     app.notify("Talon Sleep All Mode")
 talon sleep:
     speech.disable()
+    user.talon_sleep_callback()
     app.notify("Talon Sleep")
 talon wake:
     speech.enable()
     app.notify("Talon Awake")
+    user.talon_wake_callback()
 #dragon mode: speech.disable()
 #talon mode: speech.enable()
 dictation mode|(anglický|anglicky) (mód|mod)|englischer Modus:

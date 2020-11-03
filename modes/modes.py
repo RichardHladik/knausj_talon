@@ -1,4 +1,4 @@
-from talon import Context, Module
+from talon import Context, Module, actions
 
 mod = Module()
 
@@ -13,3 +13,18 @@ modes = {
 
 for key, value in modes.items():
     mod.mode(key, value)
+
+
+@mod.action_class
+class Actions:
+    def talon_sleep_callback():
+        """Additional actions to be run when talon goes to sleep"""
+        actions.user.system_command_nb(
+            "/home/aa/source/obs-cli/obs-cli.py --stop-recording"
+        )
+
+    def talon_wake_callback():
+        """Additional actions to be run when talon wakes up"""
+        actions.user.system_command_nb(
+            "/home/aa/source/obs-cli/obs-cli.py --start-recording"
+        )

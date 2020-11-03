@@ -15,8 +15,8 @@ stage [file]: key(s)
 unstage [file]: key(u)
 unstage (all|everything): key(U)
 discard change: key(key)
-(in line|toggle) diff: key(=)
-exclude this file: "gI"
+[(in line|toggle)] diff: key(=)
+exclude [this file]: "gI"
 
 # Diff maps
 
@@ -29,7 +29,7 @@ preview file: key(p)
 # Commit maps
 
 commit [changes]: "cc"
-amend last commit: "ca"
+amend [last commit]: "ca"
 
 # Checkout/branch maps
 

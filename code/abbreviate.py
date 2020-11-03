@@ -1,15 +1,11 @@
-# XXX - would be nice to be able pipe these through formatters
+# This file is a set of words that have common abbreviations, but in some cases
+# entries will also include acronyms or more technical vernacular, such as
+# 'brief pie -> py'
 
 from talon import Context, Module
 
 mod = Module()
 mod.list("abbreviation", desc="Common abbreviation")
-
-
-@mod.capture
-def abbreviation(m) -> str:
-    "One abbreviation"
-
 
 ctx = Context()
 ctx.lists["user.abbreviation"] = {
@@ -50,6 +46,7 @@ ctx.lists["user.abbreviation"] = {
     "conference": "conf",
     "config": "cfg",
     "configuration": "cfg",
+    "connection": "conn",
     "context": "ctx",
     "control": "ctrl",
     "constant": "const",
@@ -59,6 +56,7 @@ ctx.lists["user.abbreviation"] = {
     "count": "cnt",
     "counter": "ctr",
     "database": "db",
+    "date format": "yyyy-mm-dd",
     "declare": "decl",
     "declaration": "decl",
     "decode": "dec",
@@ -82,6 +80,11 @@ ctx.lists["user.abbreviation"] = {
     "duplicate": "dup",
     "dynamic": "dyn",
     "encode": "enc",
+    "end of day": "eod",
+    "end of month": "eom",
+    "end of quarter": "eoq",
+    "end of week": "eow",
+    "end of year": "eoy",
     "entry": "ent",
     "enumerate": "enum",
     "environment": "env",
@@ -126,6 +129,7 @@ ctx.lists["user.abbreviation"] = {
     "language": "lng",
     "length": "len",
     "library": "lib",
+    "make": "mk",
     "manitoba": "mb",
     "markdown": "md",
     "message": "msg",
@@ -135,6 +139,7 @@ ctx.lists["user.abbreviation"] = {
     "milligram": "mg",
     "millisecond": "ms",
     "miscellaneous": "misc",
+    "modify": "mod",
     "module": "mod",
     "mount": "mnt",
     "nano second": "ns",
@@ -152,6 +157,7 @@ ctx.lists["user.abbreviation"] = {
     "parameter": "param",
     "parameters": "params",
     "pico second": "ps",
+    "pie": "py",
     "pixel": "px",
     "point": "pt",
     "pointer": "ptr",
@@ -166,6 +172,8 @@ ctx.lists["user.abbreviation"] = {
     "query string": "qs",
     "random": "rnd",
     "receipt": "rcpt",
+    "record": "rec",
+    "recording": "rec",
     "reference": "ref",
     "references": "refs",
     "register": "reg",
@@ -173,6 +181,7 @@ ctx.lists["user.abbreviation"] = {
     "regular expression": "regex",
     "regular expressions": "regex",
     "repel": "repl",
+    "repetitive strain injury": "rsi",
     "represent": "repr",
     "representation": "repr",
     "request": "req",
@@ -193,6 +202,13 @@ ctx.lists["user.abbreviation"] = {
     "standard in": "stdin",
     "standard out": "stdout",
     "standard": "std",
+    "start of day": "sod",
+    "start of month": "som",
+    "start of quarter": "soq",
+    "start of week": "sow",
+    "start of year": "soy",
+    "statistic": "stat",
+    "statistics": "stats",
     "string": "str",
     "structure": "struct",
     "synchronize": "sync",
@@ -207,6 +223,8 @@ ctx.lists["user.abbreviation"] = {
     "temp": "tmp",
     "text": "txt",
     "time of check time of use": "toctou",
+    "time format": "hh:mm:ss",
+    "time to live": "ttl",
     "token": "tok",
     "ultimate": "ulti",
     "unique id": "uuid",
@@ -225,6 +243,7 @@ ctx.lists["user.abbreviation"] = {
 }
 
 
-@ctx.capture(rule="{user.abbreviation}")
-def abbreviation(m):
+@mod.capture(rule="{user.abbreviation}")
+def abbreviation(m) -> str:
+    "One abbreviation"
     return m.abbreviation

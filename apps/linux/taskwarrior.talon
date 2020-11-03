@@ -46,3 +46,6 @@ task (<number> delete|delete <number>)$: "task {number} delete"
 task <number>$: "task {number} "
 
 task filter: "task long | fzf\n"
+
+# requires some sort of personal sync server set up or https://inthe.am, etc
+task sink: "task sync\n"

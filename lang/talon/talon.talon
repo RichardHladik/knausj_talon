@@ -35,7 +35,7 @@ app require:
 tag require:
 	insert("tag: ")
 tag set:
-	insert("tag(): ")
+	insert("tag(): user.")
 #commands for dictating key combos
 key <user.keys> over: "{keys}"
 key <user.modifiers> over: "{modifiers}"

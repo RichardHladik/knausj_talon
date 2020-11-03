@@ -87,7 +87,7 @@ glitter <number> <user.ordinals>$:
     user.vim_normal_mode_exterm("{number}k")
     key('0')
     # set the search pattern for 'n' usage
-    insert("/\c0x\n")
+    insert("/\\c0x\n")
     key('0')
     # do the actual search to include results under the cursor
     insert(":call search(\"0x\", 'c', line('.'))\n")

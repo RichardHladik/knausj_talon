@@ -10,4 +10,5 @@ class Actions:
             print(f"CONTEXT: {ctx}")
             print(f"SCRIPT: {script}")
             print(f"COMMAND: {m}")
-            script.run(actions, namespace=m)
+            # script.run(actions, namespace=m)
+            actions.next(ctx, script, m)

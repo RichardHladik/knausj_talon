@@ -20,6 +20,7 @@ ctx.lists["user.code_functions"] = {
     "split": "split",
     "string": "str",
     "update": "update",
+    "help": "help",
 }
 
 """a set of fields used in python docstrings that will follow the

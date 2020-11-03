@@ -362,25 +362,26 @@ capitalize = [
     "December",
 ]
 
+decapitalize = [
+    "Express",
+    "Edge",
+    "Cycle",
+    "Cycles",
+]
+
 # Add single words here if Talon recognizes them, but they need to have their
 # spelling adjusted.
 word_map = {
     # For example:
-    # "color": "colour",
+    "color": "colour",
+    "realize": "realise",
 }
+
 word_map.update({x.lower(): x for x in capitalize})
+word_map.update({x: x.lower() for x in decapitalize})
 
 # Add words (or phrases you want treated as words) here if Talon doesn't
 # recognize them at all.
-simple_vocabulary = ["nmap", "admin", "Cisco", "Citrix", "VPN", "DNS", "minecraft"]
-
-# Add vocabulary words (or phrases you want treated as words) here that aren't
-# recognized by Talon and are written differently than they're pronounced.
-mapping_vocabulary = {
-    # For example:
-    # "enn map": "nmap",
-    # "under documented": "under-documented",
-}
 mapping_vocabulary.update(dict(zip(simple_vocabulary, simple_vocabulary)))
 
 

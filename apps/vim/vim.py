@@ -1,4 +1,4 @@
-# see doc/vim.md
+# see doc/vljm.md
 # TODO:
 # - define all the lists separately and then update ctx.lists only once
 # - document that visual selection mode implies terminal escape
@@ -33,6 +33,8 @@ tag_list = [
     "vim_cscope",
     "vim_easy_align",
     "vim_easymotion",
+    "vim_fern",
+    "vim_fern_mapping_fzf",
     "vim_floaterm",
     "vim_fugitive",
     "vim_fugitive_summary",
@@ -45,6 +47,7 @@ tag_list = [
     "vim_surround",
     "vim_taboo",
     "vim_tabular",
+    "vim_taskwiki",
     "vim_unicode",
     "vim_ultisnips",
     "vim_wiki",
@@ -306,16 +309,21 @@ vim_motions = {
     # These conflict with general 'search' command
     # "search under cursor": "*",
     # "search under cursor reversed": "#",
+    # TODO - make easier to remember/say
     "again": ";",
     "again reversed": ",",
+    # TODO - sentence conflicts with talon
     # "down sentence": ")",
-    "sentence": ")",
-    "up sentence": "(",
+    "tense": ")",
+    "up tense": "(",
     # "down paragraph": "}",
     "paragraph": "}",
+    "graph": "}",
     "up paragraph": "{",
+    "up graph": "{",
     # "start of next section": "]]",
     # XXX - section, and last section
+    # TODO - switch previous to last
     "next section": "]]",
     # "start of previous section": "[[",
     "previous section": "[[",
@@ -365,7 +373,7 @@ ctx.lists["self.vim_motions"] = {
 }
 
 
-# XXX - make easier to say
+# TODO - Not sure if curse always applies
 ctx.lists["self.vim_motions_keys"] = {
     "last curse": "ctrl-o",
     "forward curse": "ctrl-i",
@@ -784,7 +792,7 @@ def vim_motions(m) -> str:
     return m.vim_motions
 
 
-@ctx.capture(rule="{self.vim_motions_keys}")
+@ctx.capture("user.vim_motions_keys", rule="{self.vim_motions_keys}")
 def vim_motions_keys(m) -> str:
     return m.vim_motions_keys
 

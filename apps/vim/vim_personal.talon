@@ -42,7 +42,7 @@ scratch session:
 #
 ###
 fine merge conflict:
-    user.vim_command_mode_exterm(":/\c<<<\n")
+    user.vim_command_mode_exterm(":/\\c<<<\n")
 
 dick to class member:
     user.vim_normal_mode("ds[ds\"i.")
