@@ -8,7 +8,7 @@ from talon import Context, Module, actions
 #   jury  - suddenly always matching with three or tree
 #   pit  - conflicts with page
 #   yank - conflicts with vim command
-default_alphabet = "air bat cap drum each fin gust harp wiggle jury crunch look made near oak pit quench red sun trap urge vest whale plex yes zip".split(
+default_alphabet = "air bat cap drum each fin gust harp sit jury crunch look made near oak pit quench red sun trap urge vest whale plex yes zip".split(
     " "
 )
 letters_string = "abcdefghijklmnopqrstuvwxyz"
