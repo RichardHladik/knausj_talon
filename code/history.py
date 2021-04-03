@@ -75,5 +75,3 @@ class Actions:
         """Show less history"""
         global hist_more
         hist_more = False
-
-gui.show()
