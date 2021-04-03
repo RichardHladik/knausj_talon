@@ -29,13 +29,9 @@ mod.list("stellaris_topbar", desc="list of top bar coordinates locations")
 ctx.lists["user.stellaris_topbar"] = []
 
 
-@mod.capture
-def stellaris_topbar(m) -> list:
+@mod.capture(rule="{user.stellaris_topbar}")
+def stellaris_topbar(m) -> str:
     "Return an stellaris_topbar"
-
-
-@ctx.capture(rule="{user.stellaris_topbar}")
-def stellaris_topbar(m):
     return m.stellaris_topbar
 
 

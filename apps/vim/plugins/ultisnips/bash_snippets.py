@@ -21,6 +21,9 @@ ultisnips_snippets = {
     "switch": "switch",
 }
 
-private_snippets = {}
+private_snippets = {
+    "if node exists": "ifnodeexists",
+    "if not node exists": "ifnotnodeexists",
+}
 
 ctx.lists["user.snippets"] = {**ultisnips_snippets, **private_snippets}

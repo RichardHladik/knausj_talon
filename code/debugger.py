@@ -18,13 +18,9 @@ tag: user.debugger
 ctx.lists["user.registers"] = {}
 
 
-@mod.capture
-def registers(m) -> list:
-    "Return an register"
-
-
-@ctx.capture(rule="{user.registers}")
-def registers(m):
+@mod.capture(rule="{self.registers}")
+def registers(m) -> str:
+    "Returns a register"
     return m.registers
 
 
@@ -98,6 +94,9 @@ class Actions:
 
     def debugger_exit():
         """Exit the debugger"""
+
+    def debugger_exit_force():
+        """Force exit the debugger"""
 
     def debugger_detach():
         """Detach the debugger"""
@@ -198,6 +197,6 @@ class Actions:
         debugger.cycle_architecture()
 
     def debugger_current_architecture():
-        """Switch to the next architecture mode"""
+        """displayed the current architecture mode"""
         global debugger
         debugger.current_architecture()

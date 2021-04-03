@@ -56,15 +56,15 @@ action(user.code_state_if):
 
 # XXX - redundant with snippet
 call interpreter: "#!/bin/sh\n"
-new sub command: "$()"
-new expression: "$(())"
+(new sub|state) command: "$()"
+(new|state) expression: "$(())"
 # XXX
 parameter:
     insert("${}")
     edit.left()
 
 # XXX - check how other talon files invoke variable names
-state empty (variable|var):
+state [empty] (variable|var):
     insert("${}")
     key(left)
 
@@ -75,6 +75,8 @@ state (variable|var) <user.text>$:
     snake_text = user.formatted_text(text, "snake")
     upper_text = user.formatted_text(snake_text, "upper")
     insert(upper_text)
+
+state echo: "echo "
 
 # XXX will overlap somewhat with core shell commands use terminals, show me one
 # to combine somehow

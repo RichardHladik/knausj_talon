@@ -26,7 +26,7 @@ win require:
 	insert("os: windows\n")
 mac require:
 	insert("os: mac\n")
-lunix require:
+linux require:
 	insert("os: linux\n")
 title require:
 	insert("win.title: ")
@@ -39,6 +39,14 @@ tag set:
 #commands for dictating key combos
 key <user.keys> over: "{keys}"
 key <user.modifiers> over: "{modifiers}"
+key [<user.modifiers>+] <user.keys>:
+    insert("key(")
+    insert(modifiers or "")
+    insert("{keys}")
+    insert(")")
+press [<user.modifiers>+] <user.keys>:
+    insert(modifiers or "")
+    insert("{keys}")
 #funk commands, consistent with other languages
 toggle funk: user.code_toggle_functions()
 funk <user.code_functions>:

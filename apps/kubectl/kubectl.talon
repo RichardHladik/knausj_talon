@@ -1,4 +1,5 @@
-tag: user.terminal
+tag: terminal
+and tag: user.kubectl
 -
 cube [control]: "kubectl "
 

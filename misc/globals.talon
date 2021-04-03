@@ -21,3 +21,14 @@ talon kill:
     user.system_command_nb("/home/aa/talon/scripts/terminate_talon.sh")
 pauly restart:
     user.system_command_nb("/home/aa/.config/polybar/launch.sh")
+blue tooth open:
+    user.system_command_nb("rofi-bluetooth")
+
+blue tooth connect:
+    user.system_command_nb("rofi-bluetooth")
+    sleep(400ms)
+    key(enter)
+    sleep(400ms)
+    key(enter)
+
+over: skip()

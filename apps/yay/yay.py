@@ -4,7 +4,7 @@ mod = Module()
 ctx = Context()
 
 ctx.matches = r"""
-tag: user.terminal
+tag: terminal
 tag: user.packager_yay
 """
 

@@ -1,34 +1,11 @@
 os: linux
-mode: user.terminal
 mode: command
-and tag: user.terminal
+and tag: terminal
 -
 
-dev talon:
-    insert("cd ~/.talon/user/fidget\n")
-    insert("ls\n")
-
-edit talon wiki:
-    insert("cd ~/source/talon_wiki\n")
-    insert("ls\n")
-
-talon shell:
-    insert("~/.talon/bin/repl\n")
-talon base:
-    insert("cd ~/.talon/\n")
-    insert("ls\n")
-talon (python|classes):
-    insert("cd ~/source/talon/releases/latest/resources/python/lib/python3.7/site-packages/talon\n")
-    insert("ls\n")
-talon plugins:
-    insert("cd ~/source/talon/releases/latest/resources/talon_plugins\n")
-    insert("ls\n")
-talon source: "cd  ~/source/talon\n"
-
-
 edit (vim|them) config: "vim ~/.vimrc\n"
-jump to (vim|them): "cd ~/.vim\n"
-jump to dotfiles: "cd ~/dotfiles\n"
+edit shell config: "vim ~/.zshrc\n"
+resource shell: "source ~/.zshrc"
 
 # config
 edit (ignore file|git ignore): "vim .gitignore\n"
@@ -37,6 +14,18 @@ edit (ignore file|git ignore): "vim .gitignore\n"
 (edit|at it) window manager config: "vim ~/.i3/config\n"
 
 # snippets
+edit custom snippets: "vim ~/.vim/custom-snippets\n"
+edit vim snippets:
+    "vim ~/.vim/plugged/vim-snippets/UltiSnips/\n"
+edit markdown snippets:
+    "vim ~/.vim/plugged/vim-snippets/UltiSnips/markdown.snippets\n"
+edit python snippets:
+    "vim ~/.vim/plugged/vim-snippets/UltiSnips/python.snippets\n"
+edit latest talon log:
+    "vim ~/talon/logs/$(ls -rt | tail -n1)"
+new talon pull branch: "new_talon_pull_repo.sh "
+
+
 fuzzy vimdiff:
     insert("edit -d $(find . -name \"**\")")
     edit.left()
@@ -54,13 +43,7 @@ go to work:
     insert("source ~/projects/alternate &&")
     insert(" cd $ACTIVE_PROJECT\n")
 edit [to] (current|active) [work] project: "vim ~/projects/current\n"
-edit [to] alternate [work] project: "vim ~/projects/alternate\n"
-edge (dur|dir): "cd ~/work/source/edg\n"
-run debug: "./debug.sh\n"
-run project:
-    insert("run_active_project\n")
-build project:
-    insert("build_active_project\n")
+build project: insert("build_active_project\n")
 super kill g d b: "sudo pkill gdb\n"
 resource config:
     insert("delete br\ny\n")
@@ -71,4 +54,15 @@ edit find results:
     insert("vim $(find . -name \"\")")
     edit.left()
     edit.left()
+
+# run commands
 run talon update: "~/.talon/bin/update\n"
+run debug: "./debug.sh\n"
+run update: "update.sh\n"
+run project: insert("run_active_project\n")
+run talon shell: insert("~/.talon/bin/repl\n")
+
+# markdown to docx
+generate dock: user.insert_cursor("pandoc [|].md --self-contained --highlight-style=tango -o .docx")
+
+

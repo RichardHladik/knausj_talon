@@ -1,4 +1,3 @@
-(numb|number) <number>: insert("{number}")
 shock: key(enter)
 slap: key(enter)
 
@@ -11,13 +10,6 @@ string U T F eight:
 
 (regex | rejex): "regex"
 
-[pair] (parens|args):
-	insert("()")
-[pair] (brackets|braces): "{}"
-[pair] squares: "[]"
-[pair] angles: "<>"
-[pair] graves: "``"
-[pair] percents: "%%"
 
 # XXX - block alone conflicts with vim key words
 add code block:
@@ -32,6 +24,7 @@ zoom reset: edit.zoom_out()
 copy that: edit.copy()
 cut that: edit.cut()
 paste that: edit.paste()
+pasty: edit.paste()
 paste match: edit.paste_match_style()
 file save: edit.save()
 
@@ -57,10 +50,13 @@ pucker:
     edit.paste()
     key(enter)
 
-web link: "https://"
-insecure web link: "http://"
-file link: "file://"
+link web: "https://"
+link insecure web: "http://"
+link file: "file://"
+link git: "git://"
+link secure shell: "ssh://"
 
+# this should be part of comment plugin
 add to do: "# XXX - "
 
 

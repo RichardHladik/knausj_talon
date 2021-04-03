@@ -17,19 +17,11 @@ mod.list("personal_info", desc="List of personal info populated by json file")
 ctx = Context()
 
 
-@mod.capture
+@mod.capture(rule="{user.personal_info}")
 def personal_info(m) -> list:
     """Returns a personal_info name"""
-
-
-@ctx.capture(rule="{user.personal_info}")
-def personal_info(m):
     return m.personal_info
 
-
-# ctx.matches = r"""
-# mode: command
-# """
 
 main_screen = ui.main_screen()
 
@@ -41,7 +33,7 @@ def close_personal_info():
     actions.mode.disable("user.personal_info")
 
 
-@imgui.open(y=0, x=main_screen.width / 2.6, software=False)
+@imgui.open(y=0, x=main_screen.width / 2.6)
 def gui(gui: imgui.GUI):
     global personal_info_list
     gui.text("Select an entry")

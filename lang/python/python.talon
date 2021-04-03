@@ -1,4 +1,3 @@
-mode: user.python
 mode: command
 and code.language: python
 -
@@ -95,7 +94,6 @@ action(user.code_true): "True"
 action(user.code_false): "False"
 action(user.code_document_string): user.insert_cursor("\"\"\"[|]\"\"\"")
 
-
 ####
 # Operators
 ####
@@ -127,50 +125,58 @@ big dock string:
 # Keywords
 ####
 return: "return "
-none: "None"
+state none: "None"
 true: "True"
 false: "False"
 pass: "pass"
 self: "self"
 
-# for annotating function parameters
-make type {user.python_type_list}:
-    insert(": {python_type_list}")
-returns [type] {user.python_type_list}:
-    insert(" -> {python_type_list}")
-# for generic reference of types
-type {user.python_type_list}:
-    insert("{python_type_list}")
-dock {user.python_docstring_fields}:
-    insert("{python_docstring_fields}")
-    edit.left()
-dock type {user.python_type_list}:
-    user.insert_cursor(":type [|]: {python_type_list}")
-dock returns type {user.python_type_list}:
-    user.insert_cursor(":rtype [|]: {python_type_list}")
 
-call [function] <user.text>:
-    insert(user.formatted_text(text, "snake"))
-    insert("()")
-    key(left)
 
 index <user.word>: '["{word}"]'
 
 pie test: "pytest"
 state pass: "pass"
+# for things like None comparsion
+state is not: " is not "
+state is: " is "
+state is none: " is None"
 state as string: '.decode("utf-8")'
+state as bytes: '.encode("utf-8")'
 F string: 'f""'
 raw string: 'r""'
 
 
-^funky <user.text>$: user.code_private_function(text)
+^funky <user.text>$: user.code_default_function(text)
 #^pro funky <user.text>$: user.code_protected_function(text)
 ^pub funky <user.text>$: user.code_public_function(text)
 #^static funky <user.text>$: user.code_private_static_function(text)
 #^pro static funky <user.text>$: user.code_protected_static_function(text)
 #^pub static funky <user.text>$: user.code_public_static_function(text)
 raise {user.python_exception}: user.insert_cursor("raise {python_exception}([|])")
-(deck|decorator) {user.python_decorator}: user.insert_cursor("@{python_decorator}")
+
+# function calling
+call print: user.insert_cursor('print("[|]")')
+call [function] <user.text>:
+    insert(user.formatted_text(text, "snake"))
+    insert("()")
+    key(left)
+
+# for annotating function parameters
+is type <user.python_type_list>:
+    insert(": {python_type_list}")
+returns [type] <user.python_type_list>:
+    insert(" -> {python_type_list}")
+# for generic reference of types
+type <user.python_type_list>:
+    insert("{python_type_list}")
+dock <user.python_docstring_fields>:
+    insert("{python_docstring_fields}")
+    edit.left()
+dock type <user.python_type_list>:
+    user.insert_cursor(":type [|]: {python_type_list}")
+dock returns type <user.python_type_list>:
+    user.insert_cursor(":rtype [|]: {python_type_list}")
 
 toggle imports: user.code_toggle_libraries()
 import <user.code_libraries>:

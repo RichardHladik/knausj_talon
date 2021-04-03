@@ -1,7 +1,10 @@
+# XXX - detect were actually specifically in something with a task before
+# triggering the tag?
 tag: user.vim_taskwiki
+and code.language: md
 -
 
-task annotate: user.vim_command_mode(":TaskWikiAnnotate\n")
+task (annotate|meta): user.vim_command_mode(":TaskWikiAnnotate\n")
 task burn [down] daily: user.vim_command_mode(":TaskWikiBurndownDaily\n")
 task burn [down] weekly: user.vim_command_mode(":TaskWikiBurndownWeekly\n")
 task burn [down] monthly: user.vim_command_mode(":TaskWikiBurndownMonthly\n")
@@ -31,6 +34,11 @@ task tags: user.vim_command_mode(":TaskWikiTags\n")
 task start: user.vim_command_mode(":TaskWikiStart\n")
 task stop: user.vim_command_mode(":TaskWikiStop\n")
 
-task refresh: user.vim_command_mode(":TaskWikiBufferLoad\n")
+task (refresh|reload): user.vim_command_mode(":TaskWikiBufferLoad\n")
 task save: user.vim_command_mode(":TaskWikiBufferSave\n")
 task inspect: user.vim_command_mode(":TaskWikiInspect\n")
+
+# This is for undelete
+task mark pending:
+    user.vim_command_mode(":TaskWikiMod\n")
+    insert("status:pending\n")

@@ -18,8 +18,8 @@ action(edit.delete_line):
 #action(edit.delete_sentence):
 
 action(edit.delete_word):
-	actions.edit.select_word()
-	actions.edit.delete()
+	edit.select_word()
+	edit.delete()
 
 action(edit.down):
 	key(down)

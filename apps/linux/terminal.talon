@@ -1,5 +1,5 @@
 os: linux
-tag: user.terminal
+tag: terminal
 -
 
 ###
@@ -18,11 +18,21 @@ tag(): user.nmcli
 tag(): user.taskwarrior
 tag(): user.timewarrior
 tag(): user.make
-tag(): user.kubectl
+#tag(): user.kubectl
 tag(): user.tmux
 tag(): user.git
 tag(): user.docker
+tag(): user.service_manager
+tag(): user.timer_manager
+tag(): user.systemd
+tag(): user.pulse_audio
+tag(): user.npm
 
+# unset this if you use `bindkey -v`
+tag(): user.readline
+
+# these are generic linux edit commands that don't need to be part of
+# the shell_edit_ABC.talon specific ones
 action(edit.page_down):
   key(shift-pagedown)
 action(edit.page_up):
@@ -31,8 +41,6 @@ action(edit.paste):
   key(ctrl-shift-v)
 action(edit.copy):
   key(ctrl-shift-c)
-action(edit.delete_line):
-  key(ctrl-u)
 
 run last [command]:
   key(up)
@@ -55,21 +63,21 @@ kill all:
 #tag(): tabs
 
 # own <term name>.talon file
-action(edit.find):
-  key(ctrl-shift-f)
-action(edit.word_left):
-  key(ctrl-left)
-action(edit.word_right):
-  key(ctrl-right)
-action(app.tab_open):
-  key(ctrl-shift-t)
-action(app.tab_close):
-  key(ctrl-shift-w)
-action(app.tab_next):
-  key(ctrl-pagedown)
-action(app.tab_previous):
-  key(ctrl-pageup)
-action(app.window_open):
-  key(ctrl-shift-n)
+#action(edit.find):
+#  key(ctrl-shift-f)
+#action(edit.word_left):
+#  key(ctrl-w left)
+#action(edit.word_right):
+#  key(ctrl-w right)
+#action(app.tab_open):
+#  key(ctrl-shift-t)
+#action(app.tab_close):
+#  key(ctrl-shift-w)
+#action(app.tab_next):
+#  key(ctrl-pagedown)
+#action(app.tab_previous):
+#  key(ctrl-pageup)
+#action(app.window_open):
+#  key(ctrl-shift-n)
 #go tab <number>:
 #  key("alt-{number}")

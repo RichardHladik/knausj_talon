@@ -18,26 +18,26 @@ tag: user.gdb
 
 # Assumes you are already on a line with hex addresses
 copy <user.ordinals> (hex value|address):
-    insert(":call search(\"0x\", 'c', line('.'))\n")
+    user.vim_command_mode(":call search(\"0x\", 'c', line('.'))\n")
     insert("{ordinals-1}n")
     insert("yw")
-    insert(":set nohls\n")
+    user.vim_command_mode(":set nohls\n")
 
 (hexdump|matrix) <user.ordinals> (hex value|address):
-    insert(":call search(\"0x\", 'c', line('.'))\n")
+    user.vim_command_mode(":call search(\"0x\", 'c', line('.'))\n")
     insert("{ordinals-1}n")
     insert("yw")
-    insert(":set nohls\n")
-    insert("i")
+    user.vim_command_mode(":set nohls\n")
+    user.vim_set_insert_mode()
     # XXX - need to make this tweakable
     insert("x/10gx ")
     edit.paste()
     key(enter)
 
 go <user.ordinals> (hex value|address):
-    insert(":call search(\"0x\", 'c', line('.'))\n")
+    user.vim_command_mode(":call search(\"0x\", 'c', line('.'))\n")
     insert("{ordinals-1}n")
-    insert(":set nohls\n")
+    user.vim_command_mode(":set nohls\n")
 
 (hexdump|matrix) [this] address:
     insert("yiw")
@@ -50,32 +50,29 @@ go <user.ordinals> (hex value|address):
 
 # relative
 copy line <number> (hex value|address):
-    user.vim_normal_mode_exterm("{number}k")
-    key('0')
-    insert(":call search(\"0x\", 'c', line('.'))\n")
-    insert("yw")
-    insert(":set nohls\n")
+    user.vim_normal_mode_exterm("{number}k0")
+    user.vim_command_mode(":call search(\"0x\", 'c', line('.'))\n")
+    user.vim_normal_mode("yw")
+    user.vim_command_mode(":set nohls\n")
 
 
 # relative
 # no arg, is just line above
 glitter:
-    user.vim_normal_mode_exterm("k")
-    key('0')
-    insert(":call search(\"0x\", 'c', line('.'))\n")
-    insert("yw")
-    insert(":set nohls\n")
+    user.vim_normal_mode_exterm("k0")
+    user.vim_command_mode(":call search(\"0x\", 'c', line('.'))\n")
+    user.vim_normal_mode("yw")
+    user.vim_command_mode(":set nohls\n")
     user.vim_set_insert_mode()
     edit.paste()
 
 # copy and paste the first hex value from the specified relative line
 # relative
 glitter <number>:
-    user.vim_normal_mode_exterm("{number}k")
-    key('0')
-    insert(":call search(\"0x\", 'c', line('.'))\n")
-    insert("yw")
-    insert(":set nohls\n")
+    user.vim_normal_mode_exterm("{number}k0")
+    user.vim_command_mode(":call search(\"0x\", 'c', line('.'))\n")
+    user.vim_normal_mode("yw")
+    user.vim_command_mode(":set nohls\n")
     user.vim_set_insert_mode()
     edit.paste()
 
@@ -84,16 +81,16 @@ glitter <number>:
 # note for numbers like 70 actual individual digits really fast is more
 # accurate
 glitter <number> <user.ordinals>$:
-    user.vim_normal_mode_exterm("{number}k")
-    key('0')
+    user.vim_normal_mode_exterm("{number}k0")
     # set the search pattern for 'n' usage
     insert("/\\c0x\n")
     key('0')
     # do the actual search to include results under the cursor
-    insert(":call search(\"0x\", 'c', line('.'))\n")
+    user.vim_command_mode(":call search(\"0x\", 'c', line('.'))\n")
     insert("{ordinals-1}n")
     insert("ye")
-    insert(":set nohls\n")
+    user.vim_command_mode(":set nohls\n")
+
     user.vim_set_insert_mode()
     edit.paste()
 
@@ -101,11 +98,10 @@ glitter <number> <user.ordinals>$:
 (hexdump|matrix) line <number>$:
     user.vim_normal_mode_exterm(":{number}\n")
     insert("^")
-    insert(":call search(\"0x\", 'c', line('.'))\n")
+    user.vim_command_mode(":call search(\"0x\", 'c', line('.'))\n")
     insert("yiw")
-    insert(":set nohls\n")
-    insert("i")
-    sleep(100ms)
+    user.vim_command_mode(":set nohls\n")
+    user.vim_set_insert_mode()
     # XXX - need to make this tweakable
     insert("x/100gx ")
     edit.paste()
@@ -116,11 +112,10 @@ glitter <number> <user.ordinals>$:
 (hexdump|matrix) [relative] up [line] <number>$:
     user.vim_normal_mode_exterm("{number+1}k")
     insert("^")
-    insert(":call search(\"0x\", 'c', line('.'))\n")
+    user.vim_command_mode(":call search(\"0x\", 'c', line('.'))\n")
     insert("yiw")
-    insert(":set nohls\n")
-    insert("i")
-    sleep(100ms)
+    user.vim_command_mode(":set nohls\n")
+    user.vim_set_insert_mode()
     # XXX - need to make this tweakable
     insert("x/100gx ")
     edit.paste()
@@ -131,11 +126,10 @@ glitter <number> <user.ordinals>$:
 (hexdump|matrix) [relative] down [line] <number>$:
     user.vim_normal_mode_exterm("{number+1}j")
     insert("^")
-    insert(":call search(\"0x\", 'c', line('.'))\n")
+    user.vim_command_mode(":call search(\"0x\", 'c', line('.'))\n")
     insert("yiw")
-    insert(":set nohls\n")
-    insert("i")
-    sleep(100ms)
+    user.vim_command_mode(":set nohls\n")
+    user.vim_set_insert_mode()
     # XXX - need to make this tweakable
     insert("x/100gx ")
     edit.paste()
@@ -146,12 +140,11 @@ glitter <number> <user.ordinals>$:
 (hexdump|matrix) line <number> <user.ordinals>$:
     user.vim_normal_mode_exterm(":{number}\n")
     insert("^")
-    insert(":call search(\"0x\", 'c', line('.'))\n")
+    user.vim_command_mode(":call search(\"0x\", 'c', line('.'))\n")
     insert("{ordinals-1}n")
     insert("yw")
-    insert(":set nohls\n")
-    insert("i")
-    sleep(200ms)
+    user.vim_command_mode(":set nohls\n")
+    user.vim_set_insert_mode()
     # XXX - need to make this tweakable
     insert("x/100gx ")
     edit.paste()
@@ -162,12 +155,11 @@ glitter <number> <user.ordinals>$:
 (hexdump|matrix) [relative] down [line] <number> <user.ordinals>$:
     user.vim_normal_mode_exterm("{number+1}j")
     insert("^")
-    insert(":call search(\"0x\", 'c', line('.'))\n")
+    user.vim_command_mode(":call search(\"0x\", 'c', line('.'))\n")
     insert("yiw")
     insert("{ordinals-1}n")
-    insert(":set nohls\n")
-    insert("i")
-    sleep(100ms)
+    user.vim_command_mode(":set nohls\n")
+    user.vim_set_insert_mode()
     # XXX - need to make this tweakable
     insert("x/100gx ")
     edit.paste()
@@ -178,12 +170,11 @@ glitter <number> <user.ordinals>$:
 (hexdump|matrix) [relative] up [line] <number> <user.ordinals>$:
     user.vim_normal_mode_exterm("{number+1}k")
     insert("^")
-    insert(":call search(\"0x\", 'c', line('.'))\n")
+    user.vim_command_mode(":call search(\"0x\", 'c', line('.'))\n")
     insert("yiw")
     insert("{ordinals-1}n")
-    insert(":set nohls\n")
-    insert("i")
-    sleep(100ms)
+    user.vim_command_mode(":set nohls\n")
+    user.vim_set_insert_mode()
     # XXX - need to make this tweakable
     insert("x/100gx ")
     edit.paste()

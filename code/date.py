@@ -2,7 +2,7 @@
 
 import datetime
 import time
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 
 from talon import Module
 
@@ -21,10 +21,8 @@ class Actions:
 
     def date_tomorrow() -> str:
         """return tomorrow date (year, month, day) as a string"""
-        # print(date.today())
-        pass
+        return date.today() + timedelta(1)
 
     def date_yesterday() -> str:
         """return yesterday date (year, month, day) as a string"""
-        # print(date.today())
-        pass
+        return date.today() + timedelta(-1)

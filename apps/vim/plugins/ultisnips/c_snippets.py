@@ -3,12 +3,12 @@ from talon import Context, Module, actions, app, ui
 ctx = Context()
 ctx.matches = r"""
 tag: user.vim_ultisnips
-mode: user.c
-mode: command
 and code.language: c
 """
 
-ctx.lists["user.snippets"] = {
+
+# these snippets are from vim-snippets/UltiSnips/c.snippets
+ultisnips_snippets = {
     "define": "def",
     "if not define": "#ifndef:",
     "main": "main",
@@ -22,3 +22,13 @@ ctx.lists["user.snippets"] = {
     "file header": "head",
     "function header": "func",
 }
+
+# these snippets are from your personal snippet file
+private_snippets = {
+    "success": "printfs",
+    "failure": "printff",
+    "exit success": "exits",
+    "exit failure": "exitf",
+}
+
+ctx.lists["user.snippets"] = {**ultisnips_snippets, **private_snippets}

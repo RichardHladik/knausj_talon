@@ -26,6 +26,11 @@ os: mac
 and app.bundle: com.apple.Terminal
 """
 
+apps.iterm2 = """
+os: mac
+and app.bundle: com.googlecode.iterm2
+"""
+
 # linux specific apps
 apps.keepass = """
 os: linux
@@ -47,6 +52,19 @@ and app.name: Signal
 
 os: linux
 and app.name: signal
+
+os: linux
+and app.name: Signal-desktop
+
+"""
+
+apps.zathura = """
+os: linux
+and app.name: Zathura
+
+os: linux
+and app.name: zathura
+
 """
 
 apps.termite = """
@@ -54,23 +72,28 @@ os: linux
 and app.name: /termite/
 """
 
+apps.kitty = """
+os: linux
+and app.name: /kitty/
+"""
+
 apps.windows_explorer = """
 os: windows
 and app.name: Windows Explorer
 os: windows
-and app.name: explorer.exe
+and app.exe: explorer.exe
 """
 
 apps.windows_command_processor = """
 os: windows
 and app.name: Windows Command Processor
 os: windows
-and app.name: cmd.exe
+and app.exe: cmd.exe
 """
 
 apps.windows_terminal = """
 os: windows
-and app.name: WindowsTerminal.exe 
+and app.exe: WindowsTerminal.exe 
 """
 
 apps.vim = """
@@ -94,4 +117,36 @@ app.name: stellaris
 apps.O10editor = """
 app.name: 010editor
 app.name: 010 Editor
+"""
+
+apps.openshot = """
+os: linux
+and app.name: openshot-qt
+
+os: linux
+and app.name: openshot
+
+win.title:/OpenShot Video Editor/
+"""
+
+apps.sqlitebrowser = """
+os: linux
+and app.name: "/DB Browser for SQLite/"
+"""
+
+apps.windows_power_shell = """
+os: windows
+and app.exe: powershell.exe
+"""
+
+apps.remmina = """
+os: linux
+and app.name: "/Remmina/"
+
+"""
+
+apps.drawio = """
+os: linux
+and app.name: "draw.io"
+
 """

@@ -1,4 +1,4 @@
-tag: user.terminal
+tag: terminal
 -
 
 pip install: "pip install "

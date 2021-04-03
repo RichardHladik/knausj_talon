@@ -1,15 +1,24 @@
 -
 
-find it:
+# VIM uses find for line searching
+# XXX - is a good chance this conflicts with other grammars from certain
+# applications
+search:
     edit.find()
 
 next one:
     edit.find_next()
 
-go word left:
+find <user.unmodified_key>:
+    user.line_find_forward(unmodified_key)
+
+(find last|fever) <user.unmodified_key>:
+    user.line_find_backward(unmodified_key)
+
+(go word left|back):
     edit.word_left()
 
-go word right:
+(go word right|word):
     edit.word_right()
 
 go left:
@@ -24,14 +33,13 @@ go up:
 go down:
     edit.down()
 
-go line start:
+(go line start|bend):
     edit.line_start()
 
-go line end:
+(go line end|lend):
     edit.line_end()
 
 go way left:
-    edit.line_start()
     edit.line_start()
 
 go way right:
@@ -43,7 +51,7 @@ go way down:
 go way up:
     edit.file_start()
 
-(go page down|pink):
+scroll:
     edit.page_down()
 
 (go page up|punk):
@@ -51,12 +59,10 @@ go way up:
 
 # selecting
 select line:
-    edit.line_start()
-    edit.extend_line_end()
+    edit.select_line()
 
 select all:
     edit.select_all()
-
 
 select left:
     edit.extend_left()
@@ -70,22 +76,25 @@ select up:
 select down:
     edit.extend_line_down()
 
+select word:
+    edit.select_word()
+
 select word left:
     edit.extend_word_left()
 
 select word right:
     edit.extend_word_right()
 
-select way left:
+select (way left|bend):
     edit.extend_line_start()
 
-select way right:
+select (way right|lend):
     edit.extend_line_end()
 
-select way up:
+select (way up|loft):
     edit.extend_file_start()
 
-select way down:
+select (way down|gut):
     edit.extend_file_end()
 
 # editing
@@ -113,20 +122,17 @@ clear down:
     edit.extend_line_down()
     edit.delete()
 
-(clear word left|jumble|jumbo):
-    edit.delete_word()
+(clear word left|clear back|jumble|jumbo):
+    user.delete_word_left()
 
-clear word right:
-    edit.extend_word_right()
-    edit.delete()
+clear word [right]:
+    user.delete_word_right()
 
-clear way left:
-    edit.extend_line_start()
-    edit.delete()
+(clear way left|clear bend):
+    user.delete_line_beginning()
 
-clear way right:
-    edit.extend_line_end()
-    edit.delete()
+(clear way right|clear lend):
+    user.delete_line_remaining()
 
 clear way up:
     edit.extend_file_start()
@@ -134,6 +140,10 @@ clear way up:
 
 clear way down:
     edit.extend_file_end()
+    edit.delete()
+
+clear all:
+    edit.select_all()
     edit.delete()
 
 #copy commands
@@ -153,14 +163,25 @@ copy all:
 # copy down:
 #     edit.extend_down()
 #     edit.copy()
+
+copy word:
+    edit.select_word()
+    edit.copy()
+
 copy word left:
     edit.extend_word_left()
     edit.copy()
+
 copy word right:
     edit.extend_word_right()
     edit.copy()
+
+copy line:
+    edit.select_line()
+    edit.copy()
+
 #cut commands
-cut everything:
+cut all:
     edit.select_all()
     edit.cut()
 #to do: do we want these variants
@@ -176,9 +197,19 @@ cut everything:
 # cut down:
 #     edit.select_all()
 #     edit.cut()
+
+cut word:
+    edit.select_word()
+    edit.cut()
+
 cut word left:
     edit.extend_word_left()
     edit.cut()
+
 cut word right:
     edit.extend_word_right()
+    edit.cut()
+
+cut line:
+    edit.select_line()
     edit.cut()

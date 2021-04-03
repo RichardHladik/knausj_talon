@@ -3,7 +3,7 @@
 os: linux
 mode: user.terminal
 mode: command
-and tag: user.terminal
+and tag: terminal
 -
 action(edit.delete_word):
 	key(ctrl-w)
@@ -11,75 +11,104 @@ action(edit.delete_line):
 	key(end)
 	key(ctrl-u)
 
-lisa: "ls "
-lizzie: "ls\n"
-lily: "ls -al "
-lizard: "ls -al\n"
-latest: "ls -Art | tail -n1\n"
+file list: "ls "
+file list here: "ls\n"
+file list long: "ls -al "
+file list long here: "ls -al\n"
+file list latest: "ls -Art | tail -n1\n"
+file list folders: "ls -d */\n"
+
+# find command
+file find all links: "find . -maxdepth 1 -type l  -ls\n"
+file find all folders: "find . -maxdepth 1 -type d  -ls\n"
+file fine all files: "find . -maxdepth 1 -type f  -ls\n"
+
+# TODO - revisit the grammar for $() commands
+call list latest: "$(ls -Art | tail -n1)"
+
+# TODO - somehow make this scriptable to print anything
+file edit latest: "edit $(ls -Art | tail -n1)\n"
+file link: "ln -s "
+file link force: "ln -sf "
+file hard link: "ln "
+file move: "mv "
+file touch: "touch "
+file copy: "cp "
+file type: "file "
+file show <user.text>: "cat {text}"
+file show: "cat "
+file edit: insert("edit ")
+file edit here: insert("edit .\n")
+file remove: "rm "
+(file|folder) remove recurse: "rm -rI "
+file diff: "diff "
+# find
+file find: "find . -name "
+file fuzzy [find]:
+    insert("find . -name \"**\"")
+    key("left")
+    key("left")
+file hash: "sha256sum "
+file locate: "locate "
+
+file edit read me: insert("edit README.md\n")
+file edit make file: insert("edit Makefile\n")
+
+watch latest: "vlc $(ls -Art | tail -n1)"
 
 # directory and files
-katie: "cd "
-katie <user.paths>:
+pivot: "cd "
+pivot clip:
+    insert("cd ")
+    edit.paste()
+    key(enter)
+pivot <user.paths>:
     insert("cd {paths}\n")
     insert("ls\n")
-katie up: "cd ../\n"
-(parent|up) dir: "../"
-traverse: "../"
-katie home: "cd\n"
-katie last: "cd -\n"
+# pivot up doesn't work with talon
+pivot back: "cd ../\n"
+pivot <number_small> back: 
+    insert("cd ")
+    insert(user.path_traverse(number_small))
+    key(enter)
+pivot home: "cd\n"
+pivot next:
+    insert("cd ")
+    key(tab)
+    sleep(100ms)
+    key(enter)
+    insert("ls\n")
 
-make (dur|dear|dir|directory): "mkdir "
+pivot (last|flip): "cd -\n"
+
+
+make (dur|dear|dir|directory): "mkdir -p "
 make (dur|dear|dir|directory) <user.text>: "mkdir {text}"
 remove (dur|dear|dir|directory): "rmdir "
 remove (dur|dear|dir|directory) <user.text>: "rmdir {text}"
-remove file: "rm "
 
 # tree
-tree: "tree -L 2\n"
-tree long: "tree -L 2 -p\n"
-tree all: "tree -L 2 -a\n"
-tree folders: "tree -L 2 -d\n"
+file tree: "tree -f -L 2\n"
+file tree more: "tree -f -L "
+file tree long: "tree -f -L 2 -p\n"
+file tree all: "tree -f -L 2 -a\n"
+file tree folders: "tree -f -L 2 -d\n"
+file tree depth <number_small>: "tree -f -L {number_small}\n"
 
-
-temp (dur|dear|dir|directory): "cd /tmp\n"
-pop (dur|dear|dir|directory): "popd\n"
+folder pop: "popd\n"
 
 # permissions
 make executable: "chmod +x "
 change ownership: "chown "
-
-# links
-sim link: "ln -s "
-sim link force: "ln -sf "
-hard link: "ln "
-
-# finds
-list sim links: "find . -maxdepth 1 -type l  -ls\n"
-list (directories|folders): "find . -maxdepth 1 -type d  -ls\n"
-list files: "find . -maxdepth 1 -type f  -ls\n"
-
-touch: "touch "
-file: "file "
-# file management
-move file: "mv "
-copy file: "cp "
 
 # file viewing
 less: "less "
 now less [that]:
     edit.up()
     insert("| less\n")
-show me <user.text>: "cat {text}"
-show me: "cat "
 
 clear [screen|page]: "clear\n"
 
-# find
-find file: "find . -name "
-fuzzy find file:
-    insert("find . -name \"**\"")
-    key("left")
-    key("left")
 
 # grepping
 
@@ -99,16 +128,17 @@ now grep:
     insert("| grep -i ")
 
 # networking
-net [work] (I P|eye pee): "ip addr\n"
+net [work] I P: "ip addr\n"
 net [work] (route|routes): "ip route\n"
 net stat: "netstat -ant\n"
 net cat: "nc -vv "
 net cat listener: "nc -v -l -p "
+net my I P: "dig +short myip.opendns.com @resolver1.opendns.com\n"
 show hosts file: "cat /etc/hosts\n"
 edit hosts file: "sudo vi /etc/hosts\n"
 tcp dump: "tcpdump "
 
-generate see tags: "ctags --recurse *\n"
+generate see tags: "ctags --recurse --exclude=.git --exclude=.pc *"
 generate see scope database:
     insert('find . -name "*.c"')
     insert(' -o -name "*.cpp"')
@@ -124,15 +154,13 @@ pee grep: "pgrep "
 pee kill: "pkill "
 process list: "ps -ef\n"
 process top: "htop\n"
-locate: "locate "
 head: "head "
 head <number_small>: "head -n {number_small} "
 (where am I|print working directory): "pwd\n"
 
-edit here: insert("vim\n")
-
-edit:
-    insert("vim ")
+# XXX - ~/.edit/sessions/<tab>
+edit session:
+    insert("edit -S ")
 
 lazy edit:
     insert("edit ")
@@ -151,40 +179,65 @@ find <user.text> inside (python|pie) files:
 find <user.text> inside (python|pie) files less:
     insert('$(find . -name \"*.py\") | xargs rg -i "{text}\" | less\n')
 
-man: "man "
+man page: "man "
 so do: "sudo "
+so do that: 
+    edit.line_start()
+    insert("sudo ")
+    key(enter)
+so do edit: "sudoedit"
 d message: "dmesg"
 disk usage: "df -h\n"
+sis cuddle: "sysctl "
+sis cuddle set: "sysctl -w "
 
 # extraction
-tar ball: "tar -"
-tar ball extract [zip]: "tar -xvzf "
-tar ball extract bee zip: "tar -xvjf "
+tar ball create: "tar -cvJf"
+tar ball [extract]: "tar -xvaf "
+tar ball list: "tar -tf "
 (un zip|extract zip): "unzip "
 
-curl: "curl "
-double you get: "wget "
-download clipboard:
+run <word>: "{word} "
+run curl: "curl "
+run double you get: "wget "
+download clip:
     insert("wget ")
     edit.paste()
     key(enter)
 
 # because talent doesn't seem to like me saying ./
 run script: "./"
-reverb:
+run again:
     insert("./")
     key(up enter)
+run top: "htop\n"
+run vim: "vim "
+run make: "make\n"
+run see make: "cmake "
+
+sub command:
+    insert("$()")
+    key(left)
+
+parameter:
+    insert("${}")
+    edit.left()
+
 
 # bash convenience stuff
 history: "history\n"
-for file loop:
-    insert("for FILE in $(ls \"*\"); do $FILE; done")
 
-network manager log: "sudo journalctl -u NetworkManager.service\n"
+net man log: "journalctl -u NetworkManager --no-pager --lines 100\n"
+
+core dump list: "coredumpctl\n"
+core dump info: "coredumpctl info\n"
+core dump dump: "coredumpctl dump\n"
+core dump debug: "coredumpctl debug\n"
 
 # ssh
-secure shell: "ssh"
+secure shell: "ssh "
 secure shell <user.text>: "ssh {text}\n"
+secure shall key gen: "ssh-keygen -t ed25519\n"
 secure copy [<user.text>]:
     insert("scp -r ")
     insert(text or "")
@@ -196,29 +249,42 @@ terminate session:
     key(enter ~ .)
 
 # process management
-run top: "htop\n"
 pee kill <user.text>: "pkill {text}"
 kill <number>: "kill -9 {number}"
 kill: "kill -9 "
 reboot system: "sudo reboot -h now"
 
-# XXX - from the old standard.talon file
-# unsorted
-zed s h: "zsh"
-diff: "diff "
-run vim: "vim "
-run make: "make\n"
-run see make: "cmake "
+# hardware
+list memory: "lshw -short -C memory"
+list processor: "lscpu\n"
+list pee bus: "lspci\n"
+list yew bus: "lsusb\n"
+
 
 (redirect errors|errors to standard out): "2>&1 "
+ignore errors: "2>/dev/null"
 
-collide: "sha256sum "
+###
+# Wallpaper
+###
+
+wallpaper set: "feh --bg-scale "
+wallpaper set latest: "feh --bg-scale $(find ~/images/wallpaper/ -name $(ls -Art ~/images/wallpaper/ | tail -n1))\n"
+
+
+###
+# ELF file
+###
+
+elf header: "eu-readelf -h "
+elf symbols: "eu-readelf -s "
+
 
 ###
 # Python
 ###
 
-new (pie|python) (env|environment): "python -m venv env"
+(pie|python) new [virtual] (env|environment): "python -m venv env"
 python module: "python -m "
 (activate|enter python environment): "source env/bin/activate\n"
 (deactivate|leave python environment): "deactivate\n"
@@ -227,12 +293,17 @@ python module: "python -m "
 ###
 # Screen recording
 ###
-
-record screen: insert("recordmydesktop")
+screen record: insert("recordmydesktop")
 
 ###
 # X11 stuff
 ###
-
 screen dimensions: "xdpyinfo | grep dimensions\n"
 screen resolution: "xdpyinfo | awk '/dimensions/{{print $2}}'\n"
+
+###
+# Arch Linux
+# https://wiki.archlinux.org/index.php/Arch_Build_System#Retrieve_PKGBUILD_source_using_Git
+###
+arch source check out: "asp checkout "
+arch source export: "asp export "

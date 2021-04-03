@@ -1,5 +1,5 @@
 from talon import app
-from talon.track.geom import Point2d
+from talon.types import Point2d
 from talon_plugins import eye_mouse, eye_zoom_mouse, speech
 
 if app.platform == "mac":

@@ -3,7 +3,7 @@ app: nm-applet
 
 # Deal with the NetworkManager 2FA pop-up when we need to enter/confirm 2FA
 # code
-prep two auth:
+net man two factor:
     key(tab)
     key(space)
     key(tab:3)

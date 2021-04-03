@@ -16,4 +16,6 @@ ctx.lists["user.snippets"] = {
     "global variable": "gvar",
     "script guard": "guard",
     "function": "f",
+    # custom
+    "auto group": "aug",
 }

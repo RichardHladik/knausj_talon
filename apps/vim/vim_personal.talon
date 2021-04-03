@@ -21,12 +21,16 @@ open python snippets:
     user.vim_command_mode_exterm(":e ~/.vim/plugged/vim-snippets/UltiSnips/python.snippets\n")
 open bash snippets:
     user.vim_command_mode_exterm(":e ~/.vim/plugged/vim-snippets/UltiSnips/sh.snippets\n")
+open see snippets:
+    user.vim_command_mode_exterm(":e ~/.vim/plugged/vim-snippets/UltiSnips/c.snippets\n")
 open talon plugins:
     user.vim_command_mode_exterm(":e ~/source/talon/releases/latest/resources/talon_plugins\n")
 open talon python:
     user.vim_command_mode_exterm(":e ~/source/talon/releases/latest/resources/python/lib/python3.7/site-packages/talon\n")
 open config:
     user.vim_command_mode_exterm(":e ~/.vimrc\n")
+open poly bar:
+    user.vim_command_mode_exterm(":e ~/.config/polybar/config\n")
 open eye three:
     user.vim_command_mode_exterm(":e ~/.i3/config\n")
 

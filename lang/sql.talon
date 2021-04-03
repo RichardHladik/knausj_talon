@@ -1,4 +1,9 @@
-app: datagrip
+# TODO - have datagrip app assert user.sql tag
+#app: datagrip
+mode: user.sql
+mode: command
+and code.language: sql
+
 
 -
 select: "SELECT "

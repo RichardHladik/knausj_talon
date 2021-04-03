@@ -1,11 +1,13 @@
 import re
 
-from talon import Context, Module, actions, settings
+from talon import Context, Module, actions, settings, clip
 
 mod = Module()
 ctx = Context()
 ctx.matches = r"""
-mode: user.python
+mode: command
+and tag: user.python
+
 mode: command
 and code.language: python
 """
@@ -144,6 +146,15 @@ ctx.lists["user.python_decorator"] = {
     for decorator in decorator_list
 }
 
+@mod.capture(rule="{self.python_type_list}")
+def python_type_list(m) -> str:
+    "Returns a string"
+    return m.python_type_list
+
+@mod.capture(rule="{self.python_docstring_fields}")
+def python_docstring_fields(m) -> str:
+    "Returns a string"
+    return m.python_docstring_fields
 
 @ctx.action_class("user")
 class user_actions:
@@ -154,6 +165,9 @@ class user_actions:
             text = text + "()"
         actions.user.paste(text)
         actions.edit.left()
+
+    def code_default_function(text: str):
+        actions.user.code_public_function(text)
 
     def code_private_function(text: str):
         """Inserts private function declaration"""
@@ -190,3 +204,14 @@ class module_actions:
             actions.key(f"left:{len(s) - end_pos}")
         else:
             actions.insert(text)
+
+    def insert_cursor_paste(text1: str, text2: str):
+        """Insert a string, . Leave the cursor after text1"""
+        if "[|]" in text1:
+            end_pos = text1.find("[|]")
+            text1 = text1.replace("[|]", "")
+        else:
+            end_pos = len(text1)
+        s = text1 + clip.get() + text2
+        actions.insert(s)
+        actions.key(f"left:{len(s) - end_pos}")

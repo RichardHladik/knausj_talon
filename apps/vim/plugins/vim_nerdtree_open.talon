@@ -5,8 +5,8 @@ win.title: /NERD_tree/
 change root: key(C)
 close parent: key(x)
 close all children: key(X)
-refresh [directory]: key(r)
-refresh root [directory]: key(R)
+folder refresh: key(r)
+folder root refresh: key(R)
 root up: key(u)
 root up day: key(U)
 

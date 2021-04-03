@@ -1,5 +1,5 @@
 os: linux
-tag: user.terminal
+tag: terminal
 -
 
 make file: "make -f "

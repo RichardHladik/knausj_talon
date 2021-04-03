@@ -1,6 +1,4 @@
-
 mode: user.vimscript
-mode: command
 and code.language: vimscript
 -
 tag(): user.code_operators

@@ -1,4 +1,5 @@
-tag: gdb
+# XXX - make this is a heap_analysis_option
+tag: user.gdb
 -
 
 [run] heap: "heap\n"

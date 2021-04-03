@@ -1,9 +1,17 @@
-from talon import Context, Module, actions, ui
+from talon import Context, Module, actions
+
+mod = Module()
+mod.tag("gdb", desc="tag for running the gdb debugger")
+mod.tag("gef", desc="Gef gdb plugin")
+mod.tag("pwndbg", desc="pwndbg gdb plugin")
+mod.tag("libptmalloc", desc="libptmalloc gdb plugin")
+mod.tag("libdlmalloc", desc="libdlmalloc gdb plugin")
+mod.tag("libheap", desc="libheap gdb plugin")
 
 ctx = Context()
 
 ctx.matches = r"""
-mode: user.gdb
+tag: user.gdb
 """
 
 
@@ -17,3 +25,7 @@ class user_actions:
 
     def debugger_enable_breakpoint_id(number_small: int):
         actions.insert(f"enable br {number_small}\n")
+
+    def pop():
+        """Optional way of pressing enter via pop sound"""
+        actions.key("enter")

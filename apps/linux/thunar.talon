@@ -1,6 +1,6 @@
 app: thunar
 -
-tags: user.tabs()
+tag(): user.tabs
 
 # tabs are handled by apps/linux/app.talon
 

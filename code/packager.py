@@ -4,7 +4,7 @@ mod = Module()
 ctx = Context()
 ctx.matches = r"""
 os: linux
-tag: user.terminal
+tag: terminal
 """
 
 mod.tag("package_manager", desc="linux package manager")
@@ -16,6 +16,7 @@ mod.tag("packager_snap", desc="Snap packager")
 mod.tag("packager_zypper", desc="SuSE packager")
 mod.tag("packager_dnf", desc="Fedora DNF packager")
 mod.tag("packager_yum", desc="Fedora YUM packager")
+mod.tag("packager_npm", desc="Node package manager")
 
 
 @mod.action_class
@@ -55,3 +56,6 @@ class Actions:
 
     def package_list():
         """List installed packages"""
+
+    def package_help():
+        """List the packages help menu"""

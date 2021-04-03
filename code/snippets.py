@@ -2,6 +2,10 @@
 from talon import Context, Module, actions, app, imgui, registry
 
 ctx = Context()
+ctx.matches = r"""
+tag: user.snippets
+"""
+
 mod = Module()
 mod.tag("snippets", desc="Tag for enabling code snippet-related commands")
 mod.list("snippets", desc="List of code snippets")
@@ -9,13 +13,7 @@ mod.list("snippets", desc="List of code snippets")
 
 ctx.lists["user.snippets"] = {}
 
-
-@mod.capture
-def snippets(m) -> list:
-    """Returns a snippet name"""
-
-
-@imgui.open(software=False)
+@imgui.open()
 def gui(gui: imgui.GUI):
     gui.text("snippets")
     gui.line()
@@ -49,6 +47,7 @@ class Actions:
             gui.show()
 
 
-@ctx.capture(rule="{user.snippets}")
-def snippets(m):
+@mod.capture(rule="{user.snippets}")
+def snippets(m) -> str:
+    """Returns a snippet name"""
     return m.snippets

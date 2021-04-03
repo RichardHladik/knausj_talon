@@ -1,12 +1,10 @@
 question [mark]: "?"
-(downscore | underscore): "_"
+score: "_"
 double dash: "--"
-#(bracket | brack | left bracket): "{"
-#(rbrack | are bracket | right bracket): "}"
 triple quote: '"""'
 triple tick: "'''"
+gravy: "```"
 (dot dot | dotdot): ".."
-#ellipses: "…"
 ellipses: "..."
 (comma and | spamma): ", "
 plus: "+"
@@ -15,48 +13,62 @@ dub arrow: "=>"
 new line: "\\n"
 carriage return: "\\r"
 line feed: "\\r\\n"
+end of file: "EOF"
+dotty: "../"
+
 empty (string|quotes):
-    '""'
+    insert('""')
     key(left)
 empty escaped (string|quotes):
-    '\\"\\"'
+    insert('\\"\\"')
     key(left)
     key(left)
 empty ticks:
     "''"
     key(left)
 empty escaped ticks:
-    "\\'\\'"
+    insert("\\'\\'")
     key(left)
+    key(left)
+(empty parens | args):
+    insert("()")
+    key(left)
+empty (squares | list):
+    insert("[]")
+    key(left)
+empty (bracket | braces):
+    insert("{}")
+    key(left)
+empty percent:
+    insert("%%")
+    key(left)
+empty coals:
+    insert("::")
     key(left)
 
-(inside parens | args):
-	insert("()")
-	key(left)
-inside (squares | list):
-	insert("[]")
-	key(left)
-inside (bracket | braces):
-	insert("{}")
-	key(left)
-inside percent:
-	insert("%%")
-	key(left)
-inside quotes:
-	insert('""')
-	key(left)
-angle this:
+[pair] (parens|args):
+    insert("()")
+[pair] (brackets|braces): "{}"
+[pair] squares: "[]"
+[pair] angles: "<>"
+[pair] graves: "``"
+[pair] percents: "%%"
+[pair] ticks: "''"
+[pair] quotes: '""'
+
+# XXX - add support for additional text navigation options?
+angle that:
     text = edit.selected_text()
     user.paste("<{text}>")
-(bracket | brace) this:
+(bracket | brace) that:
     text = edit.selected_text()
     user.paste("{{{text}}}")
-(parens | args) this:
+(parens | args) that:
     text = edit.selected_text()
     user.paste("({text})")
-percent this:
+percent that:
     text = edit.selected_text()
     user.paste("%{text}%")
-quote this:
+quote that:
     text = edit.selected_text()
     user.paste('"{text}"')

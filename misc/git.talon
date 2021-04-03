@@ -1,18 +1,23 @@
-tag: user.terminal
+tag: terminal
+and tag: user.git
 -
 # Standard commands
 git add patch: "git add . -p\n"
 git add: "git add "
 git add everything: "git add -u\n"
 git bisect: "git bisect "
-git blame: "git alame "
+git blame: "git blame "
 git branch: "git branch "
 git remote branches: "git branch --remote\n"
 git branch <user.text>: "git branch {text}"
 git checkout: "git checkout "
 git checkout master: "git checkout master\n"
+git checkout main: "git checkout main\n"
 git checkout <user.text>: "git checkout {text}"
 git cherry pick: "git cherry-pick "
+git cherry pick continue: "git cherry-pick --continue "
+git cherry pick abort: "git cherry-pick --abort "
+git cherry pick skip: "git cherry-pick --skip "
 git clone: "git clone "
 git commit message <user.text>: "git commit -m '{text}'"
 git commit: "git commit\n"
@@ -63,6 +68,8 @@ git stash apply: "git stash apply\n"
 git stash list: "git stash list\n"
 git stash show: "git stash show"
 git status: "git status\n"
+git switch: "git switch -"
+git switch branch: "git switch -c"
 git submodule add:  "git submodule add "
 git tag: "git tag "
 

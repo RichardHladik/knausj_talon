@@ -2,9 +2,10 @@
 #
 
 tag: browser
-win.title: /gitlab.com/
-#win.title: /GitLab/
+#win.title: /gitlab.com/
+win.title: /GitLab/
 -
+tag(): user.markdown
 
 # global shortcuts
 show shortcuts: key(?)
@@ -59,3 +60,9 @@ open permalink: key(y)
 
 # wiki pages
 edit page: key(e)
+
+# for markdown in the editor
+code block:
+    insert("```\n\n")
+    insert("```\n")
+    key(up:2)

@@ -1,22 +1,25 @@
 os: linux
-tag: user.terminal
+tag: terminal
 -
 
 # general options
-bookoo help: "buku -h\n"
-bookoo version: "buku -v\n"
-bookoo auto add:
+bookmark help: "buku -h\n"
+bookmark version: "buku -v\n"
+bookmark new: "buku -a "
+bookmark (auto add|that):
     insert("buku -a ")
     edit.paste()
     key(enter)
     insert("buku -w -1\n")
+bookmark delete: "buku -d "
 
-bookoo update: "buku -u "
-bookoo edit: "buku -w "
-bookoo edit last:
+bookmark update: "buku -u "
+bookmark edit: "buku -w "
+bookmark edit last:
     insert("buku -w -1\n")
 
 # edit options
 
 # search options
-bookoo search: "buku -s "
+bookmark search: "buku -s "
+bookmark list: "oil\n"

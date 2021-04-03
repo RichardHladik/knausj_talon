@@ -40,26 +40,18 @@ populate_list(last_names, last_names_file)
 populate_list(last_names, private_last_names_file)
 
 
-@mod.capture
-def first_name(m) -> str:
-    "One first name"
-
-
-@mod.capture
-def last_name(m) -> str:
-    "One last name"
-
-
 ctx = Context()
 ctx.lists["self.first_names"] = first_names
 ctx.lists["self.last_names"] = last_names
 
 
-@ctx.capture(rule="{self.first_names}")
-def first_name(m):
+@mod.capture(rule="{self.first_names}")
+def first_name(m) -> str:
+    "One first name"
     return m.first_names
 
 
-@ctx.capture(rule="{self.last_names}")
-def last_name(m):
+@mod.capture(rule="{self.last_names}")
+def last_name(m) ->str:
+    "One last name"
     return m.last_names

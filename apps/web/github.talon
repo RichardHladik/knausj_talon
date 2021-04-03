@@ -2,6 +2,7 @@
 tag: browser
 win.title: /github.com/
 -
+tag(): user.markdown
 
 # site wide shortcuts
 focus search: key(s)

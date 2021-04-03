@@ -1,11 +1,19 @@
 os: linux
-# XXX - this matches .gdb files atm
-#win.title: /gdb/
-tag: user.terminal
-mode: user.gdb
+tag: user.gdb
 -
-tag(): user.gdb
 tag(): user.debugger
+tag(): user.terminal_program
+tag(): user.readline
+
+# XXX - this would be better to be managed with settings maybe
+# optional generic debugger plugins
+# specify which heap plugin you're using
+# similar to the architecture
+tag(): user.libptmalloc
+#tag(): user.libdlmalloc
+tag(): user.libheap
+tag(): user.gef
+
 
 ##
 # Generic debugger actions
@@ -27,7 +35,7 @@ action(user.debugger_detach): ""
 
 # Registers
 action(user.debugger_show_registers): "info registers\n"
-action(user.debugger_get_register): "r "
+action(user.debugger_get_register): "i r "
 action(user.debugger_set_register):
     insert("set $=")
     edit.left()
@@ -54,28 +62,40 @@ action(user.debugger_disable_all_breakpoints):
 action(user.debugger_disable_breakpoint):
     insert("disable br  ")
 
+# Analysis
+action(user.debugger_backtrace): "bt\n"
+action(user.debugger_exit): "quit\n"
+action(user.debugger_exit_force): "quit\ny\n"
+
 break [on] clipboard:
     insert("break ")
     key(ctrl-shift-v)
     key(enter)
 
 # Memory inspection
+action(user.debugger_disassemble_here):
+    insert("x/10i $pc\n")
 
 # Type inspection
+action(user.debugger_dump_ascii_string):
+    insert("x/s ")
 
 ##
-# gdb specific functionality
+# GDB specific functionality
 ##
 
-# information
+
+## Common commands ##
+
+clear screen: "shell clear\n"
 list [source]: "list\n"
-info source: "info source\n"
 
 print: "p "
 print [variable] <user.text>: "p {text}"
 print hex: "p/x "
 print hex [variable] <user.text>: "p/x {text}"
 print string: "p/s "
+print (bits|binary): "p/t "
 
 # hexdumping
 # XXX - switch the sizes to a list in python?
@@ -96,6 +116,8 @@ hex dump clipboard:
     edit.paste()
     key(enter)
 
+# symbols
+symbol refresh: "sharedlibrary\n"
 
 # execution
 source: "source \t\t"
@@ -120,16 +142,11 @@ undisplay: "undisplay\n"
 # threads
 info threads: "info threads\n"
 
-restart [program]: "r\n"
-continue: "c\n"
-back trace: "bt\n"
-debug quit: "quit\n"
-# more quickly quit when there are inferiors
-debug force quit: "quit\ny\n"
-(show|info) (inf|inferiors): "info inferiors\n"
+# inferiors
+info inferiors: "info inferiors\n"
 inferior <number_small>$: "inferior {number_small}\n"
 inferior: "inferior "
-resume main (inf|inferior):
+resume from main:
     insert("inferior 1\n")
     insert("c\n")
 resume [from] (inf|inferior) <number_small>$:
@@ -139,7 +156,8 @@ resume [from] (inf|inferior) <number_small>$:
 # arguments
 set args: "set args "
 
-# settings
+info source: "info source\n"
+
 show follow (fork|forks) [mode]: "show follow-fork-mode\n"
 [set] follow (fork|forks) [mode] child: "set follow-fork-mode child\n"
 [set] follow (fork|forks) [mode] parent: "set follow-fork-mode parent\n"
@@ -148,9 +166,18 @@ show detach on fork: "show detach-on-fork\n"
 set detach on fork: "set detach-on-fork on\n"
 unset detach on fork: "set detach-on-fork off\n"
 
-# list
+info library: "info sharedlibrary\n"
+info file: "info file\n"
+
+set remote file: "set remote exec-file "
+
+set system root: "set sysroot "
+show system root: "show sysroot\n"
+
+set substitute path: "set substitute-path "
+show substitute path: "show substitute-path\n" 
+
 show list size: "show listsize\n"
 set list size <number_small>: "set listsize {number_small}\n"
 
-# misc
-clear screen: "shell clear\n"
+

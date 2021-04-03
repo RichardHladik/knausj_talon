@@ -5,11 +5,13 @@ mod = Module()
 tagList = [
     "debugger",
     "disassembler",
-    "firefox",
     "gdb",
+    "libptmalloc",
+    "libdlmalloc",
+    "libheap",
+    "git",  # commandline tag for git commands
     "ida",
     "tabs",
-    "terminal",
     "tmux",
     "windbg",
     "yay",
@@ -23,7 +25,21 @@ tagList = [
     "kubectl",
     "tmux",
     "docker",
+    "vagrant",
     "git",
+    "pulse_audio",
+    "docker",
+    # allows programs running inside of a terminal (ex: gdb) to share
+    # common terminal commands like ctrl+c, but without actually
+    # supporting all of this shell commands themselves (ls, cd, etc)
+    "terminal_program",
+    # a tag for defining very specific terminal command line editor
+    # commands, see command_line_editing_readline.talon
+    "readline",
+    "shell_edit_emacs",
+    "htop",
+    "taskwarrior_tui",
+    "vimium",
 ]
 
 for entry in tagList:

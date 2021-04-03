@@ -1,4 +1,3 @@
-mode: user.c
 mode: command
 and code.language: c
 -
@@ -105,21 +104,19 @@ action(user.code_block_comment):
 action(user.code_block_comment_prefix): "/*"
 action(user.code_block_comment_suffix): "*/"
 
-^funky <user.text>$: user.code_private_function(text)
+^funky <user.text>$: user.code_default_function(text)
 ^static funky <user.text>$: user.code_private_static_function(text)
 
 
-# XXX - make these generic in programming, as they will match cpp, etc
 state define: "#define "
 state undefine: "#undef "
 state if define: "#ifdef "
 
-# XXX - preprocessor instead of pre?
-state pre if: "#if "
-state error: "#error "
-state pre else if: "#elif "
-state pre end: "#endif "
-state pragma: "#pragma "
+state hash if: "#if "
+state hash error: "#error "
+state hash else if: "#elif "
+state hash end end: "#endif "
+state hash pragma: "#pragma "
 state default: "default:\nbreak;"
 
 #control flow
@@ -128,35 +125,38 @@ state default: "default:\nbreak;"
 #if so uncomment the two lines and comment out the rest accordingly
 push brackets:
     edit.line_end()
-    #insert("{")
-    #key(enter)
     insert("{}")
     edit.left()
     key(enter)
     key(enter)
     edit.up()
 
-# Declare variables or structs etc.
-# Ex. * int myList
-<user.c_variable> <phrase>:
+declare <user.c_variable>:
     insert("{c_variable} ")
-    insert(user.formatted_text(phrase, "PRIVATE_CAMEL_CASE,NO_SPACES"))
 
-<user.c_variable> <user.letter>:
+# Declare variables or structs etc.
+# Ex: int * myList
+#declare <user.c_variable> <phrase>:
+#    insert("{c_variable} ")
+#    insert(user.formatted_text(phrase, "PRIVATE_CAMEL_CASE,NO_SPACES"))
+
+declare <user.c_variable> <user.letter>:
     insert("{c_variable} {letter} ")
 
 # Ex. (int *)
 cast to <user.c_cast>: "{c_cast}"
-standard cast to <user.stdint_cast>: "{stdint_cast}"
-<user.c_types>: "{c_types}"
+basic cast to <user.c_basic_cast>: "{c_basic_cast}"
+standard cast to <user.c_stdint_cast>: "{c_stdint_cast}"
+state <user.c_types>: "{c_types}"
 <user.c_pointers>: "{c_pointers}"
 <user.c_signed>: "{c_signed}"
-standard <user.stdint_types>: "{stdint_types}"
-int main:
-    insert("int main()")
-    edit.left()
+basic <user.c_basic_types>: "{c_basic_types}"
+standard <user.c_stdint_types>: "{c_stdint_types}"
 
 toggle includes: user.code_toggle_libraries()
 include <user.code_libraries>:
-    user.code_insert_library(code_libraries, "")
+    user.code_insert_library("", code_libraries)
     key(end enter)
+
+cycle data type: user.cycle_c_datatype()
+show data type: user.current_c_datatype()

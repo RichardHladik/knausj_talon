@@ -3,6 +3,10 @@ tag: user.vim_fzf
 
 # ripgrep through files under current directory
 rizzle: user.vim_normal_mode_exterm(":Rg\n")
+rizzle this: 
+    user.vim_normal_mode_exterm("yiw") 
+    user.vim_normal_mode_exterm(":Rg\n")
+    edit.paste()
 rizzle <user.text>:
     user.vim_normal_mode_exterm(":Rg\n")
     insert("{text}")
@@ -47,6 +51,6 @@ fuzz marks: user.vim_normal_mode_exterm(":Marks\n")
 fuzz search history: user.vim_normal_mode_exterm(":History/\n")
 fuzz snippets: user.vim_normal_mode_exterm(":Snippets\n")
 fuzz tags: user.vim_normal_mode_exterm(":Tags\n")
-fuzz windows: user.vim_normal_mode_exterm(":Windows\n")
+(fuzz windows|wizard): user.vim_normal_mode_exterm(":Windows\n")
 fuzz tab files: user.vim_normal_mode_exterm(":tabe\n:Files\n")
 fuzz tab buffers: user.vim_normal_mode_exterm(":tabe\n:Buffers\n")

@@ -1,3 +1,4 @@
+# XXX - we should have some way to detect the suggestion window was open
 tag: user.vim_youcompleteme
 -
 
