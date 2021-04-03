@@ -9,10 +9,16 @@ tag: user.vim
 	key(ctrl-g u)
     insert(user.text)
     insert(" ")
-trash|smaž:
+period|pistol:
+    user.system_command('notify-send.sh -t 3000 -f -u low "Dictation VIM"')
+	user.vim_set_insert_mode()
+	key(ctrl-g u)
+	key(backspace)
+    insert(". ")
+trash|smaž|thrash|thrush|th thrash|th trash:
 	user.vim_normal_mode_np("u")
 	sleep(100ms)
-(jumble|jumbo|šnorchl):
+(jumble|jumbo|šnorchl|snorchl):
     edit.delete_word()
 (place holder|placeholder):
 	insert("$xxx$ ")

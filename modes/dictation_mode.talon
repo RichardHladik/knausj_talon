@@ -7,11 +7,12 @@ settings():
 <user.text>:
 	insert(text)
 	insert(" ")
-period: key(backspace . space)
-(comma | kama): key(backspace , space)
+period|pistol: key(backspace . space)
+(comma | kama | clap | clip | comer): key(backspace , space)
 question mark: key(backspace ? space)
 (bang | exclamation [mark]): key(backspace ! space)
 dash: key(backspace - space)
+hyphen: key(backspace -)
 colon: key(backspace : space)
 (semi colon | semicolon): key(backspace ; space)
 (cap|cab) <user.text>:

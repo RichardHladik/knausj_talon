@@ -160,6 +160,17 @@ simple_vocabulary = [
     "make",
     "stub",
     "stubs",
+    "decidability",
+    "enumerable",
+]
+
+hyphenise = [
+    "self esteem",
+]
+
+condense = [
+    "non empty",
+    "non zero",
 ]
 
 mapping_vocabulary = {
@@ -324,6 +335,9 @@ mapping_vocabulary = {
     "dolores": "stellaris",
     "sinology": "synology",
     "and or": "and/or",
+    "this joint": "disjoint",
+    "waited": "weighted",
+    "awaited": "weighted",
 }
 
 # Add single words here if Talon recognizes them, but they need to have their
@@ -360,6 +374,8 @@ capitalize = [
     "October",
     "November",
     "December",
+    "Turing",
+    "German"
 ]
 
 decapitalize = [
@@ -377,13 +393,15 @@ word_map = {
     "realize": "realise",
 }
 
-word_map.update({x.lower(): x for x in capitalize})
-word_map.update({x: x.lower() for x in decapitalize})
 
 # Add words (or phrases you want treated as words) here if Talon doesn't
 # recognize them at all.
 mapping_vocabulary.update(dict(zip(simple_vocabulary, simple_vocabulary)))
 
+word_map.update({x.lower(): x for x in capitalize})
+word_map.update({x: x.lower() for x in decapitalize})
+mapping_vocabulary.update({x: x.replace(" ", "-") for x in hyphenise})
+mapping_vocabulary.update({x: x.replace(" ", "") for x in condense})
 
 mod = Module()
 
