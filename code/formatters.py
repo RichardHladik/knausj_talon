@@ -136,6 +136,7 @@ formatters_dict = {
     "SHORT_ARG": prefixed_words_with_joiner("-", "-"),
     "NO_SPACES": (NOSEP, every_word(lambda w: w)),
     "NOOP": (SEP, lambda i, word, _: word),
+    "NOOPSPACE": (SEP, lambda i, word, last: word if not last else word + " "),
     "PRIVATE_CAMEL_CASE": (NOSEP, first_vs_rest(lambda w: w, lambda w: w.capitalize())),
     "PROTECTED_CAMEL_CASE": (
         NOSEP,
@@ -293,6 +294,7 @@ ctx.lists["self.formatters"] = formatters_words.keys()
 ctx.lists["self.prose_formatter"] = {
     "say": "NOOP",
     "speak": "NOOP",
+    "spice": "NOOPSPACE",
     "sentence": "CAPITALIZE_FIRST_WORD",
 }
 
