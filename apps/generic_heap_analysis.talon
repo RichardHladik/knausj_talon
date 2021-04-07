@@ -7,6 +7,7 @@ tag: user.heap_analysis
 [heap] chunk help: user.heap_analysis_chunk_help()
 [heap] chunk search: user.heap_analysis_search()
 [heap] arena: user.heap_analysis_arena()
+[heap] arena list: user.heap_analysis_arena_list()
 [heap] bin: user.heap_analysis_bin()
 heap call back: user.heap_analysis_call_back()
 heap arena of: user.heap_analysis_arena_of()

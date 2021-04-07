@@ -8,11 +8,11 @@
 #  commands quickly.
 #   * vim.talon - general settings, tag management, and commands the work across 
 #                 all modes
-#   * vim_motion_mode.talon - commands that work across all motion modes
+#   * vim_motion_mode.talon   - commands that work across all motion modes
 #   * vim_terminal_mode.talon - commands that only work in terminal mode
-#   * vim_normal_mode.talon - commands that only work in normal mode
-#   * vim_visual_mode.talon - commands that only work in visual mode
-#   * vim_insert_mode.talon - commands that only work in insert mode
+#   * vim_normal_mode.talon   - commands that only work in normal mode
+#   * vim_visual_mode.talon   - commands that only work in visual mode
+#   * vim_insert_mode.talon   - commands that only work in insert mode
 #
 # NOTE:
 # Where applicable I try to explicitly select appropriate API for terminal
@@ -27,7 +27,7 @@
 #  - everything in this files should technically use _exterm() version of
 #    functions
 
-app:vim
+app: vim
 and not tag: user.vim_command_mode
 -
 
@@ -35,11 +35,13 @@ tag(): user.vim
 tag(): user.tabs
 # TODO - add line_commands, etc
 
-# Talon VIM plugin tags - see plugins/ for implementations
-# Comment out plugins below that you don't use
-# Also see vim_motion_mode.talon for plugin grammars that aren't enabled in 
-# terminal mode
-#tag(): user.vim_easymotion
+# Talon VIM plugin tags - see plugins/ for implementations Comment out plugins
+# below that you don't use Also see vim_motion_mode.talon for plugin grammars
+# that aren't enabled in terminal mode
+
+# they should only include things that you want enabled in effectively all
+# modes, including terminal mode. anything else should be more granularly
+# enabled
 #tag(): user.vim_fern
 #tag(): user.vim_fern_mapping_fzf
 #tag(): user.vim_floaterm
@@ -119,23 +121,6 @@ settings():
     # Adds debug output to the talon log
     user.vim_debug = 0
 
-###
-# `code/vim.py` actions - includes most motions and core commands
-###
-# commands that can be triggered in visual or normal mode, and generally don't
-# have counting, etc
-<user.vim_normal_counted_motion_command>$:
-    insert("{vim_normal_counted_motion_command}")
-<user.vim_normal_counted_motion_keys>$:
-    key("{vim_normal_counted_motion_keys}")
-<user.vim_motions_all_adjust>$:
-    insert("{vim_motions_all_adjust}")
-<user.vim_normal_counted_action>$:
-    insert("{vim_normal_counted_action}")
-<user.vim_normal_counted_actions_keys>$:
-    key("{vim_normal_counted_actions_keys}")
-<user.vim_counted_motion_command_with_ordinals>$:
-    insert("{vim_counted_motion_command_with_ordinals}")
 
 
 ###
@@ -153,7 +138,7 @@ force (close|quit) all:
 
 force (close|quit):
     user.vim_command_mode_exterm(":q!\n")
-file edit:
+file (edit|open):
     user.vim_command_mode_exterm(":e ")
 reload [vim] config:
     user.vim_command_mode_exterm(":so $MYVIMRC\n")
@@ -179,18 +164,24 @@ reload [vim] config:
 
 
 # jump list
+# XXX - I'm not sure these are well usable from the terminal?
 jump list show: user.vim_command_mode_exterm(":jumps\n")
 jump list clear: user.vim_command_mode_exterm(":clearjumps\n")
-go (last|prev|previous) jump [entry]: user.vim_normal_mode_exterm_key("ctrl-o")
+go (last|prev|previous) jump [entry]: 
+    user.vim_normal_mode_exterm_key("ctrl-o")
 go (next|newer) jump [entry]: user.vim_normal_mode_exterm_key("ctrl-i")
 
 # scrolling and page position
 # NOTE counted scrolling his handled in vim.py
-(focus|orient) [on] line <number>: user.vim_command_mode_exterm(":{number}\nzt")
-center [on] line <number>: user.vim_command_mode_exterm(":{number}\nz.")
+# XXX - it seems like comboing \n in command mode doesn't work well?
+scroll [on] line <number>: 
+    user.vim_command_mode_exterm(":{number}\nzt")
+center [on] line <number>: 
+    user.vim_command_mode_exterm(":{number}\nz.")
 scroll top: user.vim_normal_mode_exterm("zt")
 scroll (center|middle): user.vim_normal_mode_exterm("zz")
 scroll bottom: user.vim_normal_mode_exterm("zb")
+# XXX - change these exist scroll top curse ?
 scroll top reset cursor: user.vim_normal_mode_exterm("z\n")
 scroll middle reset cursor: user.vim_normal_mode_exterm("z.")
 scroll bottom reset cursor: user.vim_normal_mode_exterm("z ")
@@ -468,6 +459,8 @@ action(app.tab_next): user.vim_command_mode_exterm(":tabnext\n")
 
 
 (list|show) tabs: user.vim_command_mode(":tabs\n")
+
+# XXX - overlaps with the user.tabs stuff
 [go] tab (next|right): user.vim_command_mode_exterm(":tabnext\n")
 [go] tab (left|prev|previous): user.vim_command_mode_exterm(":tabprevious\n")
 [go] tab first: user.vim_command_mode_exterm(":tabfirst\n")
@@ -601,6 +594,10 @@ visual mode: user.vim_set_visual_mode()
 [visual] line mode: user.vim_set_visual_line_mode()
 [visual] block mode: user.vim_set_visual_block_mode()
 
+# sort of quasi-modes - see vim_command_line.talon
+command search [mode]: user.vim_any_motion_mode_exterm_key("q:")
+search search [mode]: user.vim_any_motion_mode_exterm_key("q/")
+
 ###
 # Searching
 ###
@@ -640,8 +637,6 @@ reselect: user.vim_normal_mode_exterm("gv")
 
 ###
 # Terminal mode
-#
-# NOTE: Only applicable to newer vim and neovim. 
 ###
 
 # NOTE: Below is duplicate command with vim_terminal.talon, but included in 
@@ -737,10 +732,3 @@ paste as line:
     user.vim_command_mode_exterm(":let @+=substitute(strtrans(@+),'\\^@',' ','g')\n")
     sleep(200ms)
     edit.paste()
-
-###
-# Custom
-#
-# For really user-specific customizations I suggest a different file, but this
-# section can be used for experimentation, etc.
-###

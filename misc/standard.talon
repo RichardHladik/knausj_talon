@@ -1,17 +1,9 @@
 shock: key(enter)
-(jay son | jason ): "json"
-(http | htp): "http"
-M D five: "md5"
-string U T F eight:
-	insert("'utf8'")
-
-(regex | rejex): "regex"
-
 
 # XXX - block alone conflicts with vim key words
 add code block:
-	insert("{}")
-	key(left enter enter up tab)
+    insert("{}")
+    key(left enter enter up tab)
 
 zoom in: edit.zoom_in()
 zoom out: edit.zoom_out()

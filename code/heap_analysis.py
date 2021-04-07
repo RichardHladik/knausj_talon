@@ -30,6 +30,9 @@ class Actions:
     def heap_analysis_arena():
         """analyze a heaps arena"""
 
+    def heap_analysis_arena_list():
+        """analyze a heaps arena"""
+
     def heap_analysis_bin():
         """analyze a heaps bin"""
 

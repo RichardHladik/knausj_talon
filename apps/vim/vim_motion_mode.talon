@@ -14,6 +14,7 @@ and not tag: user.vim_command_mode
 # Comment out plugins below that you don't use
 # Is the list below is only plugins that have grammars we use when outside of
 # terminal mode.
+tag(): user.vim_easymotion
 tag(): user.vim_change_inside_surroundings
 tag(): user.vim_surround
 tag(): user.vim_ultisnips
@@ -30,6 +31,27 @@ tag(): user.vim_eunuch
 tag(): user.vim_rooter
 tag(): user.vim_treesitter
 tag(): user.vim_treesitter_textobjects
+
+###
+# `code/vim.py` actions - includes most motions and core commands
+###
+# commands that can be triggered in visual or normal mode, and generally don't
+# have counting, etc
+# XXX - I still need to investigate whether or not a subset of these should be
+# exposed in terminal mode
+<user.vim_normal_counted_motion_command>$:
+    insert("{vim_normal_counted_motion_command}")
+<user.vim_normal_counted_motion_keys>$:
+    key("{vim_normal_counted_motion_keys}")
+<user.vim_motions_all_adjust>$:
+    insert("{vim_motions_all_adjust}")
+<user.vim_normal_counted_action>$:
+    insert("{vim_normal_counted_action}")
+<user.vim_normal_counted_actions_keys>$:
+    key("{vim_normal_counted_actions_keys}")
+<user.vim_counted_motion_command_with_ordinals>$:
+    insert("{vim_counted_motion_command_with_ordinals}")
+
 
 ###
 # File editing and management
@@ -542,7 +564,7 @@ run as sandbox:
 
 remove trailing white space: user.vim_normal_mode(":%s/\\s\\+$//e\n")
 (remove all|normalize) tabs: user.vim_normal_mode(":%s/\\t/    /eg\n")
-normalize spaces: user.vim_normal_mode(":%s/\\S\\zs\\s\\+/ /g")
+normalize spaces: user.vim_normal_mode(":%s/\\S\\zs\\s\\+/ /g\n")
 (delete|trim) empty lines:
     insert(":")
     sleep(100ms)

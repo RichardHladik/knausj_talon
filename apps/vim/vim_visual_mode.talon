@@ -75,4 +75,7 @@ prefix with <user.unmodified_key>:
     sleep(50ms)
     insert("s/^/{unmodified_key}/g\n")
 
+# XXX - maybe make this work another modes
+yank with line numbers:
+    user.vim_command_mode_exterm(":redir @+ | silent! :'<,'>number | redir END\n")
 

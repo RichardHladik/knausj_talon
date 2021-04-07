@@ -10,11 +10,16 @@ sleep all:
     speech.disable()
     user.engine_sleep()
     app.notify("Talon Sleep All Mode")
-(talon|talent) sleep:
+
+go to sleep:
+    mode.enable("sleep")
     speech.disable()
     user.talon_sleep_callback()
     app.notify("Talon Sleep")
-talon wake:
+
+wake up:
+    mode.disable("sleep")
     speech.enable()
+    mode.enable("command")
     app.notify("Talon Awake")
     user.talon_wake_callback()

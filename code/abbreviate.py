@@ -246,6 +246,7 @@ ctx.lists["user.abbreviation"] = {
     "session id": "sid",
     "shell": "sh",
     "shellcode": "sc",
+    "snipped": "[...]",
     "source": "src",
     "special": "spec",
     "specific": "spec",

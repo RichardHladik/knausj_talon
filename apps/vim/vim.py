@@ -112,9 +112,10 @@ ctx.lists["self.vim_arrow"] = {
 # XXX - Technically some of these are not counted atm... so could be split
 # Standard self.vim_counted_actions insertable entries
 standard_counted_actions = {
-    "after": "a",
+    # XXX - switch this to something like: "after air": faa
+    #"after": "a",
     "append": "a",
-    "after line": "A",
+    #"after line": "A",
     "append line": "A",
     "insert": "i",
     "insert column zero": "gI",
@@ -127,6 +128,7 @@ standard_counted_actions = {
     "undo": "u",
     "undo line": "U",
     # "erase": "x",
+    "forget": '"_x',
     "erase reversed": "X",
     "paste": "p",
     "paste above": "P",
@@ -135,6 +137,7 @@ standard_counted_actions = {
     # Warning saying unindent line is painful
     "unindent line": "<<",
     "delete line": "dd",  # TODO - can we avoid because of clear line?
+    "forget line": '"_dd',  # TODO - can we avoid because of clear line?
     "yank line": "Y",
     # "copy line": "Y",
     "scroll left": "zh",
@@ -143,8 +146,8 @@ standard_counted_actions = {
     "scroll half screen right": "zL",
     "scroll start": "zs",
     "scroll end": "ze",
-    "upper case line": "gUU",
-    "lower case line": "guu",
+    "upper line": "gUU",
+    "lower line": "guu",
     # XXX - these work from visual mode and normal mode
     "prefix": "I",
     "play again": "@@",
@@ -220,8 +223,9 @@ commands_with_motion = {
     "undo": "u",  # XXX this really have motion
     "swap case": "~",
     # motions
-    "change": "\"_c",  # NOTE: we purposely use the black hole register
+    "change": '"_c',  # NOTE: we purposely use the black hole register
     "clear": "d",  # this is to be consistent with talon generic_editor.talon
+    "forget": '"_d',  # this is to be consistent with talon generic_editor.talon
     "indent": ">",
     "unindent": "<",
     "yank": "y",  # NOTE: conflicts with talon 'yank' alphabet for 'y' key
@@ -236,9 +240,10 @@ commands_with_motion = {
 # some characters differ, and also in visual mode they don't have motions
 visual_commands = {
     # normal overlap
-    "change": "\"_c",  # NOTE: we purposely use the black hole register
+    "change": '"_c',  # NOTE: we purposely use the black hole register
     "join": "J",
     "clear": "d",  # this is to be consistent with talon generic_editor.talon
+    "forget": '"_d',  # this is to be consistent with talon generic_editor.talon
     "yank": "y",  # NOTE: conflicts with talon 'yank' alphabet for 'y' key
     "format": "gq",
     "fold": "zf",
@@ -260,6 +265,7 @@ ctx.lists["self.vim_motion_commands"] = list(
 # note that some of these are disabled to reduce the rule explosion to make
 # things faster, where you can enable some if your detection is bad for the
 # ones that are already enabled
+# XXX - find a better name for the "big <thing>" names?
 motions = {
     "back": "b",
     "big back": "B",
@@ -307,9 +313,9 @@ motions = {
     "curse middle": "M",
     "curse last": "L",
     "loft": "gg",
-    "file top": "gg",
+    # "file top": "gg",
     "gut": "G",
-    "file ent": "G",
+    # "file ent": "G",
 }
 
 motions_custom = {
@@ -334,7 +340,7 @@ ctx.lists["self.vim_motions_keys"] = {
 }
 
 # all of these motions take a character argument
-vim_motions_with_character = {
+vim_character_motions = {
     "go mark": "'",
     "find": "f",
     "fever": "F",
@@ -352,7 +358,7 @@ custom_vim_motions_with_character_commands = {
 }
 
 ctx.lists["self.vim_motions_with_character"] = {
-    **vim_motions_with_character,
+    **vim_character_motions,
     **custom_vim_motions_with_character_commands,
 }
 
@@ -378,39 +384,24 @@ common_key_names = {
 
 
 # XXX - Should match more wording in vim_surround_targets
+# These can be pluralized because of how you speak vim grammars
+# ex: yank inside braces
+# however in practice talon matches them any ways
 text_object_select = {
     "word": "w",
-    # "words": "w",
     "big word": "W",
-    # "big words": "W",
     "block": "b",
-    # "blocks": "b",
     "big block": "B",
-    # "big blocks": "B",
-    # "dubquote": '"',
-    # "dub quote": '"',
     "quote": '"',
     "tick": "'",
-    # "single quotes": "'",
-    # "ticks": "'",
     "parens": "(",
-    # "parenthesis": "(",
-    # "angle brackets": "<",
     "angles": "<",
-    # These are pluralized because of how you speak vim grammars
-    # ex: yank inside braces
-    # "braces": "{",
     "code block": "{",
     "braces": "{",
-    # "square brackets": "[",
     "squares ": "[",
-    "brackets": "[",
-    # "backticks": "`",
     "graves": "`",
     "sentence": "s",
-    # "sentences": "s",
-    "paragraph": "p",
-    # "paragraphs": "p",
+    "graph": "p",
     "tag block": "t",
 }
 
@@ -423,6 +414,8 @@ ctx.lists["self.vim_text_object_select"] = {
 
 # Specific to the vim-surround plugin
 # XXX - should be able to partially mix with earlier list
+# XXX - should actually move to surround plugin
+# XXX - revisit loose naming
 ctx.lists["self.vim_surround_targets"] = {
     "stars": "*",
     "word": "w",

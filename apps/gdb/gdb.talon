@@ -11,8 +11,9 @@ tag(): user.readline
 # similar to the architecture
 tag(): user.libptmalloc
 #tag(): user.libdlmalloc
-tag(): user.libheap
+#tag(): user.libheap
 tag(): user.gef
+#tag(): user.pwndbg
 
 
 ##

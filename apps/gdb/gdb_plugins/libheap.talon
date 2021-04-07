@@ -1,5 +1,6 @@
-# XXX - make this is a heap_analysis_option
-tag: user.gdb
+# these commands are for the following gdb plugin
+# https://github.com/cloudburst/libheap
+tag: user.heapls
 -
 
 [run] heap: "heap\n"

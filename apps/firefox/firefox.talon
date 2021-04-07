@@ -9,10 +9,10 @@ tag(): user.vimium
 #action(browser.title):
 
 action(browser.focus_search):
-	browser.focus_address()
+    browser.focus_address()
 
 action(browser.submit_form):
-	key(enter)
+    key(enter)
 
 tab search:
   browser.focus_address()
@@ -22,3 +22,8 @@ tab search <user.text>$:
   insert("% {text}")
   key(down)
 
+outline that:
+    browser.focus_address()
+    key(home)
+    insert("outline.com/")
+    key(end enter)

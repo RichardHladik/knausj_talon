@@ -48,13 +48,28 @@ empty coals:
 
 [pair] (parens|args):
     insert("()")
-[pair] (brackets|braces): "{}"
-[pair] squares: "[]"
-[pair] angles: "<>"
-[pair] graves: "``"
-[pair] percents: "%%"
-[pair] ticks: "''"
-[pair] quotes: '""'
+    edit.left()
+[pair] (brackets|braces): 
+    insert("{}")
+    edit.left()
+[pair] squares: 
+    insert("[]")
+    edit.left()
+[pair] angles: 
+    insert("<>")
+    edit.left()
+[pair] graves: 
+    insert("``")
+    edit.left()
+[pair] percents: 
+    insert("%%")
+    edit.left()
+[pair] ticks: 
+    insert("''")
+    edit.left()
+[pair] quotes: 
+    insert('""')
+    edit.left()
 
 # XXX - add support for additional text navigation options?
 angle that:
