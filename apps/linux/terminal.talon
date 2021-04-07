@@ -38,16 +38,16 @@ action(edit.page_down):
 action(edit.page_up):
  key(shift-pageup)
 action(edit.paste):
-  key(ctrl-shift-v)
+  key(ctrl-alt-shift-v)
 action(edit.copy):
-  key(ctrl-shift-c)
+  key(ctrl-alt-shift-c)
 
 run last [command]:
   key(up)
   key(enter)
 run last script:
+  key(ctrl-r)
   insert("./")
-  key(up)
   key(enter)
 rerun <user.text>:
   key(ctrl-r)

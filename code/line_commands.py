@@ -62,4 +62,9 @@ class Actions:
     def delete_line_remaining():
         """Delete from the cursor until the end of the line"""
 
+    def cancel_selection_right():
+        """Cancels the selection and stays at its right end"""
+
+    def cancel_selection_left():
+        """Cancels the selection and stays at its left end"""
 

@@ -188,7 +188,8 @@ def update_lists():
         running_application_dict[cur_app.name] = True
 
     for override in overrides:
-        running[override] = overrides[override]
+        if override in running:
+            running[override] = overrides[override]
 
     lists = {
         "self.running": running,

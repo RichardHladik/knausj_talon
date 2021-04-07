@@ -30,7 +30,8 @@ class Actions:
             logging.warning("clear_last_phrase(): No last phrase to clear!")
             return
         for _ in phrase_history[0]:
-            actions.edit.delete()
+            #actions.edit.delete()
+            actions.key("backspace")
         phrase_history.pop(0)
 
     def select_last_phrase():

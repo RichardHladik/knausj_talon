@@ -212,3 +212,9 @@ action(edit.zoom_out):
 
 action(edit.zoom_reset):
     key(ctrl-0)
+
+action(user.cancel_selection_right):
+	key(right)
+
+action(user.cancel_selection_left):
+	key(left)

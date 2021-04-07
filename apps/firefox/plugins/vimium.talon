@@ -62,15 +62,15 @@ go to mark <user.letter>':
     insert("`{letter}")
 
 # Using the vomnibar
-(page|tab) open:
-    insert("o")
-(page|tab) open <user.text>:
-    key("o")
+page open:
+	key(ctrl-l)
+page open <user.text>:
+	key(ctrl-l)
     insert("{text}")
-(page|tab) open new:
-    insert("O")
-(page|tab) open new <user.text>:
-    key("O")
+page open new:
+	app.tab_open()
+page open new <user.text>:
+	app.tab_open()
     insert("{text}")
 (page|tab) open bookmark:
     insert("b")
@@ -111,7 +111,7 @@ page forward:
 # Manipulating tabs
 
 (page|tab) new:
-    key("t")
+    key(ctrl-t)
 (page|tab) (previous|left):
     insert("gT")
 (page|tab) (next|right):
@@ -131,9 +131,9 @@ tab <number_small>:
 # pin tab
 # mute tab
 (page|tab) close:
-    key("x")
+    key(ctrl-w)
 (page|tab) reopen:
-    key("X")
+    key(ctrl-shift-t)
 (page|tab) new tab:
     key("W")
 move tab left:

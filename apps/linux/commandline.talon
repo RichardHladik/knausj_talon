@@ -56,6 +56,9 @@ file edit make file: insert("edit Makefile\n")
 
 watch latest: "vlc $(ls -Art | tail -n1)"
 
+size here: "du -sh .\n"
+size sorted: "du -sh * | sort -h\n"
+
 # directory and files
 pivot: "cd "
 pivot clip:
@@ -235,6 +238,8 @@ core dump dump: "coredumpctl dump\n"
 core dump debug: "coredumpctl debug\n"
 
 # ssh
+machine {user.machine}: "{user.machine}"
+remote mux: "sst "
 secure shell: "ssh "
 secure shell <user.text>: "ssh {text}\n"
 secure shall key gen: "ssh-keygen -t ed25519\n"
@@ -307,3 +312,10 @@ screen resolution: "xdpyinfo | awk '/dimensions/{{print $2}}'\n"
 ###
 arch source check out: "asp checkout "
 arch source export: "asp export "
+
+
+###
+# Media
+###
+
+file play: "mpv "

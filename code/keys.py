@@ -8,7 +8,7 @@ from talon import Context, Module, actions, app
 #   jury  - suddenly always matching with three or tree
 #   pit  - conflicts with page
 #   yank - conflicts with vim command
-default_alphabet = "air bat cap drum each fin gust harp sit jury crunch look made near oak pit quench red sun trap urge vest whale plex yes zip".split(
+default_alphabet = "aim bat cap drum each fin gust harp sit jury crunch look made near oak pit quench red sun trap urge vest whale plex yes zip".split(
     " "
 )
 letters_string = "abcdefghijklmnopqrstuvwxyz"
@@ -139,7 +139,7 @@ def letters(m) -> str:
 ctx = Context()
 modifier_keys = {
     # If you find 'alt' is often misrecognized, try using 'alter'.
-    "alt": "alt",  #'alter': 'alt',
+    'alter': 'alt',
     "control": "ctrl",  #'troll':   'ctrl',
     "shift": "shift",  #'sky':     'shift',
     "super": "super",
@@ -161,6 +161,7 @@ punctuation_words = {
     ",": ",",  # <== these things
     "back tick": "`",
     "comma": ",",
+    "clap": ",",
     "period": ".",
     "semicolon": ";",
     "colon": ":",
@@ -176,6 +177,7 @@ punctuation_words = {
     "and sign": "&",
     "ampersand": "&",
 }
+
 symbol_key_words = {
     "grave": "`",
     "comma": ",",

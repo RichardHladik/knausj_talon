@@ -1,5 +1,6 @@
 #os: linux
 tag: user.taskwarrior
+and not tag: user.taskwarrior
 -
 
 # general

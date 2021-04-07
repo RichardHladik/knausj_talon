@@ -144,7 +144,7 @@ formatters_dict = {
     ),
     "PUBLIC_CAMEL_CASE": (NOSEP, every_word(lambda w: w.capitalize())),
     "SINGLE_QUOTED_STRING": (SEP, surround("'")),
-    "SLASH_SEPARATED": (NOSEP, every_word(lambda w: "/" + w)),
+    "SLASH_SEPARATED": words_with_joiner("/"),
     "SNAKE_CASE": (
         NOSEP,
         first_vs_rest(lambda w: w.lower(), lambda w: "_" + w.lower()),
@@ -294,7 +294,6 @@ ctx.lists["self.formatters"] = formatters_words.keys()
 ctx.lists["self.prose_formatter"] = {
     "say": "NOOP",
     "speak": "NOOP",
-    "spice": "NOOPSPACE",
     "sentence": "CAPITALIZE_FIRST_WORD",
 }
 

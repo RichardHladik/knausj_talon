@@ -1,9 +1,6 @@
 shock: key(enter)
-slap: key(enter)
-
 (jay son | jason ): "json"
 (http | htp): "http"
-tls: "tls"
 M D five: "md5"
 string U T F eight:
 	insert("'utf8'")
@@ -32,9 +29,6 @@ file save: edit.save()
 #spotlight: key(super)
 #(undo that | skunks): edit.undo()
 #redo that: edit.redo()
-volume up: key(volup)
-volume down: key(voldown)
-mute: key(mute)
 
 
 local host: "127.0.0.1"

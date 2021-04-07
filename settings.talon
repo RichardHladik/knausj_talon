@@ -27,7 +27,7 @@ settings():
     # what command to use for selection based screenshots
     user.screenshot_selection_command = "scrot -s"
     # the default is now 300ms
-    #speech.timeout = 0.150
+    speech.timeout = 0.200
     speech.record_all = 1
 
     #mouse grid and friends put the number one on the bottom left (vs on the top left)
@@ -43,7 +43,7 @@ settings():
     # copying surrounding text before inserting. This can be slow and may not
     # work in some applications. You may wish to enable this on a
     # per-application basis.
-    #user.context_sensitive_dictation = 1
+    user.context_sensitive_dictation = 0
 	
 # uncomment tag to enable mouse grid
 # tag(): user.mouse_grid_enabled

@@ -27,7 +27,7 @@ affected,effected
 afterward,afterword
 aid,aide
 ale,ail
-all,awl
+all,awl,or,ore,oar
 alluded,eluded
 illusion,allusion
 allowed,aloud
@@ -401,7 +401,6 @@ night,knight
 none,nun
 knows,nose
 not,knot
-or,ore,oar
 owed,ode
 oh,owe
 our,hour
@@ -526,6 +525,8 @@ sword,soared
 sold,soled
 son,sun
 sore,soar
+sort,salt
+sorted,salted
 sorry,sari
 soul,sole
 so,sow,sew
