@@ -26,3 +26,9 @@ class Actions:
     def date_yesterday() -> str:
         """return yesterday date (year, month, day) as a string"""
         return date.today() + timedelta(-1)
+
+    def time_format(hours: str, mins: str) -> str:
+        """return (hours, mins) as a string HH:MM"""
+        hours = int(hours)
+        mins = int(mins)
+        return "%02d:%02d" % (hours, mins)
