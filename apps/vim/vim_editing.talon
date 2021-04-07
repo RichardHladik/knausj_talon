@@ -75,6 +75,10 @@ action(edit.extend_file_start):
     user.vim_visual_mode("gg0")
 action(edit.extend_file_end):
     user.vim_visual_mode("G")
+action(user.cancel_selection_left):
+    user.vim_normal_mode("`<")
+action(user.cancel_selection_right):
+    user.vim_normal_mode("`>")
 
 action(edit.select_line):
     user.vim_visual_mode("V")
@@ -104,13 +108,14 @@ action(edit.delete_line):
     user.vim_normal_mode("dd")
 action(edit.delete):
     user.vim_insert_mode_key("backspace")
+	#key(backspace)
 
 # note these are for mouse highlighted copy/paste. shouldn't be used for actual
 # vim commands
 action(edit.copy):
-    key(ctrl-shift-c)
+	user.vim_visual_mode("\"+y")
 action(edit.paste):
-    key(ctrl-shift-v)
+    key(ctrl-alt-shift-v)
 
 action(edit.redo):
     user.vim_normal_mode_key("ctrl-r")

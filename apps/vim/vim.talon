@@ -39,23 +39,23 @@ tag(): user.tabs
 # Comment out plugins below that you don't use
 # Also see vim_motion_mode.talon for plugin grammars that aren't enabled in 
 # terminal mode
-tag(): user.vim_easymotion
-tag(): user.vim_fern
-tag(): user.vim_fern_mapping_fzf
-tag(): user.vim_floaterm
+#tag(): user.vim_easymotion
+#tag(): user.vim_fern
+#tag(): user.vim_fern_mapping_fzf
+#tag(): user.vim_floaterm
 tag(): user.vim_fzf
-tag(): user.vim_nerdtree
-tag(): user.vim_obsession
-tag(): user.vim_plug
-tag(): user.vim_signature
-tag(): user.vim_taboo
-tag(): user.vim_tabular
-tag(): user.vim_taskwiki
-tag(): user.vim_test
-tag(): user.vim_unicode
-tag(): user.vim_wiki
-tag(): user.vim_you_are_here
-tag(): user.vim_zoom
+#tag(): user.vim_nerdtree
+#tag(): user.vim_obsession
+#tag(): user.vim_plug
+#tag(): user.vim_signature
+#tag(): user.vim_taboo
+#tag(): user.vim_tabular
+#tag(): user.vim_taskwiki
+#tag(): user.vim_test
+#tag(): user.vim_unicode
+#tag(): user.vim_wiki
+#tag(): user.vim_you_are_here
+#tag(): user.vim_zoom
 
 
 # To the settings below dictate how certain parts of Talon VIM will work. You
@@ -95,7 +95,7 @@ settings():
     #
     # This setting only applies to commands run through the actual counted
     # actions grammar itself
-    user.vim_cancel_queued_commands = 1
+    user.vim_cancel_queued_commands = 0
 
     # When you are escaping queued commands, it seems vim needs time to recover
     # before issuing the subsequent commands. This controls how long it waits,
@@ -114,7 +114,7 @@ settings():
     user.vim_mode_switch_moves_cursor = 0
 
     # Whether or not use pynvim rpc if it is available
-    user.vim_use_rpc = 1
+    user.vim_use_rpc = 0
 
     # Adds debug output to the talon log
     user.vim_debug = 0
@@ -136,6 +136,7 @@ settings():
     key("{vim_normal_counted_actions_keys}")
 <user.vim_counted_motion_command_with_ordinals>$:
     insert("{vim_counted_motion_command_with_ordinals}")
+
 
 ###
 # File editing and management

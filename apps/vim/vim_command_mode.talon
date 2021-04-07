@@ -18,7 +18,7 @@ action(edit.line_start): key(ctrl-b)
 action(edit.line_end): key(ctrl-e)
 action(edit.delete_line): key(ctrl-u)
 action(user.delete_word_left): key(ctrl-w)
-action(edit.paste): key(ctrl-shift-v)
+action(edit.paste): key(ctrl-alt-shift-v)
 
 literal: key(ctrl-v)
 

@@ -3,6 +3,8 @@ win.title: /VIM MODE:t/
 
 tag(): user.vim_terminal
 
+action(user.delete_word_left):
+	key(ctrl-w)
 
 pop (terminal|term):
     key(ctrl-\ ctrl-n)

@@ -354,13 +354,13 @@ vim grep:
     user.vim_command_mode(":vimgrep // */**")
     key(left:6)
 
-quick [fix] next: user.vim_command_mode(":cn\n")
-quick [fix] (back|last|prev|previous): user.vim_command_mode(":cp\n")
-quick [fix] (show|hide): user.vim_command_mode(":cw\n")
-quick [fix] close: user.vim_command_mode(":ccl\n")
-# XXX - top?
-quick [fix] bottom: user.vim_command_mode(":cbo\n")
-quick [fix] do:
+quick fix next: user.vim_command_mode(":cn\n")
+quick fix (back|last|prev|previous): user.vim_command_mode(":cp\n")
+quick fix (show|hide): user.vim_command_mode(":cw\n")
+quick fix close: user.vim_command_mode(":ccl\n")
+# XXX  to?
+quick fix bottom: user.vim_command_mode(":cbo\n")
+quick fix do:
     user.vim_command_mode(":cdo | update")
     key(left:9)
 set auto write all: user.vim_command_mode(":set autowriteall\n")
