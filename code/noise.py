@@ -5,6 +5,7 @@ import talon
 from talon import Module, noise, actions, scripting, ui, app
 from typing import Callable, Union, Any
 import logging
+import time
 
 mod = Module()
 @mod.action_class
@@ -12,8 +13,14 @@ class Actions:
 
     def pop(): 
         """pop action overrideable by contexts"""
-        # XXX - this doesn't necessarily actually zoom, should be renamed
-        actions.user.mouse_zoom()
+        now = time.monotonic()
+        global last_pop
+        if last_pop is None or last_pop + .5 < now:
+            last_pop = now
+            return
+
+        last_pop = None
+        actions.user.toggle_mode()
 
     def pop_quick_action_clear():
         """Clears the quick macro"""
@@ -73,13 +80,16 @@ class Actions:
         scripting.core.CoreActions.run_command(*hiss_quick_action)
 
 
-ui.register("app_deactivate", lambda app: actions.user.pop_quick_action_clear())
-ui.register("win_focus", lambda win: actions.user.pop_quick_action_clear())
+#ui.register("app_deactivate", lambda app: actions.user.pop_quick_action_clear())
+#ui.register("win_focus", lambda win: actions.user.pop_quick_action_clear())
 
 pop_quick_action = None
 pop_quick_action_last = None
 pop_quick_action_history = []
+last_pop = None
+
 def on_pop(active):
+    print("pop")
     global pop_quick_action
     if pop_quick_action is None:
         actions.user.pop()
@@ -90,6 +100,7 @@ hiss_quick_action = None
 hiss_quick_action_last = None
 hiss_quick_action_history = []
 def on_hiss(active):
+    print("hiss")
     global hiss_quick_action
     if hiss_quick_action is None:
         actions.user.hiss()
