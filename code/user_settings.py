@@ -2,7 +2,7 @@ import csv
 import os
 from pathlib import Path
 from typing import Dict, List, Tuple
-from talon import resource
+from talon import resource, fs
 
 # NOTE: This method requires this module to be one folder below the top-level
 #   knausj folder.
@@ -58,3 +58,25 @@ def get_list_from_csv(
             mapping[spoken_form] = output
 
     return mapping
+
+def register_csv_listener(filename: str):
+    def decorate(listener):
+        listener_noop = lambda: listener(filename)
+        def new_listener(name, flags):
+            if Path(name).parts[-1] != filename:
+                return
+            listener_noop()
+        fs.watch(str(SETTINGS_DIR), new_listener)
+        listener_noop()
+        return listener_noop
+    return decorate
+
+def register_csv_to_context(ctx, filename: str, listname: str, headers: Tuple[str] = ("Original", "Talon name"), default={}):
+    @register_csv_listener(filename)
+    def listener(fn):
+        ctx.lists[listname] = get_list_from_csv(
+            fn,
+            headers=headers,
+            default=default,
+        )
+    return listener
