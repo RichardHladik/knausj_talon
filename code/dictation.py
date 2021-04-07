@@ -18,13 +18,31 @@ setting_context_sensitive_dictation = mod.setting(
     desc="Look at surrounding text to improve auto-capitalization/spacing in dictation mode. By default, this works by selecting that text & copying it to the clipboard, so it may be slow or fail in some applications.",
 )
 
+def pretty_words(word):
+    words = []
+    for w in actions.dictate.parse_words(word):
+        w = w.lower()
+        buf = []
+        while True:
+            for bad in "... . , ? ! :".split(" "):
+                if w.endswith(bad):
+                    w = w[:-len(bad)]
+                    buf.append(bad)
+                    break
+            else:
+                break
+        buf.append(w)
+        buf.reverse()
+        words += buf
+    return actions.dictate.replace_words(words)
+
 @mod.capture(rule="({user.vocabulary} | <word>)")
 def word(m) -> str:
     """A single word, including user-defined vocabulary."""
     try:
         return m.vocabulary
     except AttributeError:
-        return " ".join(actions.dictate.replace_words(actions.dictate.parse_words(m.word)))
+        return " ".join(pretty_words(m.word))
 
 @mod.capture(rule="({user.vocabulary} | <phrase>)+")
 def text(m) -> str:
@@ -37,12 +55,13 @@ def prose(m) -> str:
     text, _state = auto_capitalize(format_phrase(m))
     return text
 
-
 # ---------- FORMATTING ---------- #
 def format_phrase(m):
     words = capture_to_words(m)
     result = ""
     for i, word in enumerate(words):
+        if word == "...":
+            word = "…"
         if i > 0 and needs_space_between(words[i-1], word):
             result += " "
         result += word
@@ -52,17 +71,23 @@ def capture_to_words(m):
     words = []
     for item in m:
         words.extend(
-            actions.dictate.replace_words(actions.dictate.parse_words(item))
+            pretty_words(item)
             if isinstance(item, grammar.vm.Phrase) else
             item.split(" "))
     return words
 
-no_space_before = set("\n .,!?;:-/%)]}\"")
-no_space_after = set("\n -/#@([{$£€¥₩₽₹\"")
+no_space_before = set("\n .,!?;:-%)]}\"…")
+no_space_after = set("\n -#@([{£€¥₩₽₹\"")
 def needs_space_between(before: str, after: str) -> bool:
     return (before != "" and after != ""
             and before[-1] not in no_space_after
             and after[0] not in no_space_before)
+
+def needs_space_before(text: str):
+    return text and text[0] not in no_space_before
+
+def needs_space_after(text: str):
+    return text and text[-1] not in no_space_after
 
 def auto_capitalize(text, state = None):
     """
@@ -137,6 +162,16 @@ class Actions:
         dictation_formatter.pass_through(text)
         actions.insert(text)
 
+    def dictation_insert_dumb(text: str):
+        """Inserts text even more as-is, with a space at the end."""
+        dictation_formatter.reset()
+        dictation_formatter.format(text)
+        if not needs_space_before(text):
+            actions.edit.delete()
+        if needs_space_after(text):
+            text = text + " "
+        actions.insert(text)
+
     def dictation_insert(text: str) -> str:
         """Inserts dictated text, formatted appropriately."""
         # do_the_dance = whether we should try to be context-sensitive. Since
@@ -188,7 +223,7 @@ class Actions:
         if text:
             # Unfortunately, in web Slack, if our selection ends at newline,
             # this will go right over the newline. Argh.
-            actions.edit.right()
+            actions.user.cancel_selection_right()
         return text
 
     def clobber_selection_if_exists():
@@ -222,8 +257,9 @@ class Actions:
         """
         actions.edit.extend_right()
         char = actions.edit.selected_text()
-        if char: actions.edit.left()
+        if char: actions.user.cancel_selection_left()
         return char
+
 
 # Use the dictation formatter in dictation mode.
 dictation_ctx = Context()
@@ -233,4 +269,9 @@ mode: dictation
 
 @dictation_ctx.action_class("main")
 class main_action:
-    def auto_insert(text): actions.user.dictation_insert(text)
+    def auto_insert(text):
+        if setting_context_sensitive_dictation.get():
+            actions.user.dictation_insert(text)
+        else:
+            actions.user.dictation_insert_dumb(text)
+

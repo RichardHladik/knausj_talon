@@ -2,38 +2,17 @@
 not mode: sleep
 not mode: user.presentation
 -
+toggle mode:
+	user.toggle_mode()
 dictation mode|(anglický|anglicky) (mód|mod)|englischer Modus:
-^dictation mode$:
-    mode.disable("sleep")
-    mode.disable("command")
-	mode.disable("user.czech")
-	mode.disable("user.german")
-    mode.enable("dictation")
-    app.notify("Dictation Mode")
-    user.code_clear_language_mode()
-    mode.disable("user.gdb")
+	user.switch_mode("dictation")
 
 command mode|talon mode|příkazový (mód|mod)|Befehlsmodus:
-    mode.disable("sleep")
-    mode.disable("dictation")
-	mode.disable("user.czech")
-	mode.disable("user.german")
-    mode.enable("command")
-    app.notify("Command Mode")
+	user.switch_mode("command")
 (Czech|check) mode|(tschechischer|tschechische) Modus:
-    mode.disable("sleep")
-    mode.disable("dictation")
-    mode.disable("command")
-	mode.disable("user.german")
-	mode.enable("user.czech")
-    app.notify("Czech Mode")
+	user.switch_mode("user.czech")
 German mode|(německý|německy) (mód|mod):
-    mode.disable("sleep")
-    mode.disable("dictation")
-    mode.disable("command")
-	mode.enable("user.german")
-	mode.disable("user.czech")
-    app.notify("German Mode")
+	user.switch_mode("user.german")
 
 ^presentation mode$:
     user.switcher_hide_running()

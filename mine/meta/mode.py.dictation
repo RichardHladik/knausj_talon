@@ -1,4 +1,0 @@
-from talon import actions
-import os
-actions.mimic("dictation mode".split())
-os.unlink(__file__)

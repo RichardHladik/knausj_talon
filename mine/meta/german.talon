@@ -1,5 +1,8 @@
 mode: user.german
 -
+settings():
+    speech.language = "de_DE"
+    speech.engine = "webspeech"
 <user.text>:
 	app.notify("German Mode")
     auto_insert(user.text)

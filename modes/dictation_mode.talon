@@ -5,17 +5,7 @@ settings():
 
 # Everything here should call auto_insert to preserve the state to correctly auto-capitalize/auto-space.
 ^press <user.keys>$: key("{keys}")
-<user.prose>:
-	insert(prose)
-	insert(" ")
-period|pistol: key(backspace . space)
-(comma | kama | clap | clip | comer): key(backspace , space)
-question mark: key(backspace ? space)
-(bang | exclamation [mark]): key(backspace ! space)
-dash: key(backspace - space)
-hyphen: key(backspace -)
-colon: key(backspace : space)
-(semi colon | semicolon): key(backspace ; space)
+<user.prose>: auto_insert(prose)
 
 (cap|cab) <user.word>:
     result = user.formatted_text(word, "CAPITALIZE_FIRST_WORD")
@@ -68,6 +58,10 @@ clear right <number_small> (character|characters):
     edit.extend_right()
     repeat(number_small - 1)
     edit.delete()
+(jumble|jumbo|šnorchl|snorchl):
+    user.delete_word_left()
+trash|smaž:
+	edit.undo()
 
 # Formatting
 formatted <user.format_text>:
