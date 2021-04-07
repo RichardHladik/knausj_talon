@@ -61,6 +61,7 @@ extension_lang_map = {
     ".sql": "sql",
     ".talon": "talon",
     ".task": "taskwarrior",
+    ".tex": "tex",
     ".ts": "typescript",
     ".tsx": "typescript",
     ".vba": "vba",
@@ -110,15 +111,24 @@ class code_actions:
         if not forced_language_mode:
             if forced_context_language is not None:
                 return forced_context_language
-            file_extension = actions.win.file_ext()
-            file_name = actions.win.filename()
+            file_extensions = [actions.win.file_ext()]
+            file_names = [actions.win.filename()]
+            title = actions.win.title().rsplit("—", 1)[0].strip().split()
+            if title:
+                file_names.append(title[-1])
+            for file_name in file_names:
+                split = file_name.rsplit(".", 1)
+                if len(split) > 1:
+                    file_extensions.append("." + split[-1])
 
             # Favor full matches
-            if file_name in special_file_map:
-                return special_file_map[file_name]
+            for file_name in file_names:
+                if file_name in special_file_map:
+                    return special_file_map[file_name]
 
-            if file_extension and file_extension in extension_lang_map:
-                return extension_lang_map[file_extension]
+            for file_extension in file_extensions:
+                if file_extension in extension_lang_map:
+                    return extension_lang_map[file_extension]
 
 
 # create a mode for each defined language
@@ -148,14 +158,15 @@ class Actions:
         app.notify(subtitle="Enabled {} mode".format(language))
         forced_language_mode = True
 
-    def code_clear_language_mode():
+    def code_clear_language_mode(quiet:int = False):
         """Clears the active language mode, and re-enables code.language: extension matching"""
         global forced_language_mode
         forced_language_mode = False
 
         for __, lang in extension_lang_map.items():
             actions.mode.disable("user.{}".format(lang))
-        app.notify(subtitle="Cleared language modes")
+        if not quiet:
+            app.notify(subtitle="Cleared language modes")
 
     def code_operator_indirection():
         """code_operator_indirection"""
