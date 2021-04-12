@@ -59,8 +59,6 @@ def populate_shell_tags(shell_command):
         "zsh": "terminal",
         "bash": "terminal",
         "sh": "terminal",
-        # TODO - fix this
-        "root@oedo": "terminal",
         "ssh": "terminal",
         "gdb": "user.gdb",
         "htop": "user.htop",
@@ -71,6 +69,7 @@ def populate_shell_tags(shell_command):
     fuzzy_shell_tags = {
         # Match on stuff like fzf running in floating term
         #"term://": "user.readline",
+        "root@": "terminal", # hacky match for docker containers
     }
     print(shell_command)
     if shell_command in shell_tags:
@@ -79,7 +78,7 @@ def populate_shell_tags(shell_command):
         found_fuzzy = False
         for tag in fuzzy_shell_tags:
             if shell_command.startswith(tag):
-                ctx.tags = [shell_tags[shell_command]]
+                ctx.tags = [fuzzy_shell_tags[tag]]
                 found_fuzzy = True
                 break
         #ctx.tags = ["terminal"]

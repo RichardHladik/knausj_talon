@@ -1,7 +1,7 @@
 # This is the "mode" that we enter when pressing `q:` or `q/` from normal mode
 # Our window title will look something like this:
 # IO VIM MODE:n RPC:/tmp/nvimWP0y5W/0  ([Command Line]) [Command Line]
-app:vim
+app: vim
 tag: user.vim_normal_mode
 and win.title: /[Command Line]/
 -

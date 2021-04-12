@@ -76,6 +76,8 @@ prefix with <user.unmodified_key>:
     insert("s/^/{unmodified_key}/g\n")
 
 # XXX - maybe make this work another modes
-yank with line numbers:
-    user.vim_command_mode_exterm(":redir @+ | silent! :'<,'>number | redir END\n")
-
+yank with numb:
+    # NOTE - xclip struggles with we use @+ directly, we indirect through @n
+    # this turns @n into a scratch register. XXX - we may want to document
+    # this eventually
+    user.vim_command_mode_exterm(":redir @n | silent! :'<,'>number | redir END | let @+=@n\n")

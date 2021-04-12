@@ -565,7 +565,7 @@ run as sandbox:
 # Convenience
 ###
 
-remove trailing white space: user.vim_normal_mode(":%s/\\s\\+$//e\n")
+trim white space: user.vim_normal_mode(":%s/\\s\\+$//e\n")
 (remove all|normalize) tabs: user.vim_normal_mode(":%s/\\t/    /eg\n")
 normalize spaces: user.vim_normal_mode(":%s/\\S\\zs\\s\\+/ /g\n")
 (delete|trim) empty lines:

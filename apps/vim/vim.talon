@@ -418,6 +418,7 @@ set split width:
 set split height:
     user.vim_set_command_mode_exterm(":vertical resize ")
 
+# XXX - this has conflicted with split zoom before
 (split|window) do:
     user.vim_command_mode_exterm(":windo ")
 

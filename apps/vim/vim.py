@@ -95,6 +95,7 @@ class win_actions:
             return result
         return ""
 
+
 #    def file_ext():
 #        ext = actions.win.filename().split(".")[-1]
 #        # print(ext)
@@ -113,9 +114,9 @@ ctx.lists["self.vim_arrow"] = {
 # Standard self.vim_counted_actions insertable entries
 standard_counted_actions = {
     # XXX - switch this to something like: "after air": faa
-    #"after": "a",
+    # "after": "a",
     "append": "a",
-    #"after line": "A",
+    # "after line": "A",
     "append line": "A",
     "insert": "i",
     "insert column zero": "gI",
@@ -155,7 +156,7 @@ standard_counted_actions = {
     "repeat last swap": "&",
     # XXX - not sure how to name these
     "clear rest": "D",
-    "change rest": "\"_C",  # NOTE: we purposely use the black hole register
+    "change rest": '"_C',  # NOTE: we purposely use the black hole register
 }
 
 # Standard self.vim_counted_actions key() entries
@@ -916,12 +917,12 @@ class Actions:
         """run a given list of commands in command mode, preserve INSERT"""
         v = VimMode()
         v.set_command_mode()
-        if cmd[0] == ':':
+        if cmd[0] == ":":
             actions.user.paste(cmd[1:])
         else:
             actions.user.paste(cmd)
         # pasting a newline doesn't apply it
-        if cmd[-1] == '\n':
+        if cmd[-1] == "\n":
             actions.key("enter")
 
     # technically right now they run in in normal mode, but these calls will
@@ -930,12 +931,12 @@ class Actions:
         """run a given list of commands in command mode, preserve INSERT"""
         v = VimMode()
         v.set_command_mode_exterm()
-        if cmd[0] == ':':
+        if cmd[0] == ":":
             actions.user.paste(cmd[1:])
         else:
             actions.user.paste(cmd)
         # pasting a newline doesn't apply it
-        if cmd[-1] == '\n':
+        if cmd[-1] == "\n":
             actions.key("enter")
 
     # Sometimes the .talon file won't know what mode to run something in, just
@@ -945,7 +946,6 @@ class Actions:
         v = VimMode()
         v.set_any_motion_mode()
         actions.insert(cmd)
-
 
     # Sometimes the .talon file won't know what mode to run something in, just
     # that it needs to be a mode that supports motions like normal and visual.
@@ -1177,7 +1177,6 @@ class VimMode:
             # Trigger / untrigger mode-related talon grammars
             self.set_mode_tag(valid_mode_ids[0])
 
-
     # Often I will say `delete line` and it will trigger `@delete` and `@nine`.
     # This then keys 9. I then say `undo` to fix the bad delete, which does 9
     # undos. Chaos ensues... this seeks to fix that
@@ -1192,26 +1191,35 @@ class VimMode:
             time.sleep(timeout)
 
     def wait_mode_change(self, wanted):
-        # XXX - try to force a redraw?
+        check_count = 0
+        max_check_count = 20
         if self.nvrpc.init_ok:
             while wanted != self.nvrpc.get_active_mode()["mode"][0]:
                 self.dprint("%s vs %s" % (wanted, self.nvrpc.get_active_mode()["mode"]))
                 time.sleep(0.005)
+                # try to force redraw to prevent weird infinite loops
+                self.nvrpc.nvim.command('redraw')
+                check_count += 1
+                if check_count > max_check_count:
+                    # prevent occasional infinite loops stalling talon
+                    return False
+            return True
         else:
             time.sleep(self.wait_mode_timeout)
+            return True
 
     @classmethod
     # We don't want unnecessarily only call this from set_mode() is the user
     # might change the mode of vim manually or speaking keys, but we still want
     # the context specific grammars to match.
-    # TODO: present to figure out if this makes sense present addition to
-    # win.title matching I already do. I think it does make sense for cases of
-    # overriding certain default actions like home/end
+    # TODO: figure out if this makes sense in addition to win.title matching I
+    # already do. I think it does make sense for cases of overriding certain
+    # default actions like home/end
     def set_mode_tag(self, mode):
         global mode_tag_list
         global ctx
 
-        print(ctx.tags)
+        # print(ctx.tags)
 
     # NOTE: querying certain modes is broken (^V mode undetected)
     # Setting mode with RPC is impossible, which makes sense because it would
@@ -1228,6 +1236,8 @@ class VimMode:
 
         self.dprint("Setting mode to {}".format(wanted_mode))
         # enter normal mode where necessary
+        # XXX - need to handle normal mode in Command Line window, we need to
+        # be able to escape from it
         if self.is_terminal_mode():
             if (
                 settings.get("user.vim_escape_terminal_mode") is True
@@ -1258,7 +1268,7 @@ class VimMode:
                 and settings.get("user.vim_preserve_insert_mode") >= 1
             ):
                 if settings.get("user.vim_mode_switch_moves_cursor") == 0:
-                    actions.key("ctrl-\\")  # don't move the cursor on mode switch
+                    actions.key("ctrl-\\")
                 actions.key("ctrl-o")
             else:
                 # Presses right because entering normal mode via escape puts
@@ -1313,7 +1323,6 @@ class VimMode:
         # need to make the notify command configurable
         if settings.get("user.vim_notify_mode_changes") >= 1:
             self.notify_mode_change(wanted_mode)
-            ...
 
     def notify_mode_change(self, mode):
         """Function to be customized by talon user to determine how they want
