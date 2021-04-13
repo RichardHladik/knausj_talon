@@ -11,6 +11,7 @@
 # paste for command mode
 
 import time
+import enum
 
 from talon import Context, Module, actions, settings, ui
 
@@ -622,7 +623,7 @@ def vim_motions_all_adjust(m) -> str:
     "Returns a rule matching a vim motion, and adjusts the vim mode"
     v = VimMode()
     v.set_any_motion_mode()
-    print(m)
+    #print(m)
     return "".join(list(m))
 
 
@@ -829,6 +830,17 @@ class Actions:
         """set visual mode"""
         v = VimMode()
         v.set_command_mode_exterm()
+
+    def vim_set_replace_mode():
+        """set visual mode"""
+        v = VimMode()
+        v.set_replace_mode()
+
+    def vim_set_visual_replace_mode():
+        """set visual mode"""
+        v = VimMode()
+        v.set_visual_replace_mode()
+
 
     def vim_insert_mode(cmd: str):
         """run a given list of commands in normal mode, preserve mode"""
@@ -1053,16 +1065,16 @@ class VimMode:
 
     def dprint(self, s):
         if settings.get("user.vim_debug"):
-            print(s)
+            print(f"VIM DEBUG: {s}")
 
     def is_normal_mode(self):
-        return self.current_mode in ["n", "niI"]
+        return self.current_mode in ["n", "no", "nov", "noV", "no^V", "niI", "niR", "niV"]
 
     def is_visual_mode(self):
         return self.current_mode in ["v", "V", "^V"]
 
     def is_insert_mode(self):
-        return self.current_mode in ["i", "ic"]
+        return self.current_mode in ["i", "ic", "ix"]
 
     def is_terminal_mode(self):
         return self.current_mode == "t"
@@ -1071,15 +1083,14 @@ class VimMode:
         return self.current_mode == "c"
 
     def is_replace_mode(self):
-        return self.current_mode in ["R", "Rv"]
+        return self.current_mode in ["R", "Rv", "Rx", "Rc"]
 
     def get_active_mode(self):
         if self.nvrpc.init_ok is True:
             print("######### IN")
             actions.key("ctrl")
             mode = self.nvrpc.get_active_mode()["mode"]
-            self.dprint(mode)
-            # XXX -
+            self.dprint(f"RPC reported mode: {mode}")
             self.current_mode = mode
             print("######### OUT")
         else:
@@ -1088,7 +1099,7 @@ class VimMode:
             mode = None
             if "MODE:" in title:
                 mode = title.split("MODE:")[1].split(" ")[0]
-                self.dprint(mode)
+                self.dprint(f"Window title reported mode: {mode}")
                 if mode not in self.vim_modes.keys():
                     return None
                 self.current_mode = mode
@@ -1162,7 +1173,7 @@ class VimMode:
         if auto is True and settings.get("user.vim_adjust_modes") == 0:
             return
 
-        self.get_active_mode()
+        #self.get_active_mode()
         cur = self.current_mode_id()
         if type(valid_mode_ids) != list:
             valid_mode_ids = [valid_mode_ids]
@@ -1238,6 +1249,9 @@ class VimMode:
         # enter normal mode where necessary
         # XXX - need to handle normal mode in Command Line window, we need to
         # be able to escape from it
+        # XXX - also have a lot of special case modes (see :help mode) that we
+        # probably want to be able to break out of, instead of just doing more
+        # fuzzy matching of the mode (ex: `no`, `rm`, `!`, etc)
         if self.is_terminal_mode():
             if (
                 settings.get("user.vim_escape_terminal_mode") is True
@@ -1270,13 +1284,14 @@ class VimMode:
                 if settings.get("user.vim_mode_switch_moves_cursor") == 0:
                     actions.key("ctrl-\\")
                 actions.key("ctrl-o")
+                self.wait_mode_change("niI")
             else:
                 # Presses right because entering normal mode via escape puts
                 # the cursor back one position, otherwise misaligns on words.
                 # Exception is `2 delete big-back` from INSERT mode.
                 actions.key("right")
                 actions.key("escape")
-            self.wait_mode_change("n")
+                self.wait_mode_change("n")
         elif self.is_visual_mode() or self.is_command_mode() or self.is_replace_mode():
             actions.key("escape")
             self.wait_mode_change("n")
