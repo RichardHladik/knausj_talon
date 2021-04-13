@@ -33,6 +33,7 @@ tagList = [
     # common terminal commands like ctrl+c, but without actually
     # supporting all of this shell commands themselves (ls, cd, etc)
     "terminal_program",
+    "tridactyl",
     # a tag for defining very specific terminal command line editor
     # commands, see command_line_editing_readline.talon
     "readline",

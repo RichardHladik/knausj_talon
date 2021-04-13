@@ -2,7 +2,7 @@ app: firefox
 -
 tag(): browser
 tag(): user.tabs
-tag(): user.vimium
+tag(): user.tridactyl
 
 # TODO
 #action(browser.address):
@@ -21,9 +21,3 @@ tab search <user.text>$:
   browser.focus_address()
   insert("% {text}")
   key(down)
-
-outline that:
-    browser.focus_address()
-    key(home)
-    insert("outline.com/")
-    key(end enter)
