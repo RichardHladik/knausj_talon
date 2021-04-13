@@ -12,11 +12,12 @@ action(edit.delete_line):
 	key(ctrl-u)
 
 file list: "ls "
-file list here: "ls\n"
+file list here|lizzie: "ls\n"
 file list long: "ls -al "
-file list long here: "ls -al\n"
+file list long here|long lizzie: "ls -al\n"
 file list latest: "ls -Art | tail -n1\n"
 file list folders: "ls -d */\n"
+file list by date: "ls -lSrt\n"
 
 # find command
 file find all links: "find . -maxdepth 1 -type l  -ls\n"
@@ -65,8 +66,8 @@ pivot clip:
     insert("cd ")
     edit.paste()
     key(enter)
-pivot <user.paths>:
-    insert("cd {paths}\n")
+pivot {user.paths}:
+    insert("cd {user.paths}\n")
     insert("ls\n")
 # pivot up doesn't work with talon
 pivot back: "cd ../\n"
@@ -200,7 +201,7 @@ tar ball [extract]: "tar -xvaf "
 tar ball list: "tar -tf "
 (un zip|extract zip): "unzip "
 
-run <word>: "{word} "
+run <user.word>: "{word} "
 run curl: "curl "
 run double you get: "wget "
 download clip:
@@ -319,3 +320,8 @@ arch source export: "asp export "
 ###
 
 file play: "mpv "
+
+
+# filesystem
+mount deaf S D: "mount /dev/sd"
+umount: "umount "

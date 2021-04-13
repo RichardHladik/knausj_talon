@@ -11,7 +11,6 @@ check keyboard [layout]: user.system_command("setxkbmap cz")
 	"nqt &> /dev/null&\n"
 (dev|deaf) (null|now):
 	"/dev/null"
-to do: "TODO"
 travis: "../"
 
 alarm [in] one minute:

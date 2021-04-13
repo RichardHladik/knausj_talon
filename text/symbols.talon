@@ -14,7 +14,6 @@ new line: "\\n"
 carriage return: "\\r"
 line feed: "\\r\\n"
 end of file: "EOF"
-dotty: "../"
 
 empty (string|quotes):
     insert('""')

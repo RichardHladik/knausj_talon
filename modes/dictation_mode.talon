@@ -7,10 +7,10 @@ settings():
 ^press <user.keys>$: key("{keys}")
 <user.prose>: auto_insert(prose)
 
-(cap|cab) <user.word>:
+(cap|cab|obří|obřího|obřímu|obřím|obřími|obříma) <user.word>:
     result = user.formatted_text(word, "CAPITALIZE_FIRST_WORD")
     auto_insert(result)
-new line: "\n"
+new line|kopr: "\n"
 new paragraph: "\n\n"
     
 # Navigation
@@ -70,7 +70,6 @@ formatted <user.format_text>:
     user.formatters_reformat_selection(formatters)
 
 # Corrections
-scratch that: user.clear_last_phrase()
 scratch selection: edit.delete()
 select that: user.select_last_phrase()
 spell that <user.letters>: auto_insert(letters)

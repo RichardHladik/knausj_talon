@@ -76,7 +76,7 @@ def capture_to_words(m):
             item.split(" "))
     return words
 
-no_space_before = set(" .,!?;:-%)]}\"…")
+no_space_before = set("\n .,!?;:-%)]}\"…")
 no_space_after = set("\n -#@([{£€¥₩₽₹\"")
 def needs_space_between(before: str, after: str) -> bool:
     return (before != "" and after != ""
@@ -184,14 +184,16 @@ class Actions:
                 actions.user.dictation_peek_left(clobber=True))
         text = dictation_formatter.format(text)
         actions.user.add_phrase_to_history(text)
-        actions.user.insert_content(text)
         # Add a space after cursor if necessary.
         if not do_the_dance or not text or text[-1] in no_space_after:
-            return
-        char = actions.user.dictation_peek_right()
-        if char is not None and needs_space_between(text, char):
-            actions.insert(" ")
-        #    actions.edit.left()
+            space_after = False
+        else:
+            char = actions.user.dictation_peek_right()
+            space_after = char is not None and needs_space_between(text, char)
+
+        actions.user.insert_content(text + (["", " "][space_after]))
+        if space_after:
+            actions.edit.left()
 
     def dictation_peek_left(clobber: bool = False) -> Optional[str]:
         """
@@ -256,7 +258,6 @@ class Actions:
         document.)
         """
         actions.edit.extend_right()
-        actions.sleep("500ms")
         char = actions.edit.selected_text()
         if char: actions.user.cancel_selection_left()
         return char

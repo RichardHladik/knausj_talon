@@ -24,10 +24,10 @@ action(edit.down):
     key(down)
 
 action(edit.left):
-    key(ctrl-b)
+    key(left)
 
 action(edit.right):
-    key(ctrl-f)
+    key(right)
 
 action(edit.word_left):
     key(alt-b)

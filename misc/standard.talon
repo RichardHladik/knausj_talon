@@ -44,12 +44,3 @@ link secure shell: "ssh://"
 
 # this should be part of comment plugin
 add to do: "# XXX - "
-
-
-###
-# Chat
-###
-smiley: ":)"
-sad face: ":("
-big smiley: ":D"
-jiff smiley: ">\\o "

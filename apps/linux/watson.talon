@@ -6,3 +6,6 @@ watson cancel: user.watson_cancel()
 watson search: user.watson_search()
 watson start ({user.watson_activity})+: user.watson_start(user.watson_activity_list)
 watson start ({user.watson_activity})+ at: user.watson_start(user.watson_activity_list, 1)
+watson log full: 
+	user.watson_focus()
+	insert("wat log -a\n")

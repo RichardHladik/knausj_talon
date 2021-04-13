@@ -79,7 +79,7 @@ select down:
 select word:
     edit.select_word()
 
-select word left:
+select (word left|back):
     edit.extend_word_left()
 
 select word right:
@@ -122,10 +122,10 @@ clear down:
     edit.extend_line_down()
     edit.delete()
 
-(clear word left|clear back|jumble|jumbo):
+(clear word left|clear back|jumble):
     user.delete_word_left()
 
-clear word [right]:
+clear word [right]|scratch:
     user.delete_word_right()
 
 (clear way left|clear bend):

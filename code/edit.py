@@ -9,6 +9,7 @@ mod = Module()
 @ctx.action_class("edit")
 class edit_actions:
     def selected_text() -> str:
+        clip.set_text("")
         with clip.capture() as s:
             actions.edit.copy()
         try:

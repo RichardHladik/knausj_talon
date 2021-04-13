@@ -68,3 +68,5 @@ class Actions:
     def cancel_selection_left():
         """Cancels the selection and stays at its left end"""
 
+    def replace_selection():
+        """Replaces the selection with the clipboard content"""

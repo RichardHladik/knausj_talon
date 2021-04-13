@@ -39,6 +39,7 @@ extension_lang_map = {
     ".codeql": "ql",
     ".cpp": "cplusplus",
     ".cs": "csharp",
+    ".elm": "elm",
     ".gdb": "gdb",
     ".go": "go",
     ".h": "c",

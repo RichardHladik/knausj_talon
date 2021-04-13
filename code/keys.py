@@ -28,6 +28,7 @@ mod.list("modifier_key", desc="All modifier keys")
 mod.list("function_key", desc="All function keys")
 mod.list("special_key", desc="All special keys")
 mod.list("punctuation", desc="words for inserting punctuation into text")
+mod.list("punctuation_raw", desc="raw punctuation")
 
 
 @mod.capture(rule="{self.modifier_key}+")
@@ -163,6 +164,7 @@ punctuation_words = {
     "comma": ",",
     "clap": ",",
     "period": ".",
+    "full stop": ".",
     "semicolon": ";",
     "colon": ":",
     "forward slash": "/",
@@ -176,13 +178,16 @@ punctuation_words = {
     "at sign": "@",
     "and sign": "&",
     "ampersand": "&",
+    "dash": "-",
+    "ellipsis": "…",
 }
 
 symbol_key_words = {
     "grave": "`",
     "comma": ",",
-    "dot": ".",
+    "point": ".",
     "blank": " ",
+    "break": " ",
     "semi": ";",
     "tick": "'",
     "lock": "[",
@@ -191,7 +196,6 @@ symbol_key_words = {
     "slash": "/",
     "bish": "\\",
     "minus": "-",
-    "dash": "-",
     "equals": "=",
     "plus": "+",
     "question": "?",
@@ -223,6 +227,7 @@ symbol_key_words = {
 symbol_key_words.update(punctuation_words)
 ctx.lists["self.punctuation"] = punctuation_words
 ctx.lists["self.symbol_key"] = symbol_key_words
+ctx.lists["self.punctuation_raw"] = { v: v for v in symbol_key_words.values() }
 ctx.lists["self.number_key"] = dict(zip(default_digits, numbers))
 ctx.lists["self.arrow_key"] = {
     "down": "down",
@@ -234,7 +239,7 @@ ctx.lists["self.arrow_key"] = {
 
 simple_keys = [
     "backspace",
-    "end",
+#    "end",
     "enter",
     "escape",
     "home",
@@ -249,7 +254,6 @@ alternate_keys = {
     "toast": "tab",
     "junk": "backspace",
     "delhi": "delete",
-    "cape": "escape",
     "page up": "pageup",
     "page down": "pagedown",
 }

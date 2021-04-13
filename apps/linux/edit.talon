@@ -218,3 +218,6 @@ action(user.cancel_selection_right):
 
 action(user.cancel_selection_left):
 	key(left)
+
+action(user.replace_selection):
+	edit.paste()

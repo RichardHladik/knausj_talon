@@ -97,8 +97,8 @@ def raise_homophones(word, forced=False, selection=False):
         elif is_upper:
             new = new.upper()
 
-        clip.set(new)
-        actions.edit.paste()
+        clip.set_text(new)
+        actions.user.replace_selection()
 
         return
 

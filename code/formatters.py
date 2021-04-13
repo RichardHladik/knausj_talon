@@ -166,7 +166,7 @@ formatters_words = {
     "padded": formatters_dict["SPACE_SURROUNDED_STRING"],
     # "say": formatters_dict["NOOP"],
     # "sentence": formatters_dict["CAPITALIZE_FIRST_WORD"],
-    "slasher": formatters_dict["SLASH_SEPARATED"],
+    "shlas": formatters_dict["SLASH_SEPARATED"],
     "smash": formatters_dict["NO_SPACES"],
     "snake": formatters_dict["SNAKE_CASE"],
     "speak": formatters_dict["NOOP"],
@@ -243,8 +243,10 @@ def formatter_immune(m) -> ImmuneString:
 
 @mod.action_class
 class Actions:
-    def formatted_text(phrase: Union[str, Phrase], formatters: str) -> str:
+    def formatted_text(phrase: Union[str, Phrase, List[str]], formatters: str) -> str:
         """Formats a phrase according to formatters. formatters is a comma-separated string of formatters (e.g. 'CAPITALIZE_ALL_WORDS,DOUBLE_QUOTED_STRING')"""
+        if isinstance(phrase, list):
+            phrase = " ".join(phrase)
         return format_phrase(phrase, formatters)
 
     def insert_formatted(phrase: Union[str, Phrase], formatters: str):
