@@ -1,4 +1,5 @@
 # USAGE: - See doc/vim.md for usage and tutorial
+#
 #  - See code/vim.py very implementation and additional motion grammars
 #
 # FILES:
@@ -97,7 +98,7 @@ settings():
     #
     # This setting only applies to commands run through the actual counted
     # actions grammar itself
-    user.vim_cancel_queued_commands = 0
+    user.vim_cancel_queued_commands = 1
 
     # When you are escaping queued commands, it seems vim needs time to recover
     # before issuing the subsequent commands. This controls how long it waits,
@@ -109,6 +110,7 @@ settings():
     # "u" gets inserted into INSERT mode. It in theory that shouldn't be
     # required if using pynvim.
     user.vim_mode_change_timeout = 0.25
+    #user.vim_mode_change_timeout = 0
 
     # When you preserve mode and switch into into insert mode it will often
     # move your cursor, which can mess up the commands you're trying to run from
@@ -116,7 +118,7 @@ settings():
     user.vim_mode_switch_moves_cursor = 0
 
     # Whether or not use pynvim rpc if it is available
-    user.vim_use_rpc = 0
+    user.vim_use_rpc = 1
 
     # Adds debug output to the talon log
     user.vim_debug = 0
@@ -150,7 +152,7 @@ reload [vim] config:
 ###
 # XXX - line conflicts too much with nine,
 #[(go|jump)] [to] line <number>:
-[go] row <number>:
+([go] row|spring) <number>:
     user.vim_command_mode_exterm(":{number}\n")
 
 # These are especially useful when in terminal mode and you want to jump to
@@ -194,8 +196,8 @@ scroll bottom reset cursor: user.vim_normal_mode_exterm("z ")
 (buf|buffer) close current: user.vim_command_mode_exterm(":bd\n")
 (buf|buffer) close last: user.vim_command_mode_exterm(":bd #\n")
 (buf|buffer) force close: user.vim_command_mode_exterm(":bd!\n")
-botch: user.vim_command_mode_exterm(":bd\n")
-force botch: user.vim_command_mode_exterm(":bd!\n")
+#botch: user.vim_command_mode_exterm(":bd\n")
+#force botch: user.vim_command_mode_exterm(":bd!\n")
 (buf|buffer) open: user.vim_command_mode_exterm(":b ")
 [go] (buf|buffer) (first|rewind): user.vim_command_mode_exterm(":br\n")
 [go] (buf|buffer) (left|prev): user.vim_command_mode_exterm(":bprev\n")
@@ -732,3 +734,11 @@ paste as line:
     user.vim_command_mode_exterm(":let @+=substitute(strtrans(@+),'\\^@',' ','g')\n")
     sleep(200ms)
     edit.paste()
+
+reflow:
+	user.vim_normal_mode_key("f7")
+reflow line:
+	user.vim_normal_mode_key("f6")
+
+action(user.delete_word_left):
+	key(ctrl-w)

@@ -224,6 +224,7 @@ commands_with_motion = {
     "swap case": "~",
     # motions
     "change": '"_c',  # NOTE: we purposely use the black hole register
+    "chess": '"_c',
     "clear": "d",  # this is to be consistent with talon generic_editor.talon
     "forget": '"_d',  # this is to be consistent with talon generic_editor.talon
     "indent": ">",
@@ -241,6 +242,7 @@ commands_with_motion = {
 visual_commands = {
     # normal overlap
     "change": '"_c',  # NOTE: we purposely use the black hole register
+    "chess": '"_c',
     "join": "J",
     "clear": "d",  # this is to be consistent with talon generic_editor.talon
     "forget": '"_d',  # this is to be consistent with talon generic_editor.talon
@@ -263,7 +265,7 @@ ctx.lists["self.vim_motion_commands"] = list(
 )
 
 # note that some of these are disabled to reduce the rule explosion to make
-# things faster, where you can enable some if your detection is bad for the
+# faster, where you can enable some if your detection is bad for the
 # ones that are already enabled
 # XXX - find a better name for the "big <thing>" names?
 motions = {
@@ -314,7 +316,7 @@ motions = {
     "curse last": "L",
     "loft": "gg",
     # "file top": "gg",
-    "gut": "G",
+    #"gut": "G",
     # "file ent": "G",
 }
 
@@ -605,7 +607,7 @@ def vim_motions_with_phrase(m) -> str:
 
 
 @mod.capture(
-    rule="[<user.number_string>] (<self.vim_motions>|<self.vim_motions_with_character>|<self.vim_motions_with_upper_character>|<self.vim_motions_with_phrase>)"
+    rule="(<self.vim_motions>|<self.vim_motions_with_character>|<self.vim_motions_with_upper_character>|<self.vim_motions_with_phrase>)"
 )
 def vim_motions_all(m) -> str:
     "Returns a rule matching optionally numbered vim motion"
@@ -613,7 +615,7 @@ def vim_motions_all(m) -> str:
 
 
 @mod.capture(
-    rule="[<user.number_string>] (<self.vim_motions>|<self.vim_motions_with_character>|<self.vim_motions_with_upper_character>|<self.vim_motions_with_phrase>)"
+    rule="(<self.vim_motions>|<self.vim_motions_with_character>|<self.vim_motions_with_upper_character>|<self.vim_motions_with_phrase>)"
 )
 def vim_motions_all_adjust(m) -> str:
     "Returns a rule matching a vim motion, and adjusts the vim mode"
@@ -677,13 +679,13 @@ def vim_text_objects(m) -> str:
 # Sometimes you want to imply a surround action is going to work on a word, but
 # saying around is tedious, of this is defaults to selecting around if no
 # actual inner or around range is spoken
-@mod.capture(rule="[<number_small>] <self.vim_text_object_select>")
+@mod.capture(rule="<self.vim_text_object_select>")
 def vim_unranged_surround_text_objects(m) -> str:
     "Returns a string representing an unranged surround plugin target"
-    if len(list(m)) == 1:
-        return "a" + "".join(list(m))
-    else:
-        return "".join(str(m.number_small)) + "a" + "".join(list(m)[1:])
+    #if len(list(m)) == 1:
+    return "a" + "".join(list(m))
+    #else:
+    #    return "".join(str(m.number_small)) + "a" + "".join(list(m)[1:])
 
 
 @mod.capture(rule="{self.vim_motion_commands}")
@@ -705,7 +707,7 @@ def vim_motion_commands(m) -> str:
 
 
 @mod.capture(
-    rule="[<number_small>] <self.vim_motion_commands> [(<self.vim_motions_all> | <self.vim_text_objects> | <self.vim_jump_targets>)]"
+    rule="<self.vim_motion_commands> [(<self.vim_motions_all> | <self.vim_text_objects> | <self.vim_jump_targets>)]"
 )
 def vim_normal_counted_motion_command(m) -> str:
     "Returns a string representing a motion command with optional arguments"
@@ -720,20 +722,20 @@ def vim_counted_motion_command_with_ordinals(m) -> str:
     return "".join([str(m.ordinals - 1), "".join(m[2:]), m[0], "".join(m[2:])])
 
 
-@mod.capture(rule="[<number_small>] <self.vim_motions_keys>")
+@mod.capture(rule="<self.vim_motions_keys>")
 def vim_normal_counted_motion_keys(m) -> str:
     "Returns a string of a counted motion representing keys"
     # we do this because we pass everything to key() which needs a space
     # separated list
-    if len(str(m).split(" ")) > 1:
-        return " ".join(list((" ".join(list(str(m.number_small))), m.vim_motions_keys)))
-    else:
-        return m.vim_motions_keys
+    #if len(str(m).split(" ")) > 1:
+    #    return " ".join(list((" ".join(list(str(m.number_small))), m.vim_motions_keys)))
+    #else:
+    return m.vim_motions_keys
 
 
 # XXX - could combine actions_keys and _action version by test if the entry is
 # in which list. might reduce number usage?
-@mod.capture(rule="[<number_small>] <self.vim_counted_actions>")
+@mod.capture(rule="<self.vim_counted_actions>")
 def vim_normal_counted_action(m) -> str:
     "Returns a string of a counted motion"
     # XXX - may need to do action-specific mode checking
@@ -748,7 +750,7 @@ def vim_normal_counted_action(m) -> str:
     return "".join(str(x) for x in list(m))
 
 
-@mod.capture(rule="[<number_small>] <self.vim_counted_actions_keys>")
+@mod.capture(rule="<self.vim_counted_actions_keys>")
 def vim_normal_counted_actions_keys(m) -> str:
     "Returns a string of a counted action representing keys"
     v = VimMode()
@@ -757,16 +759,16 @@ def vim_normal_counted_actions_keys(m) -> str:
 
     # we do this because repass everything to key() which needs a space
     # separated list
-    if len(str(m).split(" ")) > 1:
-        return " ".join(
-            list((" ".join(list(str(m.number_small))), m.vim_counted_actions_keys))
-        )
-    else:
-        return m.vim_counted_actions_keys
+    #if len(str(m).split(" ")) > 1:
+    #    return " ".join(
+    #        list((" ".join(list(str(m.number_small))), m.vim_counted_actions_keys))
+    #    )
+    #else:
+    return m.vim_counted_actions_keys
 
 
 @mod.capture(
-    rule="[<number_small>] (<self.vim_motions> | <self.vim_text_objects> | <self.vim_jump_targets>)"
+    rule="(<self.vim_motions> | <self.vim_text_objects> | <self.vim_jump_targets>)"
 )
 def vim_select_motion(m) -> str:
     "Returns a string of some selection motion"
@@ -1054,13 +1056,13 @@ class VimMode:
             print(s)
 
     def is_normal_mode(self):
-        return self.current_mode == "n"
+        return self.current_mode in ["n", "niI"]
 
     def is_visual_mode(self):
         return self.current_mode in ["v", "V", "^V"]
 
     def is_insert_mode(self):
-        return self.current_mode == "i"
+        return self.current_mode in ["i", "ic"]
 
     def is_terminal_mode(self):
         return self.current_mode == "t"
@@ -1073,11 +1075,15 @@ class VimMode:
 
     def get_active_mode(self):
         if self.nvrpc.init_ok is True:
+            print("######### IN")
+            actions.key("ctrl")
             mode = self.nvrpc.get_active_mode()["mode"]
             self.dprint(mode)
             # XXX -
             self.current_mode = mode
+            print("######### OUT")
         else:
+            assert(False)
             title = ui.active_window().title
             mode = None
             if "MODE:" in title:
@@ -1189,7 +1195,7 @@ class VimMode:
         # XXX - try to force a redraw?
         if self.nvrpc.init_ok:
             while wanted != self.nvrpc.get_active_mode()["mode"][0]:
-                #print("%s vs %s" % (wanted, self.nvrpc.get_active_mode()["mode"]))
+                self.dprint("%s vs %s" % (wanted, self.nvrpc.get_active_mode()["mode"]))
                 time.sleep(0.005)
         else:
             time.sleep(self.wait_mode_timeout)
@@ -1213,6 +1219,7 @@ class VimMode:
     # combinations
     def set_mode(self, wanted_mode, no_preserve=False, escape_terminal=False):
         current_mode = self.get_active_mode()
+        print("!!!" + current_mode)
 
         if current_mode == wanted_mode or (
             self.is_terminal_mode() and wanted_mode == self.INSERT
@@ -1270,6 +1277,10 @@ class VimMode:
             actions.key("escape")
             time.sleep(self.canceled_timeout)
             self.wait_mode_change("n")
+
+        self.get_active_mode()
+
+        assert(self.is_normal_mode()), current_mode
 
         # switch to explicit mode if necessary. we will be normal mode here
         if wanted_mode == self.INSERT or wanted_mode == self.TERMINAL:

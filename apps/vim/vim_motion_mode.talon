@@ -119,6 +119,7 @@ tag pop: user.vim_normal_mode_key("ctrl-t")
 
 change remaining line: user.vim_normal_mode_key("C")
 change line: user.vim_normal_mode("cc")
+scrap: user.vim_normal_mode("de")
 # XXX - technically these might be doable in command line mode, but life should
 # become default talon and actions
 # XXX - this might be suited for some automatic motion thing in vim.py
@@ -210,21 +211,23 @@ file append:
     user.vim_normal_mode_np("Go")
 
 push:
-    user.vim_normal_mode_np("$a")
-push <user.unmodified_key>:
-    user.vim_normal_mode_np("$a{unmodified_key}")
-
-# paste to the end of a line
-# XXX
-push it:
-    user.vim_normal_mode_np("A ")
-    key(escape p)
+	user.vim_normal_mode_np("o")
+#push:
+#    user.vim_normal_mode_np("$a")
+#push <user.unmodified_key>:
+#    user.vim_normal_mode_np("$a{unmodified_key}")
+#
+## paste to the end of a line
+## XXX
+#push it:
+#    user.vim_normal_mode_np("A ")
+#    key(escape p)
 
 # insert at the end of the current word
-jam:
-    user.vim_normal_mode_np("ea")
-jam <user.unmodified_key>:
-    user.vim_normal_mode_np("ea{unmodified_key}")
+#jam:
+#    user.vim_normal_mode_np("ea")
+#jam <user.unmodified_key>:
+#    user.vim_normal_mode_np("ea{unmodified_key}")
 
 
 
@@ -232,12 +235,12 @@ insert <user.text>:
     user.vim_insert_mode("{text}")
 
 # helpful for fixing typos or bad lexicons that miss a character
-(inject|cram) <user.unmodified_key> [before]:
+inject <user.unmodified_key> [before]:
     user.vim_insert_mode_key("{unmodified_key}")
     # since there is no ctrl-o equiv coming from normal
     key(escape)
 
-(inject|cram) <user.unmodified_key> after:
+inject <user.unmodified_key> after:
     user.vim_normal_mode_key("a {unmodified_key}")
     # since we can't perserve mode with ctrl-o
     key(escape)

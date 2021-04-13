@@ -62,7 +62,7 @@ action(edit.extend_left):
 action(edit.extend_right):
     user.vim_visual_mode("l")
 action(edit.extend_word_left):
-    user.vim_visual_mode("b")
+    user.vim_visual_mode("boho")
 action(edit.extend_word_right):
     user.vim_visual_mode("e")
 action(edit.select_word):
@@ -113,13 +113,16 @@ action(edit.delete):
 # note these are for mouse highlighted copy/paste. shouldn't be used for actual
 # vim commands
 action(edit.copy):
-	user.vim_visual_mode("\"+y")
+	user.vim_visual_mode("\"+ygv")
 action(edit.paste):
-    key(ctrl-alt-shift-v)
+	key(ctrl-alt-shift-v)
+action(user.replace_selection):
+	key("s")
+	edit.paste()
 
 action(edit.redo):
     user.vim_normal_mode_key("ctrl-r")
 action(edit.undo):
-    user.vim_normal_mode_key("u")
+    user.vim_normal_mode("u")
 
 
