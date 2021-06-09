@@ -10,3 +10,5 @@ and win.title: /[Command Line]/
 # also support commands for just saying normal mode or whatever to escape out
 # of it
 escape: key(ctrl-c)
+
+

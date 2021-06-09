@@ -1,4 +1,3 @@
-
 not mode: sleep
 and not mode: user.presentation
 -

@@ -29,10 +29,12 @@ call list latest: "$(ls -Art | tail -n1)"
 
 # TODO - somehow make this scriptable to print anything
 file edit latest: "edit $(ls -Art | tail -n1)\n"
+file latest: "$(ls -Art | tail -n1)"
 file link: "ln -s "
 file link force: "ln -sf "
 file hard link: "ln "
 file move: "mv "
+file open: "vim "
 file touch: "touch "
 file copy: "cp "
 file type: "file "
@@ -40,8 +42,9 @@ file show <user.text>: "cat {text}"
 file show: "cat "
 file edit: insert("edit ")
 file edit here: insert("edit .\n")
-file remove: "rm "
-(file|folder) remove recurse: "rm -rI "
+file remove: "rm -I "
+file deed copy: user.insert_cursor("dd bs=4M if=[|] of=/dev/sdX conv=fsync oflag=direct status=progress")
+(file|folder) remove recurse: "rm -rIf "
 file diff: "diff "
 # find
 file find: "find . -name "
@@ -49,16 +52,29 @@ file fuzzy [find]:
     insert("find . -name \"**\"")
     key("left")
     key("left")
+file fuzzy [find] today:
+    insert("find . -mtime -1 -name \"**\"")
+    key("left")
+    key("left")
+
 file hash: "sha256sum "
 file locate: "locate "
 
 file edit read me: insert("edit README.md\n")
 file edit make file: insert("edit Makefile\n")
+file [disk] usage all: "du -sh *\n"
+#file [disk] usage: "du -sh "
 
 watch latest: "vlc $(ls -Art | tail -n1)"
 
 size here: "du -sh .\n"
 size sorted: "du -sh * | sort -h\n"
+echo param <user.text>: 
+    insert("echo ${")
+    snake = user.formatted_text(text, "snake")
+    upper = user.formatted_text(snake, "upper")
+    insert(upper)
+    insert("}")
 
 # directory and files
 pivot: "cd "
@@ -84,12 +100,11 @@ pivot next:
     insert("ls\n")
 
 pivot (last|flip): "cd -\n"
+pivot latest: "cd $(ls -Art | tail -n1)\n"
 
 
-make (dur|dear|dir|directory): "mkdir -p "
-make (dur|dear|dir|directory) <user.text>: "mkdir {text}"
-remove (dur|dear|dir|directory): "rmdir "
-remove (dur|dear|dir|directory) <user.text>: "rmdir {text}"
+folder remove: "rmdir "
+folder [create|new]: "mkdir -p  "
 
 # tree
 file tree: "tree -f -L 2\n"
@@ -100,6 +115,8 @@ file tree folders: "tree -f -L 2 -d\n"
 file tree depth <number_small>: "tree -f -L {number_small}\n"
 
 folder pop: "popd\n"
+# pwd | tr -d \\n\\r | xclip -sel clipboard
+folder yank path: "pwd | tr -d \\\\n\\\\r | xclip -sel clipboard\n"
 
 # permissions
 make executable: "chmod +x "
@@ -113,6 +130,8 @@ now less [that]:
 
 clear [screen|page]: "clear\n"
 
+# piping
+pipe tea: "| tee "
 
 # grepping
 
@@ -139,7 +158,7 @@ net cat: "nc -vv "
 net cat listener: "nc -v -l -p "
 net my I P: "dig +short myip.opendns.com @resolver1.opendns.com\n"
 show hosts file: "cat /etc/hosts\n"
-edit hosts file: "sudo vi /etc/hosts\n"
+edit hosts file: "sudoedit /etc/hosts\n"
 tcp dump: "tcpdump "
 
 generate see tags: "ctags --recurse --exclude=.git --exclude=.pc *"
@@ -189,9 +208,14 @@ so do that:
     edit.line_start()
     insert("sudo ")
     key(enter)
-so do edit: "sudoedit"
+so do edit: "sudoedit "
 d message: "dmesg"
 disk usage: "df -h\n"
+disk list: "lsblk -l\n"
+disk file systems: "lsblk -f\n"
+disk mounted: "mount\n"
+disk mount: "mount "
+disk unmount: "umount "
 sis cuddle: "sysctl "
 sis cuddle set: "sysctl -w "
 
@@ -204,6 +228,7 @@ tar ball list: "tar -tf "
 run <user.word>: "{word} "
 run curl: "curl "
 run double you get: "wget "
+web get: "wget "
 download clip:
     insert("wget ")
     edit.paste()
@@ -218,6 +243,7 @@ run top: "htop\n"
 run vim: "vim "
 run make: "make\n"
 run see make: "cmake "
+run configure make: "./configure && make\n"
 
 sub command:
     insert("$()")
@@ -239,10 +265,13 @@ core dump dump: "coredumpctl dump\n"
 core dump debug: "coredumpctl debug\n"
 
 # ssh
-machine {user.machine}: "{user.machine}"
-remote mux: "sst "
-secure shell: "ssh "
-secure shell <user.text>: "ssh {text}\n"
+remote mux [{user.machine}]:
+    insert("sst ")
+    insert(machine or "")
+(secure shell|tunnel) [{user.machine}]:
+    insert("ssh ")
+    insert(machine or "")
+
 secure shall key gen: "ssh-keygen -t ed25519\n"
 secure copy [<user.text>]:
     insert("scp -r ")
@@ -257,6 +286,7 @@ terminate session:
 # process management
 pee kill <user.text>: "pkill {text}"
 kill <number>: "kill -9 {number}"
+kill job <number>: "kill -9 %{number}"
 kill: "kill -9 "
 reboot system: "sudo reboot -h now"
 
@@ -267,8 +297,9 @@ list pee bus: "lspci\n"
 list yew bus: "lsusb\n"
 
 
-(redirect errors|errors to standard out): "2>&1 "
-ignore errors: "2>/dev/null"
+
+errors to [standard] out: "2>&1 "
+errors ignore: "2>/dev/null"
 
 ###
 # Wallpaper

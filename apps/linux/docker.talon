@@ -10,6 +10,7 @@ docker build (tag|tagged):
     key("left:3")
 docker pull: "sudo docker pull "
 docker kill: "sudo docker kill "
+docker kill all: "sudo docker stop $(sudo docker ps -a -q)\n"
 docker run: "sudo docker run -d "
 docker run interactive: "sudo docker run -it --rm "
 docker (log|logs): "sudo docker logs "
@@ -24,8 +25,20 @@ docker (image|images) list:
     insert("sudo docker images\n")
 docker image prune:
     insert("sudo docker image prune\n")
+docker image prune label:
+    insert("sudo docker image prune --filter label=")
 docker image remove:
     insert("sudo docker image rm ")
+docker image inspect:
+    insert("sudo docker images\n")
+    insert("sudo docker image inspect ")
+docker image build:
+    insert("sudo docker image build ")
+docker image label:
+    insert("sudo docker images -f label=")
+docker image label <user.text>:
+    insert("sudo docker images -f label={text}\n")
+
 
 # containers
 docker [container] prune:
@@ -36,7 +49,20 @@ docker [container] list:
     insert("sudo docker ps\n")
 docker [container] remove:
     insert("sudo docker rm ")
+docker [container] remove all:
+    insert("sudo docker rm $(sudo docker ps -a -q)\n")
+docker [container] remove and kill all:
+    insert("sudo docker stop $(sudo docker ps -a -q)\n")
+    insert("sudo docker rm $(sudo docker ps -a -q)\n")
+
+
 docker [container] stop: "sudo docker stop "
+docker [container] copy:
+    insert("sudo docker cp ")
+docker [container] inspect:
+    insert("sudo docker ps\n")
+    insert("sudo docker inspect ")
+
 
 # volumes
 docker volume list:
@@ -47,6 +73,12 @@ docker volume inspect:
     insert("sudo docker volume inspect ")
 docker volume remove:
     insert("sudo docker volume rm ")
+
+# system
+docker system prune:
+    insert("sudo docker system prune")
+docker system prune all:
+    insert("sudo docker system prune -a")
 
 ## docker Compose
 docker compose up: "docker-compose up\n"

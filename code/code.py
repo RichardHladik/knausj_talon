@@ -49,6 +49,7 @@ extension_lang_map = {
     ".js": "javascript",
     ".jsx": "javascript",
     ".json": "json",
+    ".json5": "json",
     ".lua": "lua",
     ".md": "markdown",
     ".pl": "perl",
@@ -70,6 +71,7 @@ extension_lang_map = {
     ".vimrc": "vimscript",
     ".yaml": "yaml",
     ".yml": "yaml",
+    ".zsh": "zsh",
 }
 
 # This list can be indirectly updated by othher modules when they know at some

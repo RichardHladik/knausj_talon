@@ -90,7 +90,6 @@ _default_vocabulary = {
     "under documented": "under-documented",
 }
 _default_vocabulary.update({word: word for word in _simple_vocab_default})
-
 # "user.vocabulary" is used to explicitly add words/phrases that Talon doesn't
 # recognize. Words in user.vocabulary (or other lists and captures) are
 # "command-like" and their recognition is prioritized over ordinary words.

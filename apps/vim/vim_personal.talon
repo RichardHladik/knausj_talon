@@ -106,3 +106,5 @@ convert string to stack:
 
 stellaris session:
     user.vim_command_mode_exterm(":source ~/.vim/sessions/stellaris.session")
+
+

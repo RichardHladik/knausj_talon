@@ -161,6 +161,7 @@ class Actions:
 
     def homophones_select(number: int) -> str:
         """selects the homophone by number"""
+        global active_word_list
         if number <= len(active_word_list) and number > 0:
             return active_word_list[number - 1]
 

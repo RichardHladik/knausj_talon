@@ -52,7 +52,7 @@ run last script:
 rerun <user.text>:
   key(ctrl-r)
   insert(text)
-rerun search:
+rerun list:
   key(ctrl-r)
 kill all:
   key(ctrl-c)

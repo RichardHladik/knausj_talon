@@ -1,11 +1,12 @@
 tag: user.vim_fugitive
-# XXX - it doesn't currently work if you are in a vim terminal and sitting in a
-# folder that is a git repo
+# NOTE: if you use the git versions of the commands in a terminal
+# that's already inside of a git repo, then the terminal versions will override
+# these ones
 -
 
 (fugitive|git) add (current|this) file: user.vim_command_mode(":G add %\n")
 (fugitive|git) add everything: user.vim_command_mode(":G add -u\n")
-(fugitive|git) blame: user.vim_command_mode(":G blame\n")
+(fugitive|git) blame: user.vim_command_mode(":Git blame\n")
 (fugitive|git) browse: user.vim_command_mode(":G Browse\n")
 (fugitive|git) commit: user.vim_command_mode(":G commit\n")
 (fugitive|git) (delete|remove): user.vim_command_mode(":GDelete")
@@ -16,7 +17,7 @@ tag: user.vim_fugitive
 (fugitive|git) fetch: user.vim_command_mode(":G fetch ")
 (fugitive|git) force write: user.vim_command_mode(":Gwrite!")
 (fugitive|git) grep: user.vim_command_mode(":G grep ")
-(fugitive|git) log: user.vim_command_mode(":Glog\n")
+(fugitive|git) log: user.vim_command_mode(":Gclog\n")
 (fugitive|git) merge: user.vim_command_mode(":G fallmerge")
 (fugitive|git) merge tool: user.vim_command_mode(":G mergetool")
 (fugitive|git) move: user.vim_command_mode(":G Move ")
@@ -28,7 +29,10 @@ tag: user.vim_fugitive
 (fugitive|git) split diff: user.vim_command_mode(":Gdiffsplit!")
 (fugitive|git) status: user.vim_command_mode(":G\n")
 (fugitive|git) write: user.vim_command_mode(":G write")
+(fugitive|git) read: user.vim_command_mode(":Gread")
 
+# XXX - they should be somewhere specific to knowing were inside of the
+# diff window
 # merge conflict resolution
 keep (target|left): user.vim_command_mode(":diffget //2\n")
 keep (merge|right): user.vim_command_mode(":diffget //3\n")

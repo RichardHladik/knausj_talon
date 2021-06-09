@@ -47,6 +47,8 @@ def populate_language_modes(shell_command):
             actions.user.code_set_context_language(language_specific_commands[command])
             return
 
+    # XXX - sometimes this throws an exception saying it's not declared, but it
+    # should be a global module action from code.py
     actions.user.code_clear_context_language()
     return
 

@@ -1,5 +1,8 @@
 mode: command
 and code.language: python
+
+mode: command
+and tag: user.python_repl
 -
 tag(): user.code_operators
 tag(): user.code_comment
@@ -128,23 +131,26 @@ return: "return "
 state none: "None"
 true: "True"
 false: "False"
-pass: "pass"
-self: "self"
+#pass: "pass"
+self dot: "self,"
 
 
 
 index <user.word>: '["{word}"]'
 
 pie test: "pytest"
-state pass: "pass"
 # for things like None comparsion
 state is not: " is not "
 state is: " is "
 state is none: " is None"
 state as string: '.decode("utf-8")'
 state as bytes: '.encode("utf-8")'
-F string: 'f""'
-raw string: 'r""'
+form string: 
+    insert('f""')
+    edit.left()
+raw string: 
+    insert('r""')
+    edit.left()
 
 
 ^funky <user.text>$: user.code_default_function(text)
@@ -154,13 +160,13 @@ raw string: 'r""'
 #^pro static funky <user.text>$: user.code_protected_static_function(text)
 #^pub static funky <user.text>$: user.code_public_static_function(text)
 raise {user.python_exception}: user.insert_cursor("raise {python_exception}([|])")
+except {user.python_exception}: user.insert_cursor("except {python_exception}:")
 
 # function calling
-call print: user.insert_cursor('print("[|]")')
-call [function] <user.text>:
+funk <user.text>:
     insert(user.formatted_text(text, "snake"))
     insert("()")
-    key(left)
+    edit.left()
 
 # for annotating function parameters
 is type <user.python_type_list>:
@@ -173,6 +179,7 @@ type <user.python_type_list>:
 dock <user.python_docstring_fields>:
     insert("{python_docstring_fields}")
     edit.left()
+    insert(" ")
 dock type <user.python_type_list>:
     user.insert_cursor(":type [|]: {python_type_list}")
 dock returns type <user.python_type_list>:
@@ -184,3 +191,5 @@ import <user.code_libraries>:
     key(end enter)
 
 shebang: "#!/usr/bin/env python3"
+# XXX - it would be good to have a set of common overrides?
+funk path: "pathlib.Path()"

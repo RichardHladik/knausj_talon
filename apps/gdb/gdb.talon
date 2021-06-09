@@ -181,4 +181,4 @@ show substitute path: "show substitute-path\n"
 show list size: "show listsize\n"
 set list size <number_small>: "set listsize {number_small}\n"
 
-
+set remote target: "target extended-remote :9999\n"

@@ -13,4 +13,3 @@ replay save <number_small>:
 replay yank <number_small>:
     user.replay_picker_hide()
     user.replay_copy_name(number_small)
-

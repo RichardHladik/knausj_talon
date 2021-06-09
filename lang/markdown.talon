@@ -11,7 +11,6 @@ code block:
     key(up:2)
 state task: "- [ ] "
 paste as code: 
-    insert("{}")
     insert("```\n\n")
     insert("```\n")
     key(up:2)
@@ -19,6 +18,13 @@ paste as code:
 
 link clip:
     user.insert_cursor_paste("[[|]](", ")")
+
+#link selected:
+#    edit.cut()
+#    key([)
+#    user.insert_cursor_paste("[[|]](", ")")
+#    edit.paste()
+
 
 # XXX - turn the word under the cursor into a link
 # link this:

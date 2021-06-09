@@ -51,9 +51,13 @@ class Actions:
         """Clears the quick macro"""
         global pop_quick_action
         global pop_quick_action_last
-        pop_quick_action_last = pop_quick_action
-        pop_quick_action = None
+        if pop_quick_action:
+            pop_quick_action_last = pop_quick_action
+            pop_quick_action = None
+            app.notify(subtitle="pop quick action cleared")
 
+    # XXX - it would be nice to have some sort of indicator for this
+    # similar to talon_hud stuff
     def pop_quick_action_set():
         """Sets the quick macro"""
         global pop_quick_action

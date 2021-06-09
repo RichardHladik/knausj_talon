@@ -57,5 +57,14 @@ class Actions:
 def gui(gui: imgui.GUI):
     gui.text("Recent phrases")
     gui.line()
+    # XXX - it would be nice if somehow we could lift the straight out of the
+    # talon file, possibly by figuring out which rules call into functions
+    # defined in this python file? in this way we could have auto documenting
+    # pop-ups everywhere
+    gui.text("Commands:")
+    gui.text("recent list - toggle off")
+    gui.text("recent copy <number> - copy phrase")
+    gui.text("recent repeat <number> - repeat phrase")
+    gui.line()
     for index, text in enumerate(phrase_history[:phrase_history_display_length], 1):
         gui.text(f"{index}: {text}")

@@ -112,6 +112,11 @@ yankee (last <number_small>|<number_small> last):
     insert("yE")
     user.vim_set_insert_mode()
 
+yankee command:
+    user.vim_normal_mode_exterm("0f y$")
+    user.vim_command_mode(":let @+=substitute(strtrans(@+), '\\_s\\{{2,}}', '', 'g')\n")
+    user.vim_set_insert_mode()
+
 
 # this is used for pexpect interactive environments
 # https://pexpect.readthedocs.io/en/stable/api/pexpect.html#spawn-class
@@ -119,3 +124,38 @@ yankee (last <number_small>|<number_small> last):
 # terminal may not trigger depending on what the interactive command is. who
 # had actually needs to be global
 python escape: key(ctrl-])
+
+# this assumes you list some directories with find or whatever, then you want
+# to pivot into one of them beasts on what was listed. you say the relative
+# number, in it will jump to that point copy the line and then jump you in
+pivot <number_small>:
+    insert("cd ")
+    user.vim_normal_mode_exterm("{number_small}k")
+    key('0')
+    insert("y$")
+    user.vim_command_mode(":let @+=substitute(strtrans(@+), '\\_s\\{{2,}}', '', 'g')\n")
+    user.vim_set_insert_mode()
+    edit.paste()
+    key(enter)
+
+river <number_small>:
+    insert("cd ")
+    user.vim_normal_mode_exterm("{number_small}k")
+    key('0')
+    key(ctrl-w)
+    key(f)
+
+
+pillar <number_small>:
+    insert("cd ")
+    user.vim_normal_mode_exterm("{number_small}k")
+    key('0')
+    user.vim_command_mode(":vertical wincmd f\n")
+
+# Combine the pwd with the path at a relative offset and place the result in
+# the clipboard
+folder yank merge <number_small>:
+    user.vim_command_mode_exterm(":let @+ = getcwd() . '/'\n")
+    user.vim_normal_mode("{number_small}k0")
+    user.vim_command_mode(":let @+ .= substitute(strtrans(getline('.')), '\\_s\\{{2,}}', '', 'g')\n")
+    user.vim_set_insert_mode()

@@ -1,19 +1,17 @@
 # see doc/vim.md
 # TODO:
-# - define all the lists separately and then update ctx.lists only once
+# - define all the lists separately and then, update ctx.lists only once
 # - document that visual selection mode implies terminal escape
 # - add setting for disabling local terminal escape when running inside
 #   remote vim sessions via ssh, etc
 # - import and test scenario where the mode isn't listed at all
 # - add test cases
-# - support pasting text instead of insert, requires special overriding of
 # - add VISUAL_BLOCK versions of all of the selection commands
-# paste for command mode
 
 import time
 import enum
 
-from talon import Context, Module, actions, settings, ui
+from talon import Context, Module, actions, settings, ui, scripting
 
 try:
     import pynvim
@@ -30,7 +28,8 @@ app: vim
 """
 
 # talon vim plugins. see apps/vim/plugins/
-# to enable plugins you'll want to set these inside vim.talon
+# to enable plugins you'll want to set these inside the corresponding mode
+# talon file. 
 # XXX - that should just be automatically done based off the file names inside
 # of the plugin folder since it's annoying to manage
 plugin_tag_list = [
@@ -49,15 +48,18 @@ plugin_tag_list = [
     "vim_grammarous",
     "vim_markdown",
     "vim_markdown_toc",
+    "vim_mkdx",
     "vim_nerdtree",
     "vim_obsession",
     "vim_plug",
     "vim_rooter",
     "vim_signature",
+    "vim_suda",
     "vim_surround",
     "vim_taboo",
     "vim_tabular",
     "vim_taskwiki",
+    "vim_telescope",
     "vim_test",
     "vim_treesitter",
     "vim_treesitter_textobjects",
@@ -135,6 +137,7 @@ standard_counted_actions = {
     "paste": "p",
     "paste above": "P",
     "repeat": ".",
+    "peat": ".",
     "indent line": ">>",
     # Warning saying unindent line is painful
     "unindent line": "<<",
@@ -179,8 +182,9 @@ custom_counted_action = {
     "drop": "x",
     "ochre": "o",
     "orca": "O",
-    "slide left": "<<",
-    "slide right": ">>",
+#    "slide left": "<<",
+    "dedent": "<<",
+    "indent": ">>",
 }
 
 # Custom self.vim_counted_actions insertable entries
@@ -273,18 +277,23 @@ ctx.lists["self.vim_motion_commands"] = list(
 motions = {
     "back": "b",
     "big back": "B",
+    "backie": "B",
     "tip": "e",
     "big tip": "E",
     "word": "w",
-    # "words": "w",
     "big word": "W",
-    # "big words": "W",
-    "tail": "ge",
-    "big tail": "gE",
+    "biggie": "W",
+    #"tail": "ge",
+    #"big tail": "gE",
     "right": "l",
     "left": "h",
-    "down": "j",
-    "up": "k",
+    #"down": "j",
+    "south": "j",
+    # XXX - up is starting to conflict too much with me moving back to
+    # using op instead of cop in operators.talon, switching to north and
+    # south ala @rntz
+    #"up": "k",
+    "north": "k",
     "next": "n",
     "previous": "N",
     "column zero": "0",
@@ -352,13 +361,11 @@ vim_character_motions = {
     "tier": "T",
 }
 
-# NOTE: these will not work with the surround plug in, since they combo
-# commands.
-# XXX - Also breaks with insert preserving. ctrl-o ^ reverts, so f* is inserted
-# need a way to fix that up
 custom_vim_motions_with_character_commands = {
-    "last": "$F",  # find starting end of line
-    "first": "^f",  # find starting beginning of line
+# XXX - these don't work due to comboing had to be moved into commands in a
+# talon file
+#    "last": "$F",  # find starting end of line
+#    "first": "^f",  # find starting beginning of line
 }
 
 ctx.lists["self.vim_motions_with_character"] = {
@@ -776,6 +783,13 @@ def vim_select_motion(m) -> str:
     "Returns a string of some selection motion"
     return "".join(str(x) for x in list(m))
 
+#@ctx.action_class("main")
+#class main_actions:
+#    def insert(text):
+#        """override insert action to allow us to enter insert mode"""
+#        v = VimMode()
+#        v.set_insert_mode()
+#        scripting.core.MainActions.insert(text)
 
 # These are actions you can call from vim.talon via `user.method_name()` in
 # order to modify modes, run commands in specific modes, etc
@@ -1028,11 +1042,21 @@ class VimMode:
     VISUAL_BLOCK = 4
     INSERT = 5
     TERMINAL = 6
-    COMMAND = 7
+    COMMAND = 7  # XXX - technically this should be called COMMAND_LINE
     REPLACE = 8
-    VREPLACE = 9
+    VREPLACE = 9  # XXX - call this VISUAL_REPLACE to be consistent
 
-    # XXX - not really necessary here, but just used to sanity check for now
+    # This is replicated from :help mode()
+    vim_modes_new = {
+        "NORMAL": {
+            "mode": "n",
+            "desc": "Normal"
+        }
+    }
+
+    #modes = enum.Enum("NORMAL VISUAL")
+
+    # XXX - incomplete see :help mode
     vim_modes = {
         "n": "Normal",
         "no": "N Operator Pending",
@@ -1177,7 +1201,7 @@ class VimMode:
         cur = self.current_mode_id()
         if type(valid_mode_ids) != list:
             valid_mode_ids = [valid_mode_ids]
-        self.dprint(f"from {cur} to {valid_mode_ids}")
+        self.dprint(f"Want to adjust from from {cur} to one of {valid_mode_ids}")
         if cur not in valid_mode_ids:
             # Just favor the first mode match
             self.set_mode(
@@ -1206,7 +1230,7 @@ class VimMode:
         max_check_count = 20
         if self.nvrpc.init_ok:
             while wanted != self.nvrpc.get_active_mode()["mode"][0]:
-                self.dprint("%s vs %s" % (wanted, self.nvrpc.get_active_mode()["mode"]))
+                # print("%s vs %s" % (wanted, self.nvrpc.get_active_mode()["mode"]))
                 time.sleep(0.005)
                 # try to force redraw to prevent weird infinite loops
                 self.nvrpc.nvim.command('redraw')
@@ -1257,7 +1281,6 @@ class VimMode:
                 settings.get("user.vim_escape_terminal_mode") is True
                 or escape_terminal is True
             ):
-                # print("escaping")
                 # break out of terminal mode
                 actions.key("ctrl-\\")
                 actions.key("ctrl-n")
@@ -1274,8 +1297,10 @@ class VimMode:
                 # set vim_escape_terminal_mode to 1
                 actions.key("escape")
                 # NOTE: do not wait on mode change here, as we
-                # cannot detect it for the inner thing
+                # cannot detect it
         elif self.is_insert_mode():
+            # XXX - this might need to be a or for no_preserve and
+            # settings.get?
             if (
                 wanted_mode == self.NORMAL
                 and no_preserve is False

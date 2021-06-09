@@ -1,4 +1,4 @@
-from talon import Context, Module, actions, app
+from talon import Context, Module, actions, app, imgui, ui
 
 mod = Module()
 ctx = Context()
@@ -7,16 +7,43 @@ os: linux
 tag: terminal
 """
 
+mod.mode("packager_picker_open")
+
 mod.tag("package_manager", desc="linux package manager")
-mod.tag("packager_yay", desc="Arch Linux YAY packager")
-mod.tag("packager_pacman", desc="Arch Linux YAY packager")
-mod.tag("packager_pamac", desc="Manjaro Linux packager")
-mod.tag("packager_apt", desc="Debian/Ubuntu Linux packager")
-mod.tag("packager_snap", desc="Snap packager")
-mod.tag("packager_zypper", desc="SuSE packager")
-mod.tag("packager_dnf", desc="Fedora DNF packager")
-mod.tag("packager_yum", desc="Fedora YUM packager")
-mod.tag("packager_npm", desc="Node package manager")
+packager_list = [
+    {"tag": "packager_yay", "desc": "Arch Linux YAY packager"},
+    {"tag": "packager_pacman", "desc": "Arch Linux YAY packager"},
+    {"tag": "packager_pamac", "desc": "Manjaro Linux packager"},
+    {"tag": "packager_apt", "desc": "Debian/Ubuntu Linux packager"},
+    {"tag": "packager_snap", "desc": "Snap packager"},
+    {"tag": "packager_zypper", "desc": "SuSE packager"},
+    {"tag": "packager_dnf", "desc": "Fedora DNF packager"},
+    {"tag": "packager_yum", "desc": "Fedora YUM packager"},
+    {"tag": "packager_npm", "desc": "Node package manager"},
+]
+
+for packager in packager_list:
+    mod.tag(packager["tag"], packager["desc"])
+
+main_screen = ui.main_screen()
+
+def close_packager_picker():
+    gui.hide()
+    actions.mode.disable("user.packager_picker_open")
+
+@imgui.open(y=0, x=main_screen.width / 2.6)
+def gui(gui: imgui.GUI):
+    gui.line()
+    gui.text("Active Packager:")
+    gui.text("replay <number>")
+    gui.text("Select New Active Packager:")
+    gui.text("replay save <number>")
+    gui.text("replay yank <number>")
+    gui.line()
+    index = 1
+
+    if gui.button("Hide"):
+        close_packager_picker()
 
 
 @mod.action_class
