@@ -5,12 +5,6 @@ mode: user.terminal
 mode: command
 and tag: terminal
 -
-action(edit.delete_word):
-	key(ctrl-w)
-action(edit.delete_line):
-	key(end)
-	key(ctrl-u)
-
 file list: "ls "
 file list here|lizzie: "ls\n"
 file list long: "ls -al "
@@ -56,7 +50,7 @@ file fuzzy [find] today:
     insert("find . -mtime -1 -name \"**\"")
     key("left")
     key("left")
-
+    
 file hash: "sha256sum "
 file locate: "locate "
 
@@ -69,14 +63,14 @@ watch latest: "vlc $(ls -Art | tail -n1)"
 
 size here: "du -sh .\n"
 size sorted: "du -sh * | sort -h\n"
-echo param <user.text>: 
+echo param <user.text>:
     insert("echo ${")
     snake = user.formatted_text(text, "snake")
     upper = user.formatted_text(snake, "upper")
     insert(upper)
     insert("}")
-
-# directory and files
+    
+    # directory and files
 pivot: "cd "
 pivot clip:
     insert("cd ")
@@ -85,9 +79,9 @@ pivot clip:
 pivot {user.paths}:
     insert("cd {user.paths}\n")
     insert("ls\n")
-# pivot up doesn't work with talon
+    # pivot up doesn't work with talon
 pivot back: "cd ../\n"
-pivot <number_small> back: 
+pivot <number_small> back:
     insert("cd ")
     insert(user.path_traverse(number_small))
     key(enter)
@@ -98,7 +92,7 @@ pivot next:
     sleep(100ms)
     key(enter)
     insert("ls\n")
-
+    
 pivot (last|flip): "cd -\n"
 pivot latest: "cd $(ls -Art | tail -n1)\n"
 
@@ -127,7 +121,7 @@ less: "less "
 now less [that]:
     edit.up()
     insert("| less\n")
-
+    
 clear [screen|page]: "clear\n"
 
 # piping
@@ -141,16 +135,16 @@ rip (exact|precise): "rg "
 now rip:
     edit.up()
     insert("| rg -i ")
-
-# even though rip is arguably better, we still want grep for remote terminals,
-# etc
+    
+    # even though rip is arguably better, we still want grep for remote terminals,
+    # etc
 grep: "grep -i "
 grep around: "grep -B2 -A2 -i "
 now grep:
     edit.up()
     insert("| grep -i ")
-
-# networking
+    
+    # networking
 net [work] I P: "ip addr\n"
 net [work] (route|routes): "ip route\n"
 net stat: "netstat -ant\n"
@@ -172,7 +166,7 @@ generate see scope database:
     insert(' -o -name "*.asm"')
     insert('> cscope.files\n')
     insert("cscope -q -R -b -i cscope.files\n")
-
+    
 pee grep: "pgrep "
 pee kill: "pkill "
 process list: "ps -ef\n"
@@ -184,27 +178,27 @@ head <number_small>: "head -n {number_small} "
 # XXX - ~/.edit/sessions/<tab>
 edit session:
     insert("edit -S ")
-
+    
 lazy edit:
     insert("edit ")
     insert("$(find . -not -path '*/\\.git/*' -name \"**\")")
     key("left")
     key("left")
     key("left")
-
+    
 lazy edit <user.text>:
     insert("edit ")
     insert("$(find . -not -path '*/\\.git/*' -name \"*{text}*\")\n")
-
+    
 find <user.text> inside (python|pie) files:
     insert('$(find . -name \"*.py\") | xargs rg -i "{text}"\n')
-
+    
 find <user.text> inside (python|pie) files less:
     insert('$(find . -name \"*.py\") | xargs rg -i "{text}\" | less\n')
-
+    
 man page: "man "
 so do: "sudo "
-so do that: 
+so do that:
     edit.line_start()
     insert("sudo ")
     key(enter)
@@ -233,8 +227,8 @@ download clip:
     insert("wget ")
     edit.paste()
     key(enter)
-
-# because talent doesn't seem to like me saying ./
+    
+    # because talent doesn't seem to like me saying ./
 run script: "./"
 run again:
     insert("./")
@@ -248,13 +242,13 @@ run configure make: "./configure && make\n"
 sub command:
     insert("$()")
     key(left)
-
+    
 parameter:
     insert("${}")
     edit.left()
-
-
-# bash convenience stuff
+    
+    
+    # bash convenience stuff
 history: "history\n"
 
 net man log: "journalctl -u NetworkManager --no-pager --lines 100\n"
@@ -271,7 +265,7 @@ remote mux [{user.machine}]:
 (secure shell|tunnel) [{user.machine}]:
     insert("ssh ")
     insert(machine or "")
-
+    
 secure shall key gen: "ssh-keygen -t ed25519\n"
 secure copy [<user.text>]:
     insert("scp -r ")
@@ -282,8 +276,8 @@ edit authorized keys: "vi ~/.ssh/authorized_keys\n"
 go secure shell config: "cd ~/.ssh\n"
 terminate session:
     key(enter ~ .)
-
-# process management
+    
+    # process management
 pee kill <user.text>: "pkill {text}"
 kill <number>: "kill -9 {number}"
 kill job <number>: "kill -9 %{number}"

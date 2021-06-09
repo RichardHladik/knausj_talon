@@ -13,25 +13,10 @@ tag(): terminal
 run last: key(up enter)
 
 kill all:
-  key(ctrl-c)
-  insert("y")
-  key(enter)
-
-action(user.file_manager_refresh_title):
-    insert("title Command Prompt: %CD%")
+    key(ctrl-c)
+    insert("y")
     key(enter)
-
-#action(user.file_manager_go_back):
-#    key("alt-left")
-
-#action(user.file_manager_go_forward):
-#    key("alt-right")
-
-action(user.file_manager_open_parent):
-    insert("cd ..")
-    key(enter)
-    user.file_manager_refresh_title()
-
+    
 lisa: "dir\n"
 katie: "cd "
 copy folder:
@@ -46,16 +31,12 @@ find string: "| findstr"
 show eye pee: "ipconfig /all\n"
 
 clear screen: "cls\n"
-action(edit.delete_line):
-  key(escape)
-
-# XXX - because of vmware conflicts
 magic up:
     key(ctrl-shift-pageup)
-
+    
 magic down:
     key(ctrl-shift-pagedown)
-
+    
 net use: "net use"
 
 go to desktop: "cd %USERPROFILE%\\Desktop\n"

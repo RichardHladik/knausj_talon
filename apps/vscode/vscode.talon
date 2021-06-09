@@ -7,54 +7,13 @@ tag(): user.multiple_cursors
 tag(): user.snippets
 tag(): user.splits
 tag(): user.tabs
-#talon app actions
-action(app.tab_close): user.vscode("workbench.action.closeActiveEditor")
-action(app.tab_next): user.vscode("workbench.action.nextEditorInGroup")
-action(app.tab_previous): user.vscode("workbench.action.previousEditorInGroup")
-action(app.tab_reopen): user.vscode("workbench.action.reopenClosedEditor")
-action(app.window_close): user.vscode("workbench.action.closeWindow")
-action(app.window_open): user.vscode("workbench.action.newWindow")
-
-#talon code actions
-action(code.toggle_comment): user.vscode("editor.action.commentLine")
-
-#talon edit actions
-action(edit.indent_more): user.vscode("editor.action.indentLines")
-action(edit.indent_less): user.vscode("editor.action.outdentLines")
-action(edit.save_all): user.vscode("workbench.action.files.saveAll")
-
-# splits.py support begin
-action(user.split_clear_all): user.vscode("View: Single Column Editor Layout")
-action(user.split_clear): user.vscode("View: Join Editor Group with Next Group")
-action(user.split_flip): user.vscode("View: Toggle Vertical/Horizontal Editor Layout") 
-action(user.split_last): user.vscode("View: Focus Previous Editor Group")
-action(user.split_next):  user.vscode("View: Focus Next Editor Group")
-action(user.split_window_down): user.vscode("workbench.action.moveEditorToBelowGroup")
-action(user.split_window_horizontally): user.vscode("View: Split Editor Orthogonal")
-action(user.split_window_left): user.vscode("workbench.action.moveEditorToLeftGroup")
-action(user.split_window_right): user.vscode("workbench.action.moveEditorToRightGroup")
-action(user.split_window_up): user.vscode("workbench.action.moveEditorToAboveGroup")
-action(user.split_window_vertically): user.vscode("View: Split Editor")
-action(user.split_window): user.vscode("View: Split Editor")
-# splits.py support end
-
-#multiple_cursor.py support begin
-#note: vscode has no explicit mode for multiple cursors
-action(user.multi_cursor_add_above): user.vscode("Add Cursor Above")
-action(user.multi_cursor_add_below): user.vscode("Add Cursor Below")
-action(user.multi_cursor_add_to_line_ends): user.vscode("Add Cursor to Line Ends")
-action(user.multi_cursor_disable): key(escape)
-action(user.multi_cursor_enable): skip()
-action(user.multi_cursor_select_all_occurrences): user.vscode("Select All Occurrences of Find Match")
-action(user.multi_cursor_select_fewer_occurrences): user.vscode("Cursor Undo")
-action(user.multi_cursor_select_more_occurrences): user.vscode("Add Selection To Next Find Match")
 #multiple_cursor.py support end
 
-please [<user.text>]: 
-  user.vscode("Show All Commands")
-  insert(user.text or "")
-
-# Sidebar
+please [<user.text>]:
+    user.vscode("Show All Commands")
+    insert(user.text or "")
+    
+    # Sidebar
 bar explore: user.vscode("workbench.view.explorer")
 bar extensions: user.vscode("workbench.view.extensions")
 bar outline: user.vscode("outline.focus")
@@ -83,20 +42,20 @@ wrap switch: user.vscode("editor.action.toggleWordWrap")
 zen switch: user.vscode("workbench.action.toggleZenMode")
 
 # File Commands
-file hunt [<user.text>]: 
-  user.vscode("Go to File")
-  sleep(50ms)
-  insert(text or "")
-file copy path: user.vscode_ignore_clipboard("File: Copy Path of Active File") 
-file create sibling: user.vscode("File: New File")  
+file hunt [<user.text>]:
+    user.vscode("Go to File")
+    sleep(50ms)
+    insert(text or "")
+file copy path: user.vscode_ignore_clipboard("File: Copy Path of Active File")
+file create sibling: user.vscode("File: New File")
 file create: user.vscode("File: New Untitled File")
 file open folder: user.vscode("File: Reveal in File Explorer")
 #todo: rename isn't working.
-#file rename active: 
+#file rename active:
 #  user.vscode("File: Reveal Active File In Side Bar")
 #  user.vscode("renameFile")
 #file rename: user.vscode("renameFile")
-file reveal: user.vscode("File: Reveal Active File In Side Bar") 
+file reveal: user.vscode("File: Reveal Active File In Side Bar")
 
 # Language Features
 suggest show: user.vscode("editor.action.triggerSuggest")
@@ -121,8 +80,8 @@ refactor this: user.vscode("editor.action.refactor")
 
 #code navigation
 (go declaration | follow): user.vscode("Go to Declaration")
-go back: user.vscode("workbench.action.navigateBack") 
-go forward:  user.vscode("workbench.action.navigateForward")  
+go back: user.vscode("workbench.action.navigateBack")
+go forward: user.vscode("workbench.action.navigateForward")
 go implementation: user.vscode("Go to Implementation")
 go recent: user.vscode("File: Open Recent")
 go type: user.vscode("editor.action.goToTypeDefinition")
@@ -182,7 +141,7 @@ debug restart: user.vscode("workbench.action.debug.restart")
 terminal external: user.vscode("workbench.action.terminal.openNativeConsole")
 terminal new: user.vscode("workbench.action.terminal.new")
 terminal next: user.vscode("workbench.action.terminal.focusNextPane")
-terminal last:user.vscode("workbench.action.terminal.focusPreviousPane")
+terminal last: user.vscode("workbench.action.terminal.focusPreviousPane")
 terminal split: user.vscode("workbench.action.terminal.split")
 terminal trash: user.vscode("Terminal:Kill")
 terminal scroll up: user.vscode("Terminal:ScrollUp")
@@ -195,5 +154,3 @@ copy line up: user.vscode("editor.action.copyLinesUpAction")
 #Expand/Shrink AST Selection
 select less: user.vscode("editor.action.smartSelect.shrink")
 select (more|this): user.vscode("editor.action.smartSelect.expand")
-  
-  
