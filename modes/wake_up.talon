@@ -1,7 +1,7 @@
 #defines the commands that sleep/wake Talon
 mode: all
 -
-sleep all:
+pretty please sleep all:
     user.switcher_hide_running()
     user.history_disable()
     user.homophones_hide()
@@ -11,15 +11,12 @@ sleep all:
     user.engine_sleep()
     app.notify("Talon Sleep All Mode")
 
-go to sleep:
-    mode.enable("sleep")
+pretty please go to sleep:
+	user.switch_mode("sleep", 0)
     speech.disable()
     user.talon_sleep_callback()
-    app.notify("Talon Sleep")
 
-wake up:
-    mode.disable("sleep")
+(pretty please wake up|wake up pretty please|wake up you lazy bastard):
+	user.toggle_mode(-1, 0)
     speech.enable()
-    mode.enable("command")
-    app.notify("Talon Awake")
     user.talon_wake_callback()

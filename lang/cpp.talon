@@ -3,6 +3,7 @@ code.language: cplusplus
 tag(): user.code_operators
 tag(): user.code_comment
 tag(): user.code_generic
+tag(): user.c_basic_datatypes
 settings():
     user.code_private_function_formatter = "PRIVATE_CAMEL_CASE"
     user.code_protected_function_formatter = "PRIVATE_CAMEL_CASE"
@@ -13,7 +14,7 @@ settings():
 
 action(user.code_operator_indirection): "*"
 action(user.code_operator_address_of): "&"
-action(user.code_operator_structure_deference): "->"
+action(user.code_operator_structure_dereference): "->"
 #action(user.code_operator_lambda): "=>"
 action(user.code_operator_subscript): 		
 	insert("[]")
@@ -42,8 +43,8 @@ action(user.code_operator_bitwise_and): " & "
 action(user.code_operator_bitwise_and_assignment): " &= " 
 action(user.code_operator_bitwise_or): " | "
 action(user.code_operator_bitwise_or_assignment): " |= "
-action(user.code_operator_bitwise_exlcusive_or): " ^ "
-action(user.code_operator_bitwise_exlcusive_or_assignment): " ^= "
+action(user.code_operator_bitwise_exclusive_or): " ^ "
+action(user.code_operator_bitwise_exclusive_or_assignment): " ^= "
 action(user.code_operator_bitwise_left_shift): " << "
 action(user.code_operator_bitwise_left_shift_assignment): " <<= "
 action(user.code_operator_bitwise_right_shift): " >> "
@@ -225,3 +226,4 @@ unique pointer:
 	key(left)
 
 see out: "std::cout << "
+end ell: "std::endl"

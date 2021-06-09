@@ -19,7 +19,7 @@ mod.list("c_stdint_types", desc="A list of stdint.h C datatypes")
 ctx = Context()
 ctx.matches = r"""
 mode: command
-and code.language: c
+and code.language: cplusplus
 """
 
 basic_ctx = Context()
@@ -29,10 +29,10 @@ tag: user.c_basic_datatypes
 
 basic_types = {
     "character": "char",
-    "char": "char",
+#    "char": "char",
     "short": "short",
-    "long": "long",
-    "int": "int",
+#    "long": "long",
+#    "int": "int",
     "integer": "int",
     "void": "void",
     "double": "double",
@@ -40,6 +40,7 @@ basic_types = {
     "enumerate": "enum",
     "union": "union",
     "float": "float",
+    "size": "size_t",
 }
 basic_signed = {
     "un signed": "unsigned",
@@ -155,6 +156,7 @@ ctx.lists["user.code_functions"] = {
     "alloc ah": "alloca",
     "re alloc": "realloc",
     "free": "free",
+    "assert": "assert",
 }
 
 

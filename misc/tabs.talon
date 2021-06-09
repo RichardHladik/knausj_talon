@@ -2,7 +2,7 @@ tag: user.tabs
 -
 # using tab conflicts with the "tab" key
 tabby (open | new): app.tab_open()
-tabby last: app.tab_previous()
+tabby prev: app.tab_previous()
 tabby next: app.tab_next()
 tabby close: app.tab_close()
 tabby reopen: app.tab_reopen()

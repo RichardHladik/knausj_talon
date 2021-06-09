@@ -737,9 +737,9 @@ paste as line:
     edit.paste()
 
 reflow:
-	user.vim_normal_mode_key("f7")
+	key("f7")
 reflow line:
-	user.vim_normal_mode_key("f6")
+	key("f6")
 
 action(user.delete_word_left):
 	key(ctrl-w)

@@ -1,55 +1,55 @@
 os: linux
 tag: user.tmux
 -
-mux: "tmux "
+mini: "tmux "
 
 #session management
-mux new session:
+mini new session:
     insert('tmux new ')
-mux sessions:
+mini sessions:
     key(ctrl-b)
     key(s)
-mux name session:
+mini name session:
     key(ctrl-b)
     key($)
-mux kill session:
+mini kill session:
     insert('tmux kill-session -t ')
 #window management
-mux new window:
+mini new:
     key(ctrl-b)
     key(c)
-mux window <number_small>:
+mini window <number_small>:
     key(ctrl-b )
     key('{number_small}')
-mux previous window:
+mini prev:
     key(ctrl-b)
     key(p)
-mux next window:
+mini next:
     key(ctrl-b)
     key(n)
-mux rename window:
+mini rename window:
     key(ctrl-b)
     key(,)
-mux close window:
+mini close window:
     key(ctrl-b)
     key(&)
 #pane management
-mux split horizontal:
+mini split horizontal:
     key(ctrl-b)
     key(%)
-mux split vertical:
+mini split vertical:
     key(ctrl-b)
     key(")
-mux next pane:
+mini next pane:
     key(ctrl-b)
     key(o)
-mux move <user.arrow_key>:
+mini move <user.arrow_key>:
     key(ctrl-b)
     key(arrow_key)
-mux close pane:
+mini close pane:
     key(ctrl-b)
     key(x)
 #Say a number right after this command, to switch to pane
-mux pane numbers:
+mini pane numbers:
     key(ctrl-b)
     key(q)

@@ -1,5 +1,8 @@
 tag: browser
 -
+settings():
+    user.context_sensitive_dictation = 1
+
 (address bar | go address | go url): browser.focus_address()
 go home: browser.go_home()
 [go] forward: browser.go_forward()

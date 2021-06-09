@@ -26,7 +26,7 @@ portal left: user.system_command("i3-msg workspace prev")
 (win|window) stack: user.system_command("i3-msg layout stacking")
 (win|window) default: user.system_command("i3-msg layout toggle split")
 (win|window) tabbed: user.system_command("i3-msg layout tabbed")
-(win|window) flip: user.system_command('pkill -USR1 -F "${{XDG_RUNTIME_DIR}}/swap_focus.pid"')
+(win|window) flip: user.i3wm_win_flip()
 (win|window) [focus] <number_small>:
     user.system_command("/home/aa/scripts/i3/i3-nth_window_in_workspace.py $(i3-msg -t get_workspaces | jq -r '.[] | select(.focused==true).name') {number_small-1}")
 

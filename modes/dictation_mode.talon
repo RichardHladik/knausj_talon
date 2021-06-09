@@ -10,8 +10,9 @@ settings():
 (cap|cab|obří|obřího|obřímu|obřím|obřími|obříma) <user.word>:
     result = user.formatted_text(word, "CAPITALIZE_FIRST_WORD")
     auto_insert(result)
-new line|kopr: "\n"
+new line|šok|Schock: "\n"
 new paragraph: "\n\n"
+toast: "\t"
     
 # Navigation
 go up <number_small> (line|lines):
@@ -58,10 +59,18 @@ clear right <number_small> (character|characters):
     edit.extend_right()
     repeat(number_small - 1)
     edit.delete()
-(jumble|jumbo|šnorchl|snorchl):
+(jumble|jumbo|šnorchl|snorchl|stumm):
     user.delete_word_left()
-trash|smaž:
+trash|smaž|Quatsch:
 	edit.undo()
+trash,|smaž,|Quatsch,:
+	edit.undo()
+	auto_insert(",")
+trash.|smaž.|Quatsch.:
+	edit.undo()
+	auto_insert(".")
+junk:
+	key(backspace)
 
 # Formatting
 formatted <user.format_text>:

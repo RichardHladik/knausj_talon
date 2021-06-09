@@ -14,6 +14,7 @@ new line: "\\n"
 carriage return: "\\r"
 line feed: "\\r\\n"
 end of file: "EOF"
+semtex: "; "
 
 empty (string|quotes):
     insert('""')

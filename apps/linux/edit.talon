@@ -13,9 +13,9 @@ action(edit.cut):
 
 
 # XXX - is not generic (ex: ctrl-u on command line)
-#action(edit.delete_line):
-#    edit.select_line()
-#    edit.delete()
+action(edit.delete_line):
+    edit.select_line()
+    edit.delete()
 
 #action(edit.delete_paragraph):
 

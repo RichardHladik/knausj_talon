@@ -1,4 +1,5 @@
 from typing import List
+import os
 
 from talon import Context, Module, actions
 from ..code.user_settings import get_list_from_csv, register_csv_to_context
@@ -21,6 +22,10 @@ class Actions:
         """Stops the currently running activity"""
         actions.user.watson_focus()
         actions.insert("wat stop" + (" --at " if at else "\n"))
+
+    def watson_stop_silent(at:bool = False):
+        """Stops the currently running activity in the background"""
+        os.system("wat stop")
 
     def watson_cancel():
         """Cancel the currently running activity"""

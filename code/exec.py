@@ -15,3 +15,7 @@ class Actions:
     def system_command_nb(cmd: str):
         """execute a command on the system without blocking"""
         subprocess.Popen(cmd, shell=True)
+
+    def system_command_capture(cmd: str):
+        """execute a command on the system, return its output"""
+        return subprocess.run(cmd.split(), stdout=subprocess.PIPE).stdout.decode('utf-8').strip()

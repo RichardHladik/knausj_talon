@@ -179,7 +179,11 @@ punctuation_words = {
     "and sign": "&",
     "ampersand": "&",
     "dash": "-",
+    "en dash": "–",
     "ellipsis": "…",
+    "lub": "(",
+    "rub": ")",
+    "tilde": "~",
 }
 
 symbol_key_words = {
@@ -199,14 +203,11 @@ symbol_key_words = {
     "equals": "=",
     "plus": "+",
     "question": "?",
-    "tilde": "~",
     "bang": "!",
     "dollar": "$",
     "score": "_",
     "colon": ":",
     "coal": ":",
-    "lub": "(",
-    "rub": ")",
     "lace": "{",
     "race": "}",
     "langle": "<",

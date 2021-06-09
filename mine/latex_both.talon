@@ -2,27 +2,60 @@ mode: dictation
 mode: command
 code.language: tex
 -
-(place holder|placeholder):
-	auto_insert("$xxx$ ")
+symbol <user.latex_casual_math>:
+	insert("{latex_casual_math}")
+
+casual <user.latex_casual_math>:
+	auto_insert("${latex_casual_math}$ ")
+
 begin block [over]:
 	user.latex_block("", "")
-begin block <user.text> [over]:
-	user.latex_block(user.formatted_text(user.text, "smash"), "")
-equation (place holder|placeholder):
-	user.latex_block("equation", "xxx.")
+begin block {user.latex_section} [over]:
+	user.latex_block(user.latex_section, "")
 inline math:
-	insert("$$")
+	insert("$$ ")
+	key(left:2)
+	user.switch_mode("command")
+cerf|see reference|sire france|sera france:
+	insert("\\cref{} ")
+	key(left:2)
+cap (cerf|see reference|sire france|sera france):
+	insert("\\Cref{} ")
+	key(left:2)
+name (see reference|sire france|sera france):
+	insert("\\namecref{} ")
+	key(left:2)
+label:
+	insert("\\label{}")
 	key(left)
-item: "\\item "
-math in: " \\in "
-real numbers: "\\R"
-natural numbers: "\\N"
-math sum: "\\sum"
-math size of:
-	insert("||")
+footnote:
+	insert("\\footnote{}")
 	key(left)
-symbol {user.latex_symbol}:
-	insert("\\{latex_symbol}")
+cite:
+	insert('\\cite{} ')
+	key(left:2)
+cite pit:
+	insert('\\citep{} ')
+	key(left:2)
 
-casual {user.latex_symbol}:
-	auto_insert("$\\{latex_symbol}$")
+item: "\\item "
+add to do:
+	insert("\\todo{}")
+	key(left)
+
+inline to do:
+	insert("\\todo[inline]{}")
+	key(left)
+add gotcha:
+	insert("\\gotcha{}")
+	key(left)
+
+emphasize: auto_insert("\\emph{")
+end group:
+	auto_insert("}")
+
+
+placeholder:
+	auto_insert("$xxx$ ")
+equation placeholder:
+	user.latex_block("equation", "xxx.")

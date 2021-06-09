@@ -48,5 +48,6 @@ settings():
 # uncomment tag to enable mouse grid
 # tag(): user.mouse_grid_enabled
 
-tag(): user.i3wm
+tag():
+	user.i3wm
 tag(): user.noise_quick_actions

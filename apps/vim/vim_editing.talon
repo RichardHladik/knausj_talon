@@ -4,7 +4,7 @@
 # like normal or visual. if something specific it should go directly in
 # vim_normal.talon or vim_visual.talon
 
-app:vim
+app: vim
 and not tag: user.vim_terminal
 and not tag: user.vim_command_mode
 -
@@ -43,7 +43,7 @@ action(edit.line_start):
 action(edit.line_end):
     user.vim_normal_mode_key("$")
 action(edit.file_end):
-    user.vim_normal_mode_key(G)
+    user.vim_normal_mode_key("G")
 action(edit.file_start):
     user.vim_normal_mode("gg")
 action(edit.page_down):
@@ -92,8 +92,8 @@ action(edit.delete_word):
     user.vim_normal_mode("dw")
 action(user.delete_word_right):
     user.vim_normal_mode("dw")
-action(user.delete_word_left):
-    user.vim_normal_mode("db")
+#action(user.delete_word_left):
+#    user.vim_normal_mode("db")
 action(user.delete_line_remaining):
     user.vim_normal_mode("d$")
 action(user.delete_line_beginning):
@@ -123,6 +123,4 @@ action(user.replace_selection):
 action(edit.redo):
     user.vim_normal_mode_key("ctrl-r")
 action(edit.undo):
-    user.vim_normal_mode("u")
-
-
+    user.vim_normal_mode_np("ui")

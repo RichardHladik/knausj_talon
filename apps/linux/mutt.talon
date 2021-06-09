@@ -21,3 +21,5 @@ jump <number_small>:
 send: key(y)
 change: key(c)
 box ({user.mailbox})+: insert(user.formatted_text(user.mailbox_list, "DOT_SEPARATED"))
+go home: key(ctrl-h)
+go sent: "cSent\n"

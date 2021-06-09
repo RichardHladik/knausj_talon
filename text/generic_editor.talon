@@ -51,8 +51,8 @@ go way down:
 go way up:
     edit.file_start()
 
-scroll:
-    edit.page_down()
+#scroll:
+#    edit.page_down()
 
 (go page up|punk):
     edit.page_up()

@@ -18,10 +18,14 @@ setting_context_sensitive_dictation = mod.setting(
     desc="Look at surrounding text to improve auto-capitalization/spacing in dictation mode. By default, this works by selecting that text & copying it to the clipboard, so it may be slow or fail in some applications.",
 )
 
-def pretty_words(word):
+def mode_is_lowerable():
+    return actions.user.current_mode() not in ["user.german"]
+
+def pretty_words(word, lower=True):
     words = []
     for w in actions.dictate.parse_words(word):
-        w = w.lower()
+        if lower:
+            w = w.lower()
         buf = []
         while True:
             for bad in "... . , ? ! :".split(" "):
@@ -42,7 +46,7 @@ def word(m) -> str:
     try:
         return m.vocabulary
     except AttributeError:
-        return " ".join(pretty_words(m.word))
+        return " ".join(pretty_words(m.word, mode_is_lowerable()))
 
 @mod.capture(rule="({user.vocabulary} | <phrase>)+")
 def text(m) -> str:
@@ -71,13 +75,13 @@ def capture_to_words(m):
     words = []
     for item in m:
         words.extend(
-            pretty_words(item)
+            pretty_words(item, mode_is_lowerable())
             if isinstance(item, grammar.vm.Phrase) else
             item.split(" "))
     return words
 
-no_space_before = set(" .,!?;:-%)]}\"…")
-no_space_after = set("\n -#@([{£€¥₩₽₹\"")
+no_space_before = set(" .,!?;:-%)]}\"…~")
+no_space_after = set("\n\t/ -#@([{£€¥₩₽₹\"~")
 def needs_space_between(before: str, after: str) -> bool:
     return (before != "" and after != ""
             and before[-1] not in no_space_after
@@ -180,8 +184,12 @@ class Actions:
         do_the_dance = (setting_context_sensitive_dictation.get()
                         and not text.isspace())
         if do_the_dance:
-            dictation_formatter.update_context(
-                actions.user.dictation_peek_left(clobber=True))
+            left = actions.user.dictation_peek_left(clobber=True)
+            while left.endswith(" "):
+                actions.key("backspace")
+                left = left[:-1]
+            dictation_formatter.update_context(left)
+            #print('"' + left + '"')
         text = dictation_formatter.format(text)
         actions.user.add_phrase_to_history(text)
         actions.user.insert_content(text)
@@ -191,7 +199,7 @@ class Actions:
         char = actions.user.dictation_peek_right()
         if char is not None and needs_space_between(text, char):
             actions.insert(" ")
-        #    actions.edit.left()
+            actions.edit.left()
 
     def dictation_peek_left(clobber: bool = False) -> Optional[str]:
         """
@@ -215,6 +223,8 @@ class Actions:
         # take two words left. I also tried taking a line up + a word left, but
         # edit.extend_up() = key(shift-up) doesn't work consistently in the
         # Slack webapp (sometimes escapes the text box).
+        SPECIAL="|"
+        actions.insert(SPECIAL)
         actions.edit.extend_word_left()
         actions.edit.extend_word_left()
         text = actions.edit.selected_text()
@@ -224,6 +234,10 @@ class Actions:
             # Unfortunately, in web Slack, if our selection ends at newline,
             # this will go right over the newline. Argh.
             actions.user.cancel_selection_right()
+        actions.key("backspace")
+        if not text.endswith(SPECIAL):
+            print(f"Text does not end with {SPECIAL}, our special string")
+        text = text[:-len(SPECIAL)]
         return text
 
     def clobber_selection_if_exists():
@@ -255,11 +269,16 @@ class Actions:
         indicates there is nothing after cursor, ie. we are at the end of the
         document.)
         """
-        actions.edit.extend_right()
-        actions.sleep("500ms")
-        char = actions.edit.selected_text()
-        if char: actions.user.cancel_selection_left()
-        return char
+        SPECIAL="|"
+        actions.insert(SPECIAL)
+        actions.key("left")
+        actions.edit.extend_word_right()
+        actions.edit.extend_word_right()
+        text = actions.edit.selected_text()
+        text = text[len(SPECIAL):]
+        actions.user.cancel_selection_left()
+        actions.key("delete")
+        return text[0] if text else ""
 
 
 # Use the dictation formatter in dictation mode.

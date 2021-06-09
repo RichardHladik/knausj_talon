@@ -1,4 +1,5 @@
 from talon import Context, Module, actions, settings, ui
+import os
 
 mod = Module()
 
@@ -56,3 +57,7 @@ class Actions:
     def i3wm_window_shrink(times: int =1):
         """Resize the focused window smaller"""
         i3wm_window_resize(10*times, grow=False)
+    
+    def i3wm_win_flip():
+        """Flip to the last focused window"""
+        os.system('pkill -USR1 -F "${XDG_RUNTIME_DIR}/swap_focus.pid"')

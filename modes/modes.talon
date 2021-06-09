@@ -1,13 +1,13 @@
 
 not mode: sleep
-not mode: user.presentation
+and not mode: user.presentation
 -
 toggle mode:
 	user.toggle_mode()
 dictation mode|(anglický|anglicky) (mód|mod)|englischer Modus:
 	user.switch_mode("dictation")
 
-command mode|talon mode|příkazový (mód|mod)|Befehlsmodus:
+command mode|příkazový (mód|mod)|Befehlsmodus:
 	user.switch_mode("command")
 (Czech|check) mode|(tschechischer|tschechische) Modus:
 	user.switch_mode("user.czech")

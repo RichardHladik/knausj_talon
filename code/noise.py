@@ -7,20 +7,45 @@ from typing import Callable, Union, Any
 import logging
 import time
 
+def successive_pops(wait=.5):
+    if not pop_history:
+        return 0
+    prev = pop_history[-1]
+    for i, t in enumerate(reversed(pop_history)):
+        if prev - t > wait:
+            return i
+        prev = t
+
+    return len(pop_history)
+
 mod = Module()
 @mod.action_class
 class Actions:
-
     def pop(): 
         """pop action overrideable by contexts"""
-        now = time.monotonic()
-        global last_pop
-        if last_pop is None or last_pop + .5 < now:
-            last_pop = now
-            return
+        global pop_quick_action
+        if pop_quick_action is None:
+            return actions.user.pop_twice_to_toggle()
+        else:
+            return actions.user.pop_quick_action_run()
 
-        last_pop = None
-        actions.user.toggle_mode()
+    def pop_counter(predef_actions: Any, wait:float=.5):
+        """TODO"""
+        now = time.monotonic()
+        global pop_history
+        pop_history.append(now)
+        num_pops = successive_pops()
+
+        action = predef_actions.get(num_pops, lambda: None)
+        action()
+
+    def pop_twice_to_toggle():
+        """if popped twice in a row, toggles mode"""
+        predef_actions = {
+            2: actions.user.toggle_mode,
+            3: lambda: actions.user.switch_mode("command"),
+        }
+        return actions.user.pop_counter(predef_actions)
 
     def pop_quick_action_clear():
         """Clears the quick macro"""
@@ -86,15 +111,11 @@ class Actions:
 pop_quick_action = None
 pop_quick_action_last = None
 pop_quick_action_history = []
-last_pop = None
+pop_history = []
 
 def on_pop(active):
     print("pop")
-    global pop_quick_action
-    if pop_quick_action is None:
-        actions.user.pop()
-    else:
-        actions.user.pop_quick_action_run()
+    return actions.user.pop()
 
 hiss_quick_action = None
 hiss_quick_action_last = None

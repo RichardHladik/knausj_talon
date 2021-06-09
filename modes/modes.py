@@ -1,3 +1,5 @@
+from typing import List
+
 from talon import Context, Module, actions, app, speech_system
 from ..code.vocabulary import update_word_map
 
@@ -10,6 +12,7 @@ modes = {
     "ida": "a way to force ida commands to be loaded",
     "presentation": "a more strict form of sleep where only a more strict wake up command works",
     "windbg": "a way to force windbg commands to be loaded",
+    "intermediate": "weird intermediate mode for talon hud"
 }
 
 dictation_modes = {
@@ -32,8 +35,8 @@ def pretty_mode(mode):
     mode = mode[0].upper() + mode[1:]
     return f"{mode} Mode"
 
-last_noncommand_mode = None
 current_mode = "command"
+mode_history = ["dictation", "command"]
 
 @mod.action_class
 class Actions:
@@ -74,34 +77,42 @@ class Actions:
                 # note: this may not do anything for all versions of Dragon. Requires Pro.
                 actions.user.engine_mimic("start normal mode")
 
-    def disable_modes():
+    def disable_modes(barring:List[str]=[]):
         """Disables all user and system modes, clears the language mode"""
         for mode in ["user." + m for m in modes] + system_modes:
-            actions.mode.disable(mode)
+            if mode not in barring:
+                actions.mode.disable(mode)
         actions.user.code_clear_language_mode(1)
 
-    def switch_mode(mode: str):
+    def switch_mode(new_mode: str, remember:int=1):
         """Switches to mode"""
-        global last_noncommand_mode
+        global mode_history
         global current_mode
-        if mode != "command":
-            last_noncommand_mode = mode
-        current_mode = mode
-        actions.user.disable_modes()
-        actions.mode.enable(mode)
-        if mode in dictation_modes:
-            actions.mode.enable("dictation")
-        update_word_map(mode)
+        if new_mode in ["sleep"]:
+            remember = 0
+        if mode_history[-1] != new_mode and remember:
+            mode_history.append(new_mode)
+        mode_history = mode_history[-2:]
+        to_enable = [new_mode]
+        if new_mode in dictation_modes:
+            to_enable.append("dictation")
 
-        actions.app.notify(pretty_mode(mode))
+        actions.mode.enable("user.intermediate")
+        actions.user.disable_modes(barring=to_enable + ["user.intermediate"])
+        for mode in to_enable:
+            actions.mode.enable(mode)
+        actions.mode.disable("user.intermediate")
 
-    def toggle_mode():
+        update_word_map(new_mode)
+
+        current_mode = new_mode
+        #actions.app.notify(pretty_mode(new_mode))
+
+    def toggle_mode(index:int=-2, remember:int=1):
         """Toggles between command mode and the last noncommand mode"""
-        global last_noncommand_mode
         global current_mode
-        if current_mode != "command":
-            last_noncommand_mode = current_mode
-            actions.user.switch_mode("command")
-        else:
-            mode = last_noncommand_mode or "dictation"
-            actions.user.switch_mode(mode)
+        actions.user.switch_mode(mode_history[index], remember)
+
+    def current_mode():
+        """Returns the currently active mode"""
+        return current_mode

@@ -1,4 +1,5 @@
 mode: user.czech
+and mode: dictation
 -
 settings():
     speech.language = "cs_CZ"

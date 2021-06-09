@@ -8,5 +8,11 @@ my full name:
     user.personal_info("first-name")
     key(space)
     user.personal_info("last-name")
+my full address:
+    user.personal_info("address")
+	insert(", ")
+    user.personal_info("postal-code")
+    key(space)
+    user.personal_info("city")
 
 my <user.ordinals> <user.personal_info>: user.personal_info_by_id(personal_info, ordinals)

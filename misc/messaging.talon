@@ -1,5 +1,8 @@
 tag: user.messaging
 -
+settings():
+    user.context_sensitive_dictation = 1
+
 # Navigation
 previous (workspace | server): user.messaging_workspace_previous()
 next (workspace | server): user.messaging_workspace_next()

@@ -36,6 +36,7 @@ def focus_browser():
 def quick_url(url: str, go: bool, preparer):
     preparer()
     actions.insert(url)
+    actions.sleep("50ms")
     if not go:
         actions.key("right")
     else:
@@ -47,6 +48,9 @@ class Actions:
         """Prepare the browser for inputting the URL in the current tab"""
         focus_browser()
         actions.key("ctrl-l")
+        actions.sleep("20ms")
+        actions.key("ctrl-a")
+        actions.sleep("20ms")
 
     def quick_url_prepare_new():
         """Prepare the browser for inputting the URL in new tab"""

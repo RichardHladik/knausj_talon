@@ -1,5 +1,5 @@
 mode: command
-and code.language: c
+and code.language: cpp
 -
 tag(): user.code_operators
 tag(): user.code_comment
