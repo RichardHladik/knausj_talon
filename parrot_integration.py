@@ -4,7 +4,11 @@ from typing import Callable, Optional, Sequence
 import json
 import logging
 import time
+import math
 
+import torch
+from scipy.fftpack import fft
+import numpy as np
 from talon import Module, resource, events
 from talon.debug import log_exception
 from talon.experimental.parrot import ParrotSystem, ParrotDelegate, ParrotFrame
@@ -278,6 +282,7 @@ class Delegate(ParrotDelegate):
         return should_forwardpass
 
     def pattern_match(self, frame: ParrotFrame) -> set[str]:
+        object.__setattr__(frame, 'f1', f0)
         if self.debug:
             winner_label, winner_prob = next(iter(frame.classes.items()))
             events.write('parrot', f"predict {winner_label} {winner_prob * 100:.2f}% pow={frame.power:.2f} f1={frame.f1:.3f} f2={frame.f2:.3f}")
@@ -290,5 +295,43 @@ class Delegate(ParrotDelegate):
 
         return active
 
+def window(data):
+    # Hann window
+    n = len(data)
+    for i in range(n):
+        data[i] *= math.sin(math.pi * i / n)**2
+
+def find_f0(torch_samples: torch.Tensor):
+    samples = np.array(torch_samples)
+    window(samples)
+    fft_result = fft(samples)
+    bins = np.abs(fft_result[0 : round(len(fft_result)/2)])
+    LOUDNESS_BOTTOM = 0
+
+    k = np.argmax(bins)
+    # edge cases
+    if k not in range(1, len(fft_result)):
+        return 0
+
+    # from https://dspguru.com/dsp/howtos/how-to-interpolate-fft-peak/
+    y1 = bins[k - 1]
+    y2 = bins[k]
+    y3 = bins[k + 1]
+    d = (y3 - y1) / (y1 + y2 + y3)
+    k = k + d
+
+    duration = len(torch_samples) / 16000.
+    freqInHz = k / duration
+    return freqInHz
+
+f0 = 0
+
+class PatchedParrotSystem(ParrotSystem):
+    def on_frame(self, audio_frame: torch.Tensor):
+        global f0
+        f0 = find_f0(audio_frame)
+        return super().on_frame(audio_frame)
+
+
 parrot_delegate = Delegate(pattern_path, debug=False)
-system = ParrotSystem(model_path, parrot_delegate)
+system = PatchedParrotSystem(model_path, parrot_delegate)

@@ -1,5 +1,4 @@
-parrot(whistle_e):
-	user.custom_scroll(power)
-
-parrot(whistle_g):
-	user.custom_scroll_up(power)
+parrot(whistle):
+	user.custom_scroll(f1, power)
+parrot(whistle:repeat):
+	user.custom_scroll(f1, power)
