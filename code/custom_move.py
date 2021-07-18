@@ -9,27 +9,26 @@ scale = 5000
 linear_point = 100
 
 def power_to_amount(x):
-    #print(x)
-    #return math.exp(x / 100)
-    x = max(x ** 2, x * linear_point)
-    return math.ceil(x/scale)
+    return x / 100
 
-cx, cy = 0, 0
+cx = 0
+cy = 0
 def tozero(a):
     return math.copysign(math.floor(abs(a)), a)
 
 @mod.action_class
 class Actions:
-    def custom_scroll(f0:Any, power:float):
+    def custom_move(f0:Any, power:float):
         """Moves with the mouse"""
         if f0 <= 10 or f0 >= 5000:
             return
         global cx, cy
         cyclic = (math.log2(f0) - math.log2(440)) % 1.
         angle = 2 * math.pi * (cyclic - .25)
+        x, y = ctrl.mouse_pos()
         dx, dy = math.cos(angle), math.sin(angle)
         k = power_to_amount(power)
-        x, y = dx * k + cx, dy * k + cy
+        x, y = x + dx * k + cx, y + dy * k + cy
         ix, iy = tozero(x), tozero(y)
         cx, cy = x - ix, y - iy
-        return ctrl.mouse_scroll(x=x,y=y, by_lines=False)
+        return ctrl.mouse_move(x, y)
