@@ -282,6 +282,7 @@ class Delegate(ParrotDelegate):
         return should_forwardpass
 
     def pattern_match(self, frame: ParrotFrame) -> set[str]:
+        # RH: hack to replace f1 with f0, see below
         object.__setattr__(frame, 'f1', f0)
         if self.debug:
             winner_label, winner_prob = next(iter(frame.classes.items()))
@@ -294,6 +295,9 @@ class Delegate(ParrotDelegate):
                 self.throttle_patterns(pattern.get_throttles(), frame.ts)
 
         return active
+
+
+# RH: Hacks to get f0 estimation. May break at any time since I'm patching the internals.
 
 def window(data):
     # Hann window
